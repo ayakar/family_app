@@ -48,10 +48,22 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 };
 
+//
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new Error('Unable to login');
+    }
+    if (password !== user.password) {
+        throw new Error('Unable to login');
+    }
+    return user;
+};
+
 // TODO: hash password, set unique email message in .pre save middleware
-userSchema.pre('save', async function (next) {
-    next();
-});
+// userSchema.pre('save', async function (next) {
+//     next();
+// });
 
 const User = mongoose.model('User', userSchema);
 
