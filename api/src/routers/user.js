@@ -45,4 +45,39 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     }
 });
 
+router.get('/users', auth, async (req, res) => {
+    try {
+        res.send(req.user);
+    } catch (error) {}
+});
+
+router.patch('/users', auth, async (req, res) => {
+    const availableProperties = ['name', 'email', 'password', 'role'];
+    const updatingProperties = Object.keys(req.body);
+    const isValidated = updatingProperties.every((item) => availableProperties.includes(item));
+
+    if (!isValidated) {
+        return res.status(400).send({ error: 'Invalid update' });
+    }
+
+    try {
+        updatingProperties.forEach((key) => {
+            req.user[key] = req.body[key];
+        });
+        await req.user.save();
+        res.send(req.user);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+router.delete('/users', auth, async (req, res) => {
+    try {
+        await req.user.remove();
+        res.send(req.user);
+    } catch (error) {
+        res.status(500).send();
+    }
+});
+
 module.exports = router;

@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema(
             },
         },
         role: { type: String, enum: ['admin', 'subscriber'] },
+        // roles: [
+        //     {
+        //         familyId: { type: mongoose.Schema.Types.ObjectId },
+        //         role: { type: String, enum: ['admin', 'subscriber'] },
+        //     },
+        // ],
         tokens: [{ token: { type: String, required: true } }],
     },
     {
