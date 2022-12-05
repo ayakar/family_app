@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema(
     {
@@ -54,16 +55,23 @@ userSchema.statics.findByCredentials = async (email, password) => {
     if (!user) {
         throw new Error('Unable to login');
     }
-    if (password !== user.password) {
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
         throw new Error('Unable to login');
     }
     return user;
 };
 
-// TODO: hash password, set unique email message in .pre save middleware
-// userSchema.pre('save', async function (next) {
-//     next();
-// });
+// Middleware which is called before saving user
+// TODO: set unique email message in .pre save middleware
+userSchema.pre('save', async function (next) {
+    const user = this;
+    // check if password is modified by isModified method in mongoose. If so, hash it.
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 8);
+    }
+    next();
+});
 
 const User = mongoose.model('User', userSchema);
 
