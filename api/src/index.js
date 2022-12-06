@@ -12,6 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
 require('./db/mongoose');
 // Loading Routers
 const userRouter = require('./routers/user');
+const recipeRouter = require('./routers/recipe');
 // Setting port
 const port = process.env.PORT;
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // Assigning routers
 app.use(userRouter);
+app.use(recipeRouter);
 
 app.listen(port, () => {
     console.log(`Server is running ${port}`);
