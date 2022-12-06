@@ -13,6 +13,8 @@ require('./db/mongoose');
 // Loading Routers
 const userRouter = require('./routers/user');
 const recipeRouter = require('./routers/recipe');
+const familyGroupRouter = require('./routers/familyGroup');
+
 // Setting port
 const port = process.env.PORT;
 
@@ -22,6 +24,7 @@ app.use(express.json());
 // Assigning routers
 app.use(userRouter);
 app.use(recipeRouter);
+app.use(familyGroupRouter);
 
 app.listen(port, () => {
     console.log(`Server is running ${port}`);

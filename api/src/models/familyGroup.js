@@ -1,0 +1,16 @@
+const mongoose = require('mongoose');
+
+const familyGroupSchema = new mongoose.Schema(
+    {
+        name: { type: String, required: true, trim: true },
+        owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User',
+        },
+    },
+    { timestamps: true }
+);
+
+const FamilyGroup = mongoose.model('FamilyGroup', familyGroupSchema);
+module.exports = FamilyGroup;

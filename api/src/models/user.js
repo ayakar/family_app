@@ -45,6 +45,12 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+userSchema.virtual('familyGroups', {
+    ref: 'FamilyGroup',
+    localField: '_id',
+    foreignField: 'owner',
+});
+
 // Used in create user, create
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
