@@ -4,6 +4,22 @@ const router = new express.Router();
 const Recipe = require('../models/recipe');
 const User = require('../models/user');
 
+// Helper functions
+function checkFamilyGroup(recipesFamilyGroups, usersFamilyGroups) {
+    let valid = false;
+
+    usersFamilyGroups.forEach((group) => {
+        recipesFamilyGroups.forEach((recipeFamilyGroup) => {
+            if (JSON.stringify(group._id) === JSON.stringify(recipeFamilyGroup._id)) {
+                valid = true;
+            }
+        });
+    });
+
+    return valid;
+}
+
+// Routers
 router.post('/recipes', auth, async (req, res) => {
     try {
         const user = req.user;
@@ -20,10 +36,16 @@ router.post('/recipes', auth, async (req, res) => {
 });
 
 // read individual recipes
-router.get('/recipes/:id', async (req, res) => {
+router.get('/recipes/:id', auth, async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
-        // TODO: make sure user is joined the familyGroup
+
+        // VALIDATE user is joined the familyGroup
+        const isValidate = checkFamilyGroup(recipe.familyGroupIds, req.familyGroups);
+        if (!isValidate) {
+            return res.status(404).send({ error: 'Recipe not found. Please make sure joining the family group' });
+        }
+
         if (!recipe) {
             return res.status(404).send({ error: 'Recipe not found' });
         }
@@ -32,7 +54,7 @@ router.get('/recipes/:id', async (req, res) => {
 
         res.send(recipe);
     } catch (error) {
-        res.status(500).send();
+        res.status(500).send(error);
     }
 });
 
@@ -40,13 +62,9 @@ router.get('/recipes/:id', async (req, res) => {
 router.get('/recipes/familyGroup/:id', auth, async (req, res) => {
     try {
         const familyGroupId = req.params.id;
-        // get users family ids
-        await req.user.populate('familyGroups');
+
         // VALIDATE the user joins requested family group
-        const isValidate = req.user.familyGroups.some((group) => {
-            // console.log(JSON.stringify(group._id), JSON.stringify(familyGroupId));
-            return JSON.stringify(group._id) === JSON.stringify(familyGroupId);
-        });
+        const isValidate = req.familyGroups.some((group) => JSON.stringify(group._id) === JSON.stringify(familyGroupId));
         if (!isValidate) {
             return res.status(404).send({ error: 'Recipe not found. Please make sure joining the family group' });
         }
