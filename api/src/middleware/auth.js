@@ -20,9 +20,10 @@ const auth = async (req, res, next) => {
         // req.ownedFamilyGroups = user.ownedFamilyGroups;
         // console.log('test', req.ownedFamilyGroups);
 
-        await user.populate('familyGroups');
-        req.familyGroups = user.familyGroups;
-        console.log(req.familyGroups);
+        // await user.populate('familyGroups');
+        // req.familyGroups = user.familyGroups;
+        // console.log(req.user._id);
+        // console.log(req.familyGroups);
         next();
     } catch (error) {
         res.status(401).send({ error: 'Please login' });

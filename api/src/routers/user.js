@@ -10,7 +10,7 @@ router.post('/users', async (req, res) => {
         const token = await user.generateAuthToken(); // .generateAuthToken() is custom function using jwt and it's defined in model. Token will be stored to the user
         res.status(201).send({ user, token });
     } catch (error) {
-        res.status(400).send({ error }); // TODO: custom error message
+        res.status(400).send({ error }); // TODO: custom error message for bad request
     }
 });
 
@@ -31,7 +31,7 @@ router.post('/users/logout', auth, async (req, res) => {
         await req.user.save();
         res.send(req.user);
     } catch (error) {
-        res.status(500).send({ error: error.message });
+        res.status(500).send();
     }
 });
 
@@ -41,7 +41,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         await req.user.save();
         res.send(req.user);
     } catch (error) {
-        res.status(500).send({ error: error.message });
+        res.status(500).send();
     }
 });
 
@@ -67,7 +67,7 @@ router.patch('/users', auth, async (req, res) => {
         await req.user.save();
         res.send(req.user);
     } catch (error) {
-        res.status(400).send({ error: error.message });
+        res.status(500).send();
     }
 });
 

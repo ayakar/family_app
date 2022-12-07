@@ -13,9 +13,11 @@ const familyGroupSchema = new mongoose.Schema(
 
         members: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-                ref: 'User',
+                member: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true,
+                    ref: 'User',
+                },
             },
         ],
     },
