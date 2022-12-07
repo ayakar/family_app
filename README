@@ -1,0 +1,10 @@
+Fullstack app (in process)
+
+To share Recipe in your family group.
+To manage daily tasks
+To share meal planning
+
+Backend:
+node.js, mongoDB, express.js
+Frontend:
+React.js, styled-components
