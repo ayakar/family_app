@@ -21,7 +21,7 @@ router.get('/familyGroups/:id', auth, async (req, res) => {
         if (!familyGroup) {
             return res.status(404).send({ error: 'Family Group Not Found' });
         }
-        await familyGroup.populate('members.member');
+        await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
         res.send(familyGroup);
     } catch (error) {
         res.status(500).send(error);
@@ -29,7 +29,7 @@ router.get('/familyGroups/:id', auth, async (req, res) => {
 });
 
 router.patch('/familyGroups/:id', auth, async (req, res) => {
-    const allowedProperties = ['name', 'member'];
+    const allowedProperties = ['name'];
     const requestedProperties = Object.keys(req.body);
 
     const isValid = requestedProperties.every((property) => allowedProperties.includes(property));
@@ -40,19 +40,53 @@ router.patch('/familyGroups/:id', auth, async (req, res) => {
 
     try {
         const familyGroup = await FamilyGroup.findOne({ _id: req.params.id, 'members.member': req.user._id });
+
+        // VALIDATING IF THE FAMILY GROUP EXIST AND THE USER IS A MEMBER
         if (!familyGroup) {
             return res.status(404).send({ error: 'Family Group Not Found' });
         }
 
+        // UPDATING FIELDS
         requestedProperties.forEach((property) => {
-            if (property === 'member') {
-                const newMember = { member: new mongoose.mongo.ObjectId(req.body['member']) };
-                familyGroup['members'] = [...familyGroup['members'], newMember];
-            } else {
-                familyGroup[property] = req.body[property];
-            }
+            familyGroup[property] = req.body[property];
         });
+
         await familyGroup.save();
+        await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
+        res.send(familyGroup);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+router.patch('/familyGroups/:id/members', auth, async (req, res) => {
+    try {
+        const familyGroup = await FamilyGroup.findOne({ _id: req.params.id, 'members.member': req.user._id });
+        const newMember = await User.findOne({ email: req.body['member'] });
+
+        // VALIDATING IF FAMILY GROUP EXIST AND USER IS AUTHORIZED
+        if (!familyGroup) {
+            return res.status(404).send({ error: 'Family Group Not Found' });
+        }
+        // VALIDATING IF THE NEW MEMBER EXIST
+        if (!newMember) {
+            return res.status(404).send({ error: 'Member not found' });
+        }
+        // VALIDATING IF THE USER ALREADY IN MEMBERS
+        const isNewMemberExist = familyGroup.members.every((member) => {
+            return JSON.stringify(member.member._id) !== JSON.stringify(newMember._id);
+        });
+        if (!isNewMemberExist) {
+            return res.status(400).send({ error: 'User is already member' });
+        }
+
+        // UPDATING DB
+        const newMemberObj = { member: new mongoose.mongo.ObjectId(newMember._id) };
+        familyGroup['members'] = [...familyGroup['members'], newMemberObj];
+        await familyGroup.save();
+
+        // SEND DATA TO FRONTEND
+        await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
         res.send(familyGroup);
     } catch (error) {
         res.status(500).send(error);
