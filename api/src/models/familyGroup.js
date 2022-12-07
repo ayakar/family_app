@@ -23,5 +23,11 @@ const familyGroupSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+familyGroupSchema.virtual('recipes', {
+    ref: 'Recipe',
+    localField: '_id',
+    foreignField: 'familyGroupIds',
+});
+
 const FamilyGroup = mongoose.model('FamilyGroup', familyGroupSchema);
 module.exports = FamilyGroup;

@@ -54,7 +54,13 @@ userSchema.virtual('ownedFamilyGroups', {
 userSchema.virtual('familyGroups', {
     ref: 'FamilyGroup',
     localField: '_id',
-    foreignField: 'members',
+    foreignField: 'members.member',
+});
+
+userSchema.virtual('ownedRecipes', {
+    ref: 'Recipe',
+    localField: '_id',
+    foreignField: 'owner',
 });
 
 // Used in create user, create
