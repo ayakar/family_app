@@ -4,12 +4,11 @@ const familyGroupSchema = new mongoose.Schema(
     {
         name: { type: String, required: true, trim: true },
 
-        // Currently not used
-        // owner: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     required: true,
-        //     ref: 'User',
-        // },
+        owner: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'User',
+        },
 
         members: [
             {

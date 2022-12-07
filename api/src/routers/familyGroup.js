@@ -19,11 +19,12 @@ router.get('/familyGroups/:id', auth, async (req, res) => {
     try {
         const familyGroup = await FamilyGroup.findOne({ _id: req.params.id, 'members.member': req.user._id });
         if (!familyGroup) {
-            res.status(404).send({ error: 'Family Group Not Found' });
+            return res.status(404).send({ error: 'Family Group Not Found' });
         }
+        await familyGroup.populate('members.member');
         res.send(familyGroup);
     } catch (error) {
-        res.status(500).send();
+        res.status(500).send(error);
     }
 });
 
@@ -34,13 +35,13 @@ router.patch('/familyGroups/:id', auth, async (req, res) => {
     const isValid = requestedProperties.every((property) => allowedProperties.includes(property));
 
     if (!isValid) {
-        res.status(400).send({ error: 'Update Not Allow' });
+        return res.status(400).send({ error: 'Update Not Allow' });
     }
 
     try {
         const familyGroup = await FamilyGroup.findOne({ _id: req.params.id, 'members.member': req.user._id });
         if (!familyGroup) {
-            res.status(404).send({ error: 'Family Group Not Found' });
+            return res.status(404).send({ error: 'Family Group Not Found' });
         }
 
         requestedProperties.forEach((property) => {
@@ -55,6 +56,19 @@ router.patch('/familyGroups/:id', auth, async (req, res) => {
         res.send(familyGroup);
     } catch (error) {
         res.status(500).send(error);
+    }
+});
+
+router.delete('/familyGroups/:id', auth, async (req, res) => {
+    try {
+        const familyGroup = await FamilyGroup.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
+        if (!familyGroup) {
+            return res.status(404).send({ error: 'Family Group can be deleted by the owner only' });
+        }
+
+        res.send(familyGroup);
+    } catch (error) {
+        res.status(500).send();
     }
 });
 

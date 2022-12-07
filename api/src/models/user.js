@@ -45,12 +45,11 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-// Currently not used
-// userSchema.virtual('ownedFamilyGroups', {
-//     ref: 'FamilyGroup',
-//     localField: '_id',
-//     foreignField: 'owner',
-// });
+userSchema.virtual('ownedFamilyGroups', {
+    ref: 'FamilyGroup',
+    localField: '_id',
+    foreignField: 'owner',
+});
 
 userSchema.virtual('familyGroups', {
     ref: 'FamilyGroup',
@@ -68,9 +67,14 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 };
 
-// userSchema.methods.toJSON = function () {
-//     console.log('test');
-// };
+// Removing confidential info before generate JSON and send to client
+userSchema.methods.toJSON = function () {
+    const user = this;
+    const userObject = user.toObject();
+    delete userObject.password;
+    delete userObject.tokens;
+    return userObject;
+};
 
 //
 userSchema.statics.findByCredentials = async (email, password) => {
