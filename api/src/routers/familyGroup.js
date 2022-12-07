@@ -6,7 +6,7 @@ const User = require('../models/user');
 
 router.post('/familyGroups', auth, async (req, res) => {
     try {
-        const familyGroup = new FamilyGroup({ ...req.body, owner: req.user._id });
+        const familyGroup = new FamilyGroup({ ...req.body, owner: req.user._id, members: [req.user._id] });
         const result = await familyGroup.save();
         res.send(result);
     } catch (error) {

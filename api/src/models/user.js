@@ -45,10 +45,17 @@ const userSchema = new mongoose.Schema(
     }
 );
 
+// Currently not used
+// userSchema.virtual('ownedFamilyGroups', {
+//     ref: 'FamilyGroup',
+//     localField: '_id',
+//     foreignField: 'owner',
+// });
+
 userSchema.virtual('familyGroups', {
     ref: 'FamilyGroup',
     localField: '_id',
-    foreignField: 'owner',
+    foreignField: 'members',
 });
 
 // Used in create user, create
@@ -60,6 +67,10 @@ userSchema.methods.generateAuthToken = async function () {
     await user.save();
     return token;
 };
+
+// userSchema.methods.toJSON = function () {
+//     console.log('test');
+// };
 
 //
 userSchema.statics.findByCredentials = async (email, password) => {

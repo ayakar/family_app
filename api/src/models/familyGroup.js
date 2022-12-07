@@ -3,11 +3,21 @@ const mongoose = require('mongoose');
 const familyGroupSchema = new mongoose.Schema(
     {
         name: { type: String, required: true, trim: true },
-        owner: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'User',
-        },
+
+        // Currently not used
+        // owner: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     required: true,
+        //     ref: 'User',
+        // },
+
+        members: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true,
+                ref: 'User',
+            },
+        ],
     },
     { timestamps: true }
 );
