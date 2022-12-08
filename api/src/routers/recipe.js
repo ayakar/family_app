@@ -2,22 +2,7 @@ const express = require('express');
 const auth = require('../middleware/auth');
 const router = new express.Router();
 const Recipe = require('../models/recipe');
-const User = require('../models/user');
-
-// Helper functions
-function checkFamilyGroup(recipesFamilyGroups, usersFamilyGroups) {
-    let valid = false;
-
-    usersFamilyGroups.forEach((group) => {
-        recipesFamilyGroups.forEach((recipeFamilyGroup) => {
-            if (JSON.stringify(group._id) === JSON.stringify(recipeFamilyGroup._id)) {
-                valid = true;
-            }
-        });
-    });
-
-    return valid;
-}
+const checkFamilyGroup = require('../helper/checkFamilyGroup');
 
 // Routers
 router.post('/recipes', auth, async (req, res) => {
