@@ -1,22 +1,29 @@
-const comparedWithString = (comparedFamilyGroups) => {
-    console.log('comparedFamilyGroups is string');
-};
-const comparedWithArrOfObj = (comparedFamilyGroups) => {
-    console.log('comparedFamilyGroups is array of object');
-};
-
-function checkFamilyGroup(comparedFamilyGroups, usersFamilyGroups) {
+const checkFamilyGroup = (usersFamilyGroups, comparedFamilyGroups) => {
     let valid = false;
 
     if (typeof comparedFamilyGroups === 'string') {
-        //valid =
-        comparedWithString(comparedFamilyGroups, usersFamilyGroups);
+        valid = comparedWithString(usersFamilyGroups, comparedFamilyGroups);
     }
     if (Array.isArray(comparedFamilyGroups)) {
-        //  valid =
-        comparedWithArrOfObj(comparedFamilyGroups, usersFamilyGroups);
+        valid = comparedWithArrOfObj(usersFamilyGroups, comparedFamilyGroups);
     }
 
+    return valid;
+};
+const comparedWithString = (usersFamilyGroups, comparedFamilyGroups) => {
+    let valid = false;
+    // LOOP USER FAMILY GROUP ARRAY
+    usersFamilyGroups.forEach((usersFamilyGroup) => {
+        const stringifyId = usersFamilyGroup._id.toString();
+
+        if (comparedFamilyGroups === stringifyId) {
+            valid = true;
+        }
+    });
+    return valid;
+};
+const comparedWithArrOfObj = (usersFamilyGroups, comparedFamilyGroups) => {
+    let valid = false;
     // CONVERT ONE OF ARRAY OF OBJECT TO OBJECT
     let comparedFamilyGroupsObj = {};
     comparedFamilyGroups.forEach((comparedFamilyGroup) => {
@@ -31,8 +38,7 @@ function checkFamilyGroup(comparedFamilyGroups, usersFamilyGroups) {
             valid = true;
         }
     });
-
     return valid;
-}
+};
 
 module.exports = checkFamilyGroup;

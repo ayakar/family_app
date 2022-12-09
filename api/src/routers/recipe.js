@@ -23,17 +23,18 @@ router.post('/recipes', auth, async (req, res) => {
 // read individual recipes
 router.get('/recipes/:id', auth, async (req, res) => {
     try {
+        // FIND RECIPE
         const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            return res.status(404).send({ error: 'Recipe not found' });
+        }
 
         // VALIDATE user is joined the familyGroup
-        const isValidate = checkFamilyGroup(recipe.familyGroupIds, req.familyGroups);
+        const isValidate = checkFamilyGroup(req.familyGroups, recipe.familyGroupIds);
         if (!isValidate) {
             return res.status(404).send({ error: 'Recipe not found. Please make sure joining the family group' });
         }
 
-        if (!recipe) {
-            return res.status(404).send({ error: 'Recipe not found' });
-        }
         await recipe.populate('familyGroupIds');
         await recipe.populate('owner');
 
@@ -49,7 +50,8 @@ router.get('/recipes/familyGroup/:id', auth, async (req, res) => {
         const familyGroupId = req.params.id;
 
         // VALIDATE the user joins requested family group
-        const isValidate = req.familyGroups.some((group) => JSON.stringify(group._id) === JSON.stringify(familyGroupId));
+        const isValidate = checkFamilyGroup(req.familyGroups, req.params.id);
+        // const isValidate = req.familyGroups.some((group) => JSON.stringify(group._id) === JSON.stringify(familyGroupId));
         if (!isValidate) {
             return res.status(404).send({ error: 'Recipe not found. Please make sure joining the family group' });
         }
