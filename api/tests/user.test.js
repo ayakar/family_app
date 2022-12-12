@@ -117,6 +117,40 @@ test('should not get users profile', async () => {
     await request(app).get('/users').send().expect(401);
 });
 // should delete
+test('Should delete Authorized User', async () => {
+    const response = await request(app).delete('/users').set('Authorization', `Bearer ${UserOne.tokens[0].token}`).send().expect(200);
+
+    expect(response.body.name).toBe(UserOne.name);
+    expect(response.body.email).toBe(UserOne.email);
+});
+
 // should not delete unauthenticated user
+test('Should not  delete unauthorized User', async () => {
+    await request(app).delete('/users').send().expect(401);
+});
+
 // should update valid user field
+test('Should update valid user field', async () => {
+    const response = await request(app)
+        .patch('/users')
+        .set('Authorization', `Bearer ${UserOne.tokens[0].token}`)
+        .send({ name: 'Updated Name', password: 'myUpdatedPass123!' })
+        .expect(200);
+
+    expect(response.body.name).toEqual('Updated Name');
+    expect(response.body.email).toEqual(UserOne.email);
+
+    const user = await User.findById(response.body._id);
+    expect(response.body.name).toEqual(user.name);
+    expect(response.body.password).not.toEqual('myUpdatedPass123!');
+});
+
+// should not update unauthorized user field
+test('Should not update unauthorized user ', async () => {
+    await request(app).patch('/users').send({ name: 'Updated Name' }).expect(401);
+});
+
 // should not update invalid user field
+test('Should not update invalid user field', async () => {
+    await request(app).patch('/users').set('Authorization', `Bearer ${UserOne.tokens[0].token}`).send({ _id: 12345 }).expect(400);
+});
