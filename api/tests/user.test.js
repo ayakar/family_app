@@ -74,11 +74,48 @@ test('user should not be created with duplicated email', async () => {
 });
 
 // user should login successfully
+test('User should login successfully', async () => {
+    const response = await request(app)
+        .post('/users/login')
+        .send({
+            email: UserOne.email,
+            password: UserOne.password,
+        })
+        .expect(200);
+    const user = await User.findOne({ email: UserOne.email });
+
+    expect(response.body.token).toEqual(user.tokens[1].token);
+});
 // user should not login with wrong password
+test('User should not login with wrong password', async () => {
+    await request(app)
+        .post('/users/login')
+        .send({
+            email: UserOne.email,
+            password: 'ThisIsWrongPasswords',
+        })
+        .expect(400);
+});
+
 // user should not login with wrong email
+test('User should not login with wrong email', async () => {
+    await request(app)
+        .post('/users/login')
+        .send({
+            email: UserOne.email,
+            password: 'ThisIsWrongPasswords',
+        })
+        .expect(400);
+});
 
 // should get user's profile
+test('should get users profile', async () => {
+    await request(app).get('/users').set('Authorization', `Bearer ${UserOne.tokens[0].token}`).send().expect(200);
+});
 // should not get user's profile without login
+test('should not get users profile', async () => {
+    await request(app).get('/users').send().expect(401);
+});
 // should delete
 // should not delete unauthenticated user
 // should update valid user field
