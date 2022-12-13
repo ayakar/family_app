@@ -11,7 +11,7 @@ router.post('/familyGroups', auth, async (req, res) => {
         const result = await familyGroup.save();
         res.status(201).send(result);
     } catch (error) {
-        res.status(500).send();
+        res.status(400).send();
     }
 });
 
@@ -97,7 +97,7 @@ router.delete('/familyGroups/:id', auth, async (req, res) => {
     try {
         const familyGroup = await FamilyGroup.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
         if (!familyGroup) {
-            return res.status(404).send({ error: 'Family Group can be deleted by the owner only' });
+            return res.status(401).send({ error: 'Family Group can be deleted by the owner only' });
         }
 
         res.send(familyGroup);
