@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { login } from '../api/userApi';
+import { getUserProfile, login } from '../api/userApi';
 
 const AuthContext = createContext();
 
@@ -12,15 +12,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState();
 
-    useEffect(() => {
-        // TODO: setCurrentUser. This is for refreshing page
-        console.log('in use effect');
-    }, []);
-
     // API call to sign in
     const signIn = async (email, password) => {
-        const response = await login('test@test.ca', 'Testtest123!!');
-        // const response = await login(email, password);
+        const response = await login(email, password);
         if (!response.ok) {
             throw new Error('Login fail!');
         }
@@ -36,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     // API call to sign up
     // API call to sign out
 
-    const value = { currentUser, signIn };
+    const value = { currentUser, setCurrentUser, signIn };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

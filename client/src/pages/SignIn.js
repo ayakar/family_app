@@ -9,7 +9,7 @@ const SignIn = (props) => {
 
     const submitHandler = async () => {
         try {
-            await signIn();
+            await signIn('test@test.ca', 'Testtest123!!');
             navigate('/');
         } catch (error) {
             console.log(error);

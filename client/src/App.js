@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import Layout from './Layout/Layout';
+import RequireAuthLayout from './Layout/RequireAuthLayout';
 import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
 import SignIn from './pages/SignIn';
 
 function App() {
@@ -10,26 +11,31 @@ function App() {
             <AuthProvider>
                 <Routes>
                     <Route
-                        path="/"
-                        exact
-                        element={
-                            <Layout>
-                                <Dashboard />
-                            </Layout>
-                        }
-                    />
-
-                    <Route
                         path="/signin"
-                        element={
-                            <Layout>
-                                <SignIn />
-                            </Layout>
-                        }
+                        element={<SignIn />}
                     />
                     <Route
                         path="/signup"
-                        element={<Layout>sign up here</Layout>}
+                        element={<div>sign up here</div>}
+                    />
+
+                    <Route
+                        path="/"
+                        exact
+                        element={
+                            <RequireAuthLayout>
+                                <Dashboard />
+                            </RequireAuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        exact
+                        element={
+                            <RequireAuthLayout>
+                                <Profile />
+                            </RequireAuthLayout>
+                        }
                     />
 
                     <Route

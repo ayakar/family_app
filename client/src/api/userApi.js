@@ -17,5 +17,5 @@ export const getUserProfile = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response.json();
+    return await response;
 };
