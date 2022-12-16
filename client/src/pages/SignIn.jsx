@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import theme from '../theme';
+import { useTheme } from 'styled-components';
+
+import { HouseHeart } from 'react-bootstrap-icons';
+import Input from '../UI/Input';
+import Button from '../UI/Button';
 
 const StyledSignIn = styled.div`
     height: 100vh;
@@ -12,59 +17,86 @@ const StyledSignIn = styled.div`
 `;
 const StyledSignInForm = styled.div`
     width: 500px;
-    box-shadow: ${(props) => props.theme.shadow.s};
-    border-radius: ${(props) => props.theme.borderRadius};
-    padding: ${(props) => props.theme.spacing.m};
+    box-shadow: ${theme.shadow.s};
+    border-radius: ${theme.borderRadius.m};
+    padding: ${theme.spacing.l};
+    display: flex;
+    flex-flow: column;
+    gap: ${theme.spacing.s};
+    text-align: center;
+`;
+const StyledSmallText = styled.div`
+    font-size: ${theme.fontSize.s};
+`;
+const StyledTitle = styled.div`
+    color: ${theme.colors.darkGray};
+    font-size: ${theme.fontSize.l};
+    font-weight: ${theme.fontWeight.l};
 `;
 
-const SignIn = (props) => {
-    const navigate = useNavigate();
-    const { signIn, currentUser } = useAuth();
+const StyledErrorMessage = styled.div`
+    color: ${theme.colors.red};
+    font-size: ${theme.fontSize.s};
+`;
 
-    // const [name, setName] = useState('');
+const SignIn = () => {
+    const navigate = useNavigate();
+    const { signIn } = useAuth();
+    const theme = useTheme();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
 
     const submitHandler = async () => {
+        setSubmissionStatus(null);
+        setSubmissionStatus('loading');
         try {
             // TODO Validation here
             await signIn(email, password);
             navigate('/');
         } catch (error) {
+            setSubmissionStatus('fail');
             console.log(error);
         }
     };
 
     return (
         <StyledSignIn>
-            {/* <input
-                type="text"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-            /> */}
             <StyledSignInForm>
-                <input
+                <HouseHeart
+                    size="50"
+                    color={theme.colors.blue}
+                    style={{ alignSelf: 'center' }}
+                />
+                <StyledTitle>Login into your account</StyledTitle>
+                <Input
                     type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="Email"
                 />
-                <input
+                <Input
                     type="password"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="Password"
                 />
-                <button onClick={submitHandler}>SignIn</button>
-                {JSON.stringify(currentUser)}
-                <div>
+                {submissionStatus === 'fail' && <StyledErrorMessage>Login fail. Please try again</StyledErrorMessage>}
+                <Button
+                    onClick={submitHandler}
+                    color="blue"
+                    variant="contain"
+                >
+                    {submissionStatus === 'loading' ? 'Logging in...' : 'Login'}
+                </Button>
+
+                <StyledSmallText>
                     Need an account? Please create one from <Link to={'/signup'}>Here</Link>
-                </div>
+                </StyledSmallText>
             </StyledSignInForm>
         </StyledSignIn>
     );
 };
-
-SignIn.propTypes = {};
 
 export default SignIn;
