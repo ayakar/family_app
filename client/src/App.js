@@ -4,6 +4,7 @@ import RequireAuthLayout from './Layout/RequireAuthLayout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 
 function App() {
     return (
@@ -16,7 +17,7 @@ function App() {
                     />
                     <Route
                         path="/signup"
-                        element={<div>sign up here</div>}
+                        element={<SignUp />}
                     />
 
                     <Route
