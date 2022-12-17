@@ -1,101 +1,49 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import theme from '../theme';
-import { useTheme } from 'styled-components';
-
-import { HouseHeart } from 'react-bootstrap-icons';
-import Input from '../UI/Input';
-import Button from '../UI/Button';
-
-const StyledSignIn = styled.div`
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-const StyledSignInForm = styled.div`
-    width: 500px;
-    box-shadow: ${theme.shadow.s};
-    border-radius: ${theme.borderRadius.m};
-    padding: ${theme.spacing.l};
-    display: flex;
-    flex-flow: column;
-    gap: ${theme.spacing.s};
-    text-align: center;
-`;
-const StyledSmallText = styled.div`
-    font-size: ${theme.fontSize.s};
-`;
-const StyledTitle = styled.div`
-    color: ${theme.colors.darkGray};
-    font-size: ${theme.fontSize.l};
-    font-weight: ${theme.fontWeight.l};
-`;
-
-const StyledErrorMessage = styled.div`
-    color: ${theme.colors.red};
-    font-size: ${theme.fontSize.s};
-`;
+import { useNavigate } from 'react-router-dom';
+import AuthForm from '../UI/AuthForm';
 
 const SignIn = () => {
     const navigate = useNavigate();
     const { signIn } = useAuth();
-    const theme = useTheme();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
-
+    const [errorMessage, setErrorMessage] = useState(null);
     const submitHandler = async () => {
         setSubmissionStatus(null);
+        setErrorMessage('Sign up fail'); // Set error message for generic
         setSubmissionStatus('loading');
         try {
-            // TODO Validation here
+            // Validation
+            if (!email || !password) {
+                setErrorMessage('Please enter both fields');
+                setSubmissionStatus('fail');
+                return;
+            }
             await signIn(email, password);
             navigate('/');
         } catch (error) {
             setSubmissionStatus('fail');
-            console.log(error);
+            setErrorMessage('Sign up fail');
         }
     };
 
     return (
-        <StyledSignIn>
-            <StyledSignInForm>
-                <HouseHeart
-                    size="50"
-                    color={theme.colors.blue}
-                    style={{ alignSelf: 'center' }}
-                />
-                <StyledTitle>Login into your account</StyledTitle>
-                <Input
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Email"
-                />
-                <Input
-                    type="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Password"
-                />
-                {submissionStatus === 'fail' && <StyledErrorMessage>Login fail. Please try again</StyledErrorMessage>}
-                <Button
-                    onClick={submitHandler}
-                    color="blue"
-                    variant="contain"
-                >
-                    {submissionStatus === 'loading' ? 'Logging in...' : 'Login'}
-                </Button>
-
-                <StyledSmallText>
-                    Need an account? Please create one from <Link to={'/signup'}>Here</Link>
-                </StyledSmallText>
-            </StyledSignInForm>
-        </StyledSignIn>
+        <AuthForm
+            title="Login into your account"
+            smallText="Don't have an account? Please create one from "
+            link="/signup"
+            submitLabel="Login"
+            submitHandler={submitHandler}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            submissionStatus={submissionStatus}
+            errorMessage={errorMessage}
+        />
     );
 };
 

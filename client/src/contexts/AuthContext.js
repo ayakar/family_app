@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getUserProfile, login } from '../api/userApi';
+import { signInApiCall, signUpApiCall } from '../api/userApi';
 
 const AuthContext = createContext();
 
@@ -14,7 +14,8 @@ export const AuthProvider = ({ children }) => {
 
     // API call to sign in
     const signIn = async (email, password) => {
-        const response = await login(email, password);
+        const response = await signInApiCall(email, password);
+
         if (!response.ok) {
             throw new Error('Login fail!');
         }
@@ -28,9 +29,25 @@ export const AuthProvider = ({ children }) => {
     };
 
     // API call to sign up
+    const signUp = async (name, email, password) => {
+        const response = await signUpApiCall(name, email, password);
+        const data = await response.json();
+
+        if (data.error === 'Email duplicated') {
+            throw new Error(data.error);
+        } else if (!response.ok) {
+            throw new Error('Something went wrong!');
+        }
+
+        // Set as current user
+        setCurrentUser(data.user);
+
+        // Set token
+        localStorage.setItem('token', `Bearer ${data.token}`);
+    };
     // API call to sign out
 
-    const value = { currentUser, setCurrentUser, signIn };
+    const value = { currentUser, setCurrentUser, signIn, signUp };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

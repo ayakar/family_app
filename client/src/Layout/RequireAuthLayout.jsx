@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserProfile } from '../api/userApi';
+import { getUserProfileApiCall } from '../api/userApi';
 import { useAuth } from '../contexts/AuthContext';
 import Header from './Header';
 // import PropTypes from 'prop-types';
@@ -18,7 +18,7 @@ const RequireAuthLayout = ({ children }) => {
     // API call to fill setCurrentUser
     // If the response is not 200, redirect to /signin page
     const setCurrentUserForRefreshPage = async () => {
-        const response = await getUserProfile();
+        const response = await getUserProfileApiCall();
         if (!response.ok) {
             navigate('/signin');
         }

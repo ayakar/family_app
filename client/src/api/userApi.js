@@ -1,6 +1,6 @@
 const headers = { 'Content-Type': 'application/json' };
 
-export const login = async (email, password) => {
+export const signInApiCall = async (email, password) => {
     const response = await fetch('/users/login', {
         method: 'POST',
         headers: { ...headers },
@@ -9,8 +9,17 @@ export const login = async (email, password) => {
 
     return await response;
 };
+export const signUpApiCall = async (name, email, password) => {
+    const response = await fetch('/users', {
+        method: 'POST',
+        headers: { ...headers },
+        body: JSON.stringify({ name, email, password }),
+    });
 
-export const getUserProfile = async () => {
+    return await response;
+};
+
+export const getUserProfileApiCall = async () => {
     const token = localStorage.getItem('token');
     const response = await fetch('/users', {
         method: 'GET',
