@@ -98,7 +98,6 @@ userSchema.statics.findByCredentials = async (email, password) => {
 };
 
 // Middleware which is called before saving user
-// TODO: set unique email message in .pre save middleware
 userSchema.pre('save', async function (next) {
     const user = this;
     // check if password is modified by isModified method in mongoose. If so, hash it.
