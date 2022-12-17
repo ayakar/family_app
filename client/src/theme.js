@@ -7,7 +7,7 @@ const theme = {
         // lightOrange: '#FFE5CF',
         blue: '#4889FA',
         lightBlue: '#D0F5FF',
-        green: '#44AE12',
+        green: '#48BA14',
         // lightGreen: '#BCEDB9',
         purple: '#A888FF',
         // lightPurple: '#FDF0FF',

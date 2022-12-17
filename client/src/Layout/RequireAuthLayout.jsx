@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUserProfileApiCall } from '../api/userApi';
 import { useAuth } from '../contexts/AuthContext';
-import Header from './Header';
+import Layout from './Layout';
+
 // import PropTypes from 'prop-types';
 
 const RequireAuthLayout = ({ children }) => {
-    const { currentUser, setCurrentUser } = useAuth();
+    const { setCurrentUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,13 +26,7 @@ const RequireAuthLayout = ({ children }) => {
         setCurrentUser(data);
     };
 
-    return (
-        <>
-            <Header />
-            welcome {currentUser && currentUser.name}
-            {children}
-        </>
-    );
+    return <Layout>{children}</Layout>;
 };
 
 RequireAuthLayout.propTypes = {};
