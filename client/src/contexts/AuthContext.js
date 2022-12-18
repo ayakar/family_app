@@ -11,11 +11,6 @@ export const useAuth = () => {
 // Provider with Auth info
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    // const [isLoading, setIsLoading] = useState();
-    useEffect(() => {
-        console.log('tests');
-        setCurrentUser({ name: 'me' });
-    }, []);
 
     // API call to sign in
     const signIn = async (email, password) => {
@@ -67,5 +62,5 @@ export const AuthProvider = ({ children }) => {
 
     const value = { currentUser, setCurrentUser, signIn, signUp, signOut };
 
-    return <AuthContext.Provider value={value}>{currentUser && children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
