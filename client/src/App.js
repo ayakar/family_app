@@ -31,12 +31,27 @@ function App() {
                     />
                     <Route
                         path="/profile"
-                        exact
                         element={
                             <RequireAuthLayout>
                                 <Profile />
                             </RequireAuthLayout>
                         }
+                    />
+                    <Route
+                        path="/recipes"
+                        element={<RequireAuthLayout>"Recipes TBI"</RequireAuthLayout>}
+                    />
+                    <Route
+                        path="/taskManager"
+                        element={<RequireAuthLayout>"Task Manager TBI"</RequireAuthLayout>}
+                    />
+                    <Route
+                        path="/shoppingLists"
+                        element={<RequireAuthLayout>"Shopping Lists TBI"</RequireAuthLayout>}
+                    />
+                    <Route
+                        path="/message"
+                        element={<RequireAuthLayout>"Message TBI"</RequireAuthLayout>}
                     />
 
                     <Route

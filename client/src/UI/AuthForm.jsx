@@ -31,7 +31,7 @@ const StyledSmallText = styled.div`
 const StyledTitle = styled.div`
     color: ${theme.colors.darkGray};
     font-size: ${theme.fontSize.l};
-    font-weight: ${theme.fontWeight.l};
+    font-weight: ${theme.fontWeight.xl};
 `;
 
 const StyledErrorMessage = styled.div`

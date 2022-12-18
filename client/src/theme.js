@@ -2,14 +2,15 @@ const theme = {
     colors: {
         red: '#D72932',
         pink: '#FD89BF',
-        // lightRed: '#FFD8D8',
+        lightPink: '#FFD8D8',
         orange: '#FFAA71',
-        // lightOrange: '#FFE5CF',
+        lightOrange: '#FFE5CF',
         blue: '#4889FA',
         lightBlue: '#D0F5FF',
         green: '#48BA14',
-        // lightGreen: '#BCEDB9',
+        lightGreen: '#BCEDB9',
         purple: '#A888FF',
+        lightPurple: '#f8d2fd',
         // lightPurple: '#FDF0FF',
         darkGray: '#4E4E4E',
         gray: '#c0c0c0',
@@ -24,7 +25,8 @@ const theme = {
     },
     fontWeight: {
         // m: 300,
-        l: 700,
+        l: 400,
+        xl: 700,
     },
     spacing: {
         xs: '8px',

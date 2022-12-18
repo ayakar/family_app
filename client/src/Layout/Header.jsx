@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import theme from '../theme';
 import { useAuth } from '../contexts/AuthContext';
 import { Gear } from 'react-bootstrap-icons';
 
@@ -13,7 +14,10 @@ const Header = () => {
     return (
         <StyledHeader>
             {currentUser.name}
-            <Gear />
+            <Gear
+                color={theme.colors.orange}
+                size="25"
+            />
         </StyledHeader>
     );
 };
