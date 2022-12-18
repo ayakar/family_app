@@ -25,7 +25,8 @@ function App() {
                         exact
                         element={
                             <RequireAuthLayout>
-                                <Dashboard />
+                                {/* <Dashboard /> */}
+                                <Navigate to="/profile" />
                             </RequireAuthLayout>
                         }
                     />

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import theme from '../theme';
 import Container from '../UI/Container';
-import Header from './Header';
+
 import SideBar from './SideBar';
 
 const StyledLayout = styled.div`
@@ -12,27 +12,22 @@ const StyledLayout = styled.div`
 `;
 
 const StyledMain = styled.main`
-    /* border: 1px solid blue; */
     flex: 1;
-    display: flex;
-    flex-flow: column;
+    /* border-radius: ${theme.borderRadius.m};
+    box-shadow: ${theme.shadow.s}; */
+    height: 3000px; //TODO remove this
 `;
 
-const StyledContainer = styled(Container)`
-    border-radius: ${theme.borderRadius.m};
-    box-shadow: ${theme.shadow.s};
-    width: 100%;
-    flex: 1;
-`;
+// const StyledContainer = styled(Container)`
+//     width: 100%;
+//     flex: 1;
+// `;
 
 const Layout = ({ children }) => {
     return (
         <StyledLayout>
             <SideBar />
-            <StyledMain>
-                <Header />
-                <StyledContainer>{children}</StyledContainer>
-            </StyledMain>
+            <StyledMain>{children}</StyledMain>
         </StyledLayout>
     );
 };

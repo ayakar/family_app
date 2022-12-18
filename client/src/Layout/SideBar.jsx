@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import theme from '../theme';
-
 import { Link, useLocation } from 'react-router-dom';
-
 import { Person, Book, CartCheck, Check2Circle, ChatDots } from 'react-bootstrap-icons';
 import Logo from '../UI/Logo';
+import SideBarBottom from './SideBarBottom';
 
 const StyledSideBar = styled.aside`
     position: sticky;
@@ -65,30 +64,17 @@ const SideBar = () => {
                         heartColor={theme.colors.lightBlue}
                     />
                 </Link>
-                <StyledLink to="/profile">
-                    <StyledIconWrapper>
-                        <Person
-                            color={theme.colors.pink}
-                            size="23"
-                        />
-                    </StyledIconWrapper>
-                    <StyledText
-                        isCurrent={currentPath === '/profile'}
-                        highlightColor={theme.colors.lightPink}
-                    >
-                        My Profile
-                    </StyledText>
-                </StyledLink>
+
                 <StyledLink to="/recipes">
                     <StyledIconWrapper>
                         <Book
-                            color={theme.colors.green}
+                            color={theme.colors.orange}
                             size="20"
                         />
                     </StyledIconWrapper>
                     <StyledText
                         isCurrent={currentPath === '/recipes'}
-                        highlightColor={theme.colors.lightGreen}
+                        highlightColor={theme.colors.lightOrange}
                     >
                         Recipes
                     </StyledText>
@@ -96,13 +82,13 @@ const SideBar = () => {
                 <StyledLink to="/taskManager">
                     <StyledIconWrapper>
                         <Check2Circle
-                            color={theme.colors.orange}
+                            color={theme.colors.green}
                             size="20"
                         />
                     </StyledIconWrapper>
                     <StyledText
                         isCurrent={currentPath === '/taskManager'}
-                        highlightColor={theme.colors.lightOrange}
+                        highlightColor={theme.colors.lightGreen}
                     >
                         Task Manager
                     </StyledText>
@@ -135,6 +121,21 @@ const SideBar = () => {
                         Message
                     </StyledText>
                 </StyledLink>
+                <StyledLink to="/profile">
+                    <StyledIconWrapper>
+                        <Person
+                            color={theme.colors.pink}
+                            size="23"
+                        />
+                    </StyledIconWrapper>
+                    <StyledText
+                        isCurrent={currentPath === '/profile'}
+                        highlightColor={theme.colors.lightPink}
+                    >
+                        My Profile
+                    </StyledText>
+                </StyledLink>
+                <SideBarBottom />
             </InnerWrapper>
         </StyledSideBar>
     );

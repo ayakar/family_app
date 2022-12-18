@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Container from '../UI/Container';
+import { useAuth } from '../contexts/AuthContext';
 
 const Profile = (props) => {
-    return <div>Profile</div>;
+    // const { currentUser } = useAuth();
+    // return <Container>{currentUser && currentUser.name}</Container>;
+    return <div>profile page</div>;
 };
 
 Profile.propTypes = {};

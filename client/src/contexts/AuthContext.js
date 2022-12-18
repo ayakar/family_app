@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { signInApiCall, signUpApiCall } from '../api/userApi';
+import { signInApiCall, signUpApiCall, signOutApiCall } from '../api/userApi';
 
 const AuthContext = createContext();
 
@@ -10,7 +10,12 @@ export const useAuth = () => {
 
 // Provider with Auth info
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
+    // const [isLoading, setIsLoading] = useState();
+    useEffect(() => {
+        console.log('tests');
+        setCurrentUser({ name: 'me' });
+    }, []);
 
     // API call to sign in
     const signIn = async (email, password) => {
@@ -47,7 +52,20 @@ export const AuthProvider = ({ children }) => {
     };
     // API call to sign out
 
-    const value = { currentUser, setCurrentUser, signIn, signUp };
+    const signOut = async () => {
+        try {
+            const response = await signOutApiCall();
+            const data = await response.json();
+            console.log(data);
+            // Set as current user
+            setCurrentUser(null);
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+            // Set token
+            localStorage.removeItem('token');
+        } catch (error) {}
+    };
+
+    const value = { currentUser, setCurrentUser, signIn, signUp, signOut };
+
+    return <AuthContext.Provider value={value}>{currentUser && children}</AuthContext.Provider>;
 };
