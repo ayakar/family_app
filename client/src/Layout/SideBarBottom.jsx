@@ -21,6 +21,7 @@ const SideBarBottom = () => {
     return (
         <StyledSideBarBottom>
             <div onClick={signOutHandler}>
+                {currentUser.name}
                 <BoxArrowRight
                     color={theme.colors.darkGray}
                     size="20"

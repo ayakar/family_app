@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { signInApiCall, signUpApiCall, signOutApiCall } from '../api/userApi';
+import { useNavigate } from 'react-router-dom';
+import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall } from '../api/userApi';
 
 const AuthContext = createContext();
 
@@ -10,7 +11,25 @@ export const useAuth = () => {
 
 // Provider with Auth info
 export const AuthProvider = ({ children }) => {
+    const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setCurrentUserForRefreshPage();
+    }, []);
+
+    const setCurrentUserForRefreshPage = async () => {
+        const response = await getUserProfileApiCall();
+        if (!response.ok) {
+            setCurrentUser(null);
+            setIsLoading(false);
+            return navigate('/signin');
+        }
+        const data = await response.json();
+        setCurrentUser(data);
+        setIsLoading(false);
+    };
 
     // API call to sign in
     const signIn = async (email, password) => {
@@ -23,7 +42,7 @@ export const AuthProvider = ({ children }) => {
 
         // Set as current user
         setCurrentUser(data.user);
-
+        setIsLoading(false);
         // Set token
         localStorage.setItem('token', `Bearer ${data.token}`);
     };
@@ -41,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
         // Set as current user
         setCurrentUser(data.user);
-
+        setIsLoading(false);
         // Set token
         localStorage.setItem('token', `Bearer ${data.token}`);
     };
@@ -54,7 +73,7 @@ export const AuthProvider = ({ children }) => {
             console.log(data);
             // Set as current user
             setCurrentUser(null);
-
+            setIsLoading(false);
             // Set token
             localStorage.removeItem('token');
         } catch (error) {}
@@ -62,5 +81,10 @@ export const AuthProvider = ({ children }) => {
 
     const value = { currentUser, setCurrentUser, signIn, signUp, signOut };
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={value}>
+            {!isLoading && children}
+            {JSON.stringify(isLoading)}
+        </AuthContext.Provider>
+    );
 };
