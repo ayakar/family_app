@@ -31,7 +31,9 @@ const userSchema = new mongoose.Schema(
                 }
             },
         },
-        role: { type: String, enum: ['admin', 'subscriber'] },
+        avatar: {
+            type: Buffer,
+        },
         // roles: [
         //     {
         //         familyId: { type: mongoose.Schema.Types.ObjectId },

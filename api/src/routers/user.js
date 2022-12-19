@@ -1,5 +1,7 @@
 const express = require('express');
 const router = new express.Router();
+const multer = require('multer');
+const sharp = require('sharp');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 
@@ -83,5 +85,37 @@ router.delete('/users', auth, async (req, res) => {
         res.status(500).send();
     }
 });
+
+// SET UP MULTER
+const upload = multer({
+    limits: {
+        fileSize: 1000000,
+    },
+    // Validating if it's image file by file format
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Please upload an image. The image needs to be jpg, jpeg, or png'));
+        }
+        cb(undefined, true);
+    },
+});
+
+router.post(
+    '/users/avatar',
+    auth,
+    upload.single('avatar'),
+    async (req, res) => {
+        const buffer = await sharp(req.file.buffer).resize({ width: 500, height: 500 }).jpeg().toBuffer();
+        req.user.avatar = buffer;
+        await req.user.save();
+        res.send();
+    },
+    (error, req, res, next) => {
+        res.status(400).send({ error: error.message });
+    }
+);
+//router.get('/users/:id/avatar',()=>{})
+// router.patch('/users/avatar',()=>{})
+// router.delete('/users/avatar',()=>{})
 
 module.exports = router;
