@@ -16,7 +16,7 @@ const SideBarBottom = () => {
 
     const signOutHandler = () => {
         signOut();
-        navigate('/signin');
+        navigate('/signIn');
     };
     return (
         <StyledSideBarBottom>

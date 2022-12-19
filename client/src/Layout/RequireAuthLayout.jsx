@@ -7,7 +7,7 @@ const RequireAuthLayout = ({ children }) => {
     const { currentUser } = useAuth();
 
     if (!currentUser) {
-        return <Navigate to="/signin" />;
+        return <Navigate to="/signIn" />;
     }
 
     return <Layout>{children}</Layout>;

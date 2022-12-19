@@ -57,7 +57,7 @@ const SignUp = () => {
         <AuthForm
             title="Create An Account"
             smallText="Already have an account? Please go "
-            link="/signin"
+            link="/signIn"
             submitLabel="Create An Account"
             submitHandler={submitHandler}
             name={name}

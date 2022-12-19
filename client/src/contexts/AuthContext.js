@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (location.pathname === '/signin' || location.pathname === '/signup') {
+        if (location.pathname === '/signIn' || location.pathname === '/signUp') {
             return setIsLoading(false);
         }
         getUserProfile();

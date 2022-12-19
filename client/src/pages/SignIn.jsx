@@ -34,7 +34,7 @@ const SignIn = () => {
         <AuthForm
             title="Login into your account"
             smallText="Don't have an account? Please create one from "
-            link="/signup"
+            link="/signUp"
             submitLabel="Login"
             submitHandler={submitHandler}
             email={email}
