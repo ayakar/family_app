@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+
 import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall } from '../api/userApi';
 
 const AuthContext = createContext();
@@ -11,20 +12,23 @@ export const useAuth = () => {
 
 // Provider with Auth info
 export const AuthProvider = ({ children }) => {
-    const navigate = useNavigate();
+    const location = useLocation();
     const [currentUser, setCurrentUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setCurrentUserForRefreshPage();
+        if (location.pathname === '/signin' || location.pathname === '/signup') {
+            return setIsLoading(false);
+        }
+        getUserProfile();
     }, []);
 
-    const setCurrentUserForRefreshPage = async () => {
+    const getUserProfile = async () => {
         const response = await getUserProfileApiCall();
         if (!response.ok) {
             setCurrentUser(null);
             setIsLoading(false);
-            return navigate('/signin');
+            return;
         }
         const data = await response.json();
         setCurrentUser(data);
@@ -36,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         const response = await signInApiCall(email, password);
 
         if (!response.ok) {
+            setIsLoading(false);
             throw new Error('Login fail!');
         }
         const data = await response.json();
@@ -53,8 +58,10 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
 
         if (data.error === 'Email duplicated') {
+            setIsLoading(false);
             throw new Error(data.error);
         } else if (!response.ok) {
+            setIsLoading(false);
             throw new Error('Something went wrong!');
         }
 
@@ -81,10 +88,5 @@ export const AuthProvider = ({ children }) => {
 
     const value = { currentUser, setCurrentUser, signIn, signUp, signOut };
 
-    return (
-        <AuthContext.Provider value={value}>
-            {!isLoading && children}
-            {JSON.stringify(isLoading)}
-        </AuthContext.Provider>
-    );
+    return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };
