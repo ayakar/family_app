@@ -57,3 +57,5 @@ export const getUserFamilyGroupsApiCall = async () => {
 
     return await response;
 };
+
+export const updateUserProfileApiCall = async (body) => {};

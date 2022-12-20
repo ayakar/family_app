@@ -8,6 +8,8 @@ import Button from '../UI/Button';
 import { removeTime } from '../util/formatTimestamp';
 import IconButton from '../UI/IconButton';
 import FamilyGroupLists from '../components/FamilyGroupLists';
+import Modal from '../UI/Modal';
+import EditProfileForm from '../components/EditProfileForm';
 
 const StyledProfile = styled.div`
     display: flex;
@@ -66,71 +68,88 @@ const StyledIconButton = styled(IconButton)`
 const Profile = (props) => {
     const { currentUser, currentUserAvatar } = useAuth();
     const theme = useTheme();
+    const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
+    const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false);
 
     return (
-        <StyledProfile>
-            <StyledWrapper>
-                <StyledContainerTop>
-                    <StyledLeft>
-                        {currentUserAvatar ? (
-                            <img
-                                src={currentUserAvatar}
-                                alt=""
-                            />
-                        ) : (
-                            <CloudUpload
-                                size="50"
-                                // color={theme.colors.blue}
-                                style={{ alignSelf: 'center' }}
-                            />
-                        )}
-                    </StyledLeft>
-                    <StyledRight>
-                        <StyledTable>
-                            <tbody>
-                                <tr>
-                                    <StyledTableTitle>Name:</StyledTableTitle>
-                                    <StyledTableContent> {currentUser.name}</StyledTableContent>
-                                </tr>
-                                <tr>
-                                    <StyledTableTitle>Email : </StyledTableTitle>
-                                    <StyledTableContent>{currentUser.email}</StyledTableContent>
-                                </tr>
-                                <tr>
-                                    <StyledTableTitle>Password : </StyledTableTitle>
-                                    <StyledTableContent>**************</StyledTableContent>
-                                </tr>
-                                <tr>
-                                    <StyledTableTitle>Join at: </StyledTableTitle>
-                                    <StyledTableContent>{removeTime(currentUser.createdAt)}</StyledTableContent>
-                                </tr>
-                            </tbody>
-                        </StyledTable>
-                        <StyledIconButton onClick={() => console.log('clicked')}>
-                            <Pencil
-                                color={theme.colors.gray}
-                                size="20"
-                            />
-                        </StyledIconButton>
+        <>
+            <StyledProfile>
+                <StyledWrapper>
+                    <StyledContainerTop>
+                        <StyledLeft>
+                            {currentUserAvatar ? (
+                                <img
+                                    src={currentUserAvatar}
+                                    alt=""
+                                />
+                            ) : (
+                                <CloudUpload
+                                    size="50"
+                                    // color={theme.colors.blue}
+                                    style={{ alignSelf: 'center' }}
+                                />
+                            )}
+                        </StyledLeft>
+                        <StyledRight>
+                            <StyledTable>
+                                <tbody>
+                                    <tr>
+                                        <StyledTableTitle>Name:</StyledTableTitle>
+                                        <StyledTableContent> {currentUser.name}</StyledTableContent>
+                                    </tr>
+                                    <tr>
+                                        <StyledTableTitle>Email : </StyledTableTitle>
+                                        <StyledTableContent>{currentUser.email}</StyledTableContent>
+                                    </tr>
+                                    <tr>
+                                        <StyledTableTitle>Password : </StyledTableTitle>
+                                        <StyledTableContent>**************</StyledTableContent>
+                                    </tr>
+                                    <tr>
+                                        <StyledTableTitle>Join at: </StyledTableTitle>
+                                        <StyledTableContent>{removeTime(currentUser.createdAt)}</StyledTableContent>
+                                    </tr>
+                                </tbody>
+                            </StyledTable>
+                            <StyledIconButton onClick={() => setIsEditingModalOpen(true)}>
+                                <Pencil
+                                    color={theme.colors.gray}
+                                    size="20"
+                                />
+                            </StyledIconButton>
 
-                        <div style={{ marginTop: 'auto', alignSelf: 'flex-end', fontSize: theme.fontSize.xs }}>
-                            {currentUser.numOfLogin} devices are logged in as this user.{' '}
-                            <Button
-                                color="blue"
-                                variant="text"
-                            >
-                                Logout from All Devices
-                            </Button>
-                        </div>
-                    </StyledRight>
-                </StyledContainerTop>
-            </StyledWrapper>
-            <StyledWrapper>
-                <Container>
-                    <FamilyGroupLists />
-                </Container>
-            </StyledWrapper>
-        </StyledProfile>
+                            <div style={{ marginTop: 'auto', alignSelf: 'flex-end', fontSize: theme.fontSize.xs }}>
+                                {currentUser.numOfLogin} devices are logged in as this user.
+                                <Button
+                                    color="blue"
+                                    variant="text"
+                                    onClick={() => setIsSignOutModalOpen(true)}
+                                >
+                                    Logout from All Devices
+                                </Button>
+                            </div>
+                        </StyledRight>
+                    </StyledContainerTop>
+                </StyledWrapper>
+                <StyledWrapper>
+                    <Container>
+                        <FamilyGroupLists />
+                    </Container>
+                </StyledWrapper>
+            </StyledProfile>
+            <Modal
+                isOpen={isEditingModalOpen}
+                closeHandler={() => setIsEditingModalOpen(false)}
+            >
+                <EditProfileForm />
+            </Modal>
+            <Modal
+                isOpen={isSignOutModalOpen}
+                closeHandler={() => setIsSignOutModalOpen(false)}
+            >
+                Are you sure logging out from all devices?
+            </Modal>
+        </>
     );
 };
 
