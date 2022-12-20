@@ -21,7 +21,7 @@ const theme = {
     fontSize: {
         s: '14px',
         // m: '16px',
-        l: '18px',
+        l: '20px',
     },
     fontWeight: {
         // m: 300,
@@ -40,6 +40,7 @@ const theme = {
         //  m: '',
     },
     avatarSize: {
+        xs: '30px',
         s: '50px',
         m: '',
         l: '200px',

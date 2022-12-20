@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall, getUserAvatarApiCall } from '../api/userApi';
+import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall, getUserAvatarApiCall, getUserFamilyGroupsApiCall } from '../api/userApi';
 
 const AuthContext = createContext();
 
@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const [currentUser, setCurrentUser] = useState(null);
     const [currentUserAvatar, setCurrentUserAvatar] = useState(null);
+    const [familyGroups, setFamilyGroups] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -28,9 +29,11 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (currentUser) {
             getUserAvatar();
+            getUserFamilyGroups();
         }
     }, [currentUser]);
 
+    // GET profile
     const getUserProfile = async () => {
         const response = await getUserProfileApiCall();
         if (!response.ok) {
@@ -42,6 +45,7 @@ export const AuthProvider = ({ children }) => {
         setCurrentUser(data);
     };
 
+    // GET Avatar
     const getUserAvatar = async () => {
         const response = await getUserAvatarApiCall(currentUser._id);
         // Create URL using the data.
@@ -54,6 +58,20 @@ export const AuthProvider = ({ children }) => {
             setCurrentUserAvatar(null);
         }
         setIsLoading(false);
+    };
+
+    // GET Family Group
+    const getUserFamilyGroups = async () => {
+        try {
+            const response = await getUserFamilyGroupsApiCall();
+            if (!response.ok) {
+                throw new Error('Unable to fetch family group');
+            }
+            const data = await response.json();
+            setFamilyGroups(data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     // API call to sign in
@@ -107,7 +125,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {}
     };
 
-    const value = { currentUser, setCurrentUser, currentUserAvatar, signIn, signUp, signOut };
+    const value = { currentUser, setCurrentUser, currentUserAvatar, familyGroups, signIn, signUp, signOut };
 
     return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };

@@ -7,6 +7,7 @@ import Container from '../UI/Container';
 import Button from '../UI/Button';
 import { removeTime } from '../util/formatTimestamp';
 import IconButton from '../UI/IconButton';
+import FamilyGroupLists from '../components/FamilyGroupLists';
 
 const StyledProfile = styled.div`
     display: flex;
@@ -31,7 +32,8 @@ const StyledLeft = styled.div`
     & > * {
         width: ${({ theme }) => theme.avatarSize.l};
         height: ${({ theme }) => theme.avatarSize.l};
-        border-radius: 50%;
+        border-radius: ${({ theme }) => theme.borderRadius.m};
+        /* border-radius: 50%; */
     }
 `;
 
@@ -124,7 +126,9 @@ const Profile = (props) => {
                 </StyledContainerTop>
             </StyledWrapper>
             <StyledWrapper>
-                <Container>Family Groups</Container>
+                <Container>
+                    <FamilyGroupLists />
+                </Container>
             </StyledWrapper>
         </StyledProfile>
     );

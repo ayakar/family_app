@@ -17,7 +17,7 @@ const InnerWrapper = styled.div`
     border-radius: ${theme.borderRadius.m};
     box-shadow: ${theme.shadow.s};
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     padding: ${theme.spacing.m};

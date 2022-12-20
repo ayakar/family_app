@@ -47,3 +47,13 @@ export const getUserAvatarApiCall = async (userId) => {
 
     return await response;
 };
+
+export const getUserFamilyGroupsApiCall = async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/users/familyGroups`, {
+        method: 'GET',
+        headers: { ...headers, Authorization: token },
+    });
+
+    return await response;
+};

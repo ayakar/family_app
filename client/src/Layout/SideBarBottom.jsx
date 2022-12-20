@@ -1,14 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
-import theme from '../theme';
+import styled, { useTheme } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
-import { BoxArrowRight } from 'react-bootstrap-icons';
+import { BoxArrowRight, PersonCircle } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '../UI/IconButton';
 
 const StyledSideBarBottom = styled.div`
     margin-top: auto;
     display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing.s};
 `;
 const StyledAvatarIcon = styled.div`
     & img {
@@ -20,6 +21,7 @@ const StyledAvatarIcon = styled.div`
 
 const SideBarBottom = () => {
     const { currentUser, currentUserAvatar, signOut } = useAuth();
+    const theme = useTheme();
     const navigate = useNavigate();
 
     const signOutHandler = () => {
@@ -29,10 +31,17 @@ const SideBarBottom = () => {
     return (
         <StyledSideBarBottom>
             <StyledAvatarIcon>
-                <img
-                    src={currentUserAvatar}
-                    alt={currentUser.name}
-                />
+                {currentUserAvatar ? (
+                    <img
+                        src={currentUserAvatar}
+                        alt={currentUser.name}
+                    />
+                ) : (
+                    <PersonCircle
+                        color={theme.colors.lightBlue}
+                        size={23}
+                    />
+                )}
             </StyledAvatarIcon>
             <div>{currentUser.name}</div>
             <IconButton onClick={signOutHandler}>
