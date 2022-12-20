@@ -8,6 +8,7 @@ const StyledFamilyMemberList = styled.div`
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.spacing.s};
+    padding-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 const StyledAvatarWrapper = styled.div`
     /* border: 1px solid red; */

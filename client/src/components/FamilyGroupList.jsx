@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { Star, Pencil } from 'react-bootstrap-icons';
+import { Star, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
 import { getFamilyGroupDetailsApi } from '../api/familyGroupApi';
 
@@ -14,7 +14,7 @@ const StyledFamilyGroupList = styled.div`
 const StyledHeader = styled.div`
     display: flex;
     justify-content: space-between;
-    margin-bottom: ${({ theme }) => theme.spacing.m};
+    margin-bottom: ${({ theme }) => theme.spacing.s};
 `;
 const StyledTitle = styled.div`
     font-weight: ${({ theme }) => theme.fontWeight.l};
@@ -22,6 +22,11 @@ const StyledTitle = styled.div`
 
 const StyledContent = styled.div`
     padding-left: 50px;
+`;
+const StyledAddMember = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.xs};
+    margin-top: ${({ theme }) => theme.spacing.s};
 `;
 
 const FamilyGroupList = ({ familyGroup }) => {
@@ -61,6 +66,12 @@ const FamilyGroupList = ({ familyGroup }) => {
                             familyGroup={familyGroup}
                         />
                     ))}
+                <StyledAddMember>
+                    <IconButton onClick={() => console.log('clicked')}>
+                        <PlusCircle size="20" />
+                    </IconButton>
+                    Add New Member
+                </StyledAddMember>
             </StyledContent>
         </StyledFamilyGroupList>
     );
