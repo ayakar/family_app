@@ -37,3 +37,13 @@ export const getUserProfileApiCall = async () => {
 
     return await response;
 };
+
+export const getUserAvatarApiCall = async (userId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/users/${userId}/avatar`, {
+        method: 'GET',
+        headers: { ...headers, Authorization: token },
+    });
+
+    return await response;
+};
