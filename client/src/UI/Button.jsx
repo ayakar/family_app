@@ -6,6 +6,7 @@ import theme from '../theme';
 const BaseContainButton = styled.button`
     min-width: 70px;
     border-radius: ${theme.borderRadius.l};
+    border-width: 0px;
     padding: ${theme.spacing.xs} ${theme.spacing.s};
     letter-spacing: 1px;
     transition: 0.3s ease;
