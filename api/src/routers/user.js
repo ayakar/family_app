@@ -114,8 +114,29 @@ router.post(
         res.status(400).send({ error: error.message });
     }
 );
-//router.get('/users/:id/avatar',()=>{})
-// router.patch('/users/avatar',()=>{})
-// router.delete('/users/avatar',()=>{})
+router.get('/users/:id/avatar', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+        if (!user.avatar) {
+            return res.send();
+        }
+        res.set('Content-Type', 'image/jpeg');
+        res.send(user.avatar);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+router.delete('/users/avatar', auth, async (req, res) => {
+    try {
+        req.user.avatar = undefined;
+        await req.user.save();
+        res.send();
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 module.exports = router;
