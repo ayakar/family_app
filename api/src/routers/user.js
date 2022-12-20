@@ -139,4 +139,12 @@ router.delete('/users/avatar', auth, async (req, res) => {
     }
 });
 
+router.get('/users/familyGroups', auth, async (req, res) => {
+    try {
+        res.send(req.familyGroups);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;
