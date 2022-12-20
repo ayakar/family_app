@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall } from '../api/userApi';
+import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall, getUserAvatarApiCall } from '../api/userApi';
 
 const AuthContext = createContext();
 
@@ -14,6 +14,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const location = useLocation();
     const [currentUser, setCurrentUser] = useState(null);
+    const [currentUserAvatar, setCurrentUserAvatar] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -22,6 +23,13 @@ export const AuthProvider = ({ children }) => {
         }
         getUserProfile();
     }, []);
+
+    // Getting User Avatar once currentUser is set
+    useEffect(() => {
+        if (currentUser) {
+            getUserAvatar();
+        }
+    }, [currentUser]);
 
     const getUserProfile = async () => {
         const response = await getUserProfileApiCall();
@@ -32,6 +40,19 @@ export const AuthProvider = ({ children }) => {
         }
         const data = await response.json();
         setCurrentUser(data);
+    };
+
+    const getUserAvatar = async () => {
+        const response = await getUserAvatarApiCall(currentUser._id);
+        // Create URL using the data.
+        const blob = await response.blob(); // TODO:
+
+        if (blob.size > 0 && blob.type === 'image/jpeg') {
+            const objectUrl = URL.createObjectURL(blob); // TODO:
+            setCurrentUserAvatar(objectUrl);
+        } else {
+            setCurrentUserAvatar(null);
+        }
         setIsLoading(false);
     };
 
@@ -86,7 +107,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {}
     };
 
-    const value = { currentUser, setCurrentUser, signIn, signUp, signOut };
+    const value = { currentUser, setCurrentUser, currentUserAvatar, signIn, signUp, signOut };
 
     return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };

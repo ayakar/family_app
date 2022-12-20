@@ -39,6 +39,11 @@ const theme = {
         s: '0 2px 12px 0 #c0c0c0',
         //  m: '',
     },
+    avatarSize: {
+        s: '50px',
+        m: '',
+        l: '200px',
+    },
 };
 
 export default theme;

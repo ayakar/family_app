@@ -4,14 +4,22 @@ import theme from '../theme';
 import { useAuth } from '../contexts/AuthContext';
 import { BoxArrowRight } from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+import IconButton from '../UI/IconButton';
 
 const StyledSideBarBottom = styled.div`
     margin-top: auto;
     display: flex;
 `;
+const StyledAvatarIcon = styled.div`
+    & img {
+        width: ${({ theme }) => theme.avatarSize.s};
+        height: ${({ theme }) => theme.avatarSize.s};
+        border-radius: 50%;
+    }
+`;
 
 const SideBarBottom = () => {
-    const { currentUser, signOut } = useAuth();
+    const { currentUser, currentUserAvatar, signOut } = useAuth();
     const navigate = useNavigate();
 
     const signOutHandler = () => {
@@ -20,13 +28,19 @@ const SideBarBottom = () => {
     };
     return (
         <StyledSideBarBottom>
-            <div onClick={signOutHandler}>
-                {currentUser.name}
+            <StyledAvatarIcon>
+                <img
+                    src={currentUserAvatar}
+                    alt={currentUser.name}
+                />
+            </StyledAvatarIcon>
+            <div>{currentUser.name}</div>
+            <IconButton onClick={signOutHandler}>
                 <BoxArrowRight
                     color={theme.colors.darkGray}
                     size="20"
                 />
-            </div>
+            </IconButton>
         </StyledSideBarBottom>
     );
 };

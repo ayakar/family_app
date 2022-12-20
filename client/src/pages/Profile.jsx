@@ -27,7 +27,13 @@ const StyledContainerTop = styled(Container)`
     gap: ${({ theme }) => theme.spacing.l};
 `;
 
-const StyledLeft = styled.div``;
+const StyledLeft = styled.div`
+    & > * {
+        width: ${({ theme }) => theme.avatarSize.l};
+        height: ${({ theme }) => theme.avatarSize.l};
+        border-radius: 50%;
+    }
+`;
 
 const StyledTable = styled.table`
     font-size: ${({ theme }) => theme.fontSize.l};
@@ -56,37 +62,18 @@ const StyledIconButton = styled(IconButton)`
 `;
 
 const Profile = (props) => {
-    const { currentUser } = useAuth();
+    const { currentUser, currentUserAvatar } = useAuth();
     const theme = useTheme();
-    const [avatarUrl, setAvatarUrl] = useState(null);
-
-    useEffect(() => {
-        getUserAvatar();
-    }, []);
-
-    const getUserAvatar = async () => {
-        const response = await getUserAvatarApiCall(currentUser._id);
-        // Create URL using the data.
-        const blob = await response.blob(); // TODO:
-
-        if (blob.size > 0 && blob.type === 'image/jpeg') {
-            const objectUrl = URL.createObjectURL(blob); // TODO:
-            setAvatarUrl(objectUrl);
-        } else {
-            setAvatarUrl(null);
-        }
-    };
 
     return (
         <StyledProfile>
             <StyledWrapper>
                 <StyledContainerTop>
                     <StyledLeft>
-                        {avatarUrl ? (
+                        {currentUserAvatar ? (
                             <img
-                                src={avatarUrl}
+                                src={currentUserAvatar}
                                 alt=""
-                                style={{ width: '200px', height: '200px', borderRadius: '50%' }}
                             />
                         ) : (
                             <CloudUpload
@@ -131,7 +118,7 @@ const Profile = (props) => {
                                 variant="text"
                             >
                                 Logout from All Devices
-                            </Button>{' '}
+                            </Button>
                         </div>
                     </StyledRight>
                 </StyledContainerTop>
