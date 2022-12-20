@@ -13,15 +13,7 @@ const StyledLayout = styled.div`
 
 const StyledMain = styled.main`
     flex: 1;
-    /* border-radius: ${theme.borderRadius.m};
-    box-shadow: ${theme.shadow.s}; */
-    height: 3000px; //TODO remove this
 `;
-
-// const StyledContainer = styled(Container)`
-//     width: 100%;
-//     flex: 1;
-// `;
 
 const Layout = ({ children }) => {
     return (
