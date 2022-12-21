@@ -125,7 +125,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {}
     };
 
-    const value = { currentUser, setCurrentUser, currentUserAvatar, familyGroups, signIn, signUp, signOut };
+    const value = { currentUser, setCurrentUser, currentUserAvatar, getUserProfile, familyGroups, signIn, signUp, signOut };
 
     return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };

@@ -58,4 +58,13 @@ export const getUserFamilyGroupsApiCall = async () => {
     return await response;
 };
 
-export const updateUserProfileApiCall = async (body) => {};
+export const updateUserProfileApiCall = async (body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/users`, {
+        method: 'PATCH',
+        headers: { ...headers, Authorization: token },
+        body: JSON.stringify(body),
+    });
+
+    return await response;
+};
