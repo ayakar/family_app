@@ -30,7 +30,7 @@ const StyledContainerTop = styled(Container)`
     gap: ${({ theme }) => theme.spacing.l};
 `;
 
-const StyledLeft = styled.div`
+const StyledImageWrapper = styled.div`
     & > * {
         width: ${({ theme }) => theme.avatarSize.l};
         height: ${({ theme }) => theme.avatarSize.l};
@@ -70,13 +70,18 @@ const Profile = (props) => {
     const theme = useTheme();
     const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
     const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false);
+    const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+
+    const logOutAllHandler = () => {
+        console.log('logout!!');
+    };
 
     return (
         <>
             <StyledProfile>
                 <StyledWrapper>
                     <StyledContainerTop>
-                        <StyledLeft>
+                        <StyledImageWrapper onClick={() => setIsAvatarModalOpen(true)}>
                             {currentUserAvatar ? (
                                 <img
                                     src={currentUserAvatar}
@@ -89,7 +94,7 @@ const Profile = (props) => {
                                     style={{ alignSelf: 'center' }}
                                 />
                             )}
-                        </StyledLeft>
+                        </StyledImageWrapper>
                         <StyledRight>
                             <StyledTable>
                                 <tbody>
@@ -148,6 +153,47 @@ const Profile = (props) => {
                 closeHandler={() => setIsSignOutModalOpen(false)}
             >
                 Are you sure logging out from all devices?
+                <Button
+                    color="lightBlue"
+                    variant="contain"
+                    onClick={logOutAllHandler}
+                >
+                    Yes
+                </Button>
+                <Button
+                    color="blue"
+                    variant="text"
+                    onClick={() => setIsSignOutModalOpen(false)}
+                >
+                    No, back to profile page
+                </Button>
+            </Modal>
+            <Modal
+                isOpen={isAvatarModalOpen}
+                closeHandler={() => setIsAvatarModalOpen(false)}
+            >
+                <StyledImageWrapper>
+                    <img
+                        src={currentUserAvatar}
+                        alt=""
+                    />
+                </StyledImageWrapper>
+                <Button
+                    color="lightBlue"
+                    variant="contain"
+                    onClick={() => {
+                        console.log('first');
+                    }}
+                >
+                    Delete Current Avatar
+                </Button>
+                <Button
+                    color="blue"
+                    variant="text"
+                    onClick={() => setIsAvatarModalOpen(false)}
+                >
+                    Cancel
+                </Button>
             </Modal>
         </>
     );
