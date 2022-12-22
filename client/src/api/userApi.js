@@ -28,6 +28,15 @@ export const signOutApiCall = async () => {
 
     return await response;
 };
+export const signOutAllApiCall = async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch('/users/logoutAll', {
+        method: 'POST',
+        headers: { ...headers, Authorization: token },
+    });
+
+    return await response;
+};
 
 // USER PROFILE
 export const getUserProfileApiCall = async () => {

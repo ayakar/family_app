@@ -6,6 +6,7 @@ const StyledSignInForm = styled.input`
     border-radius: ${theme.borderRadius.l};
     padding: ${theme.spacing.xs} ${theme.spacing.s};
     border: ${theme.colors.lightGray} 1px solid;
+    min-width: 250px;
 
     &:focus,
     &:active {

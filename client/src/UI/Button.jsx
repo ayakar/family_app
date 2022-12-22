@@ -3,13 +3,27 @@ import styled from 'styled-components';
 import theme from '../theme';
 
 // color
-const BaseContainButton = styled.button`
+const BaseButton = styled.button`
     min-width: 70px;
     border-radius: ${theme.borderRadius.l};
-    border-width: 0px;
     padding: ${theme.spacing.xs} ${theme.spacing.s};
     letter-spacing: 1px;
     transition: 0.3s ease;
+    cursor: pointer;
+`;
+
+const BaseContainButton = styled(BaseButton)`
+    border-width: 0px;
+`;
+
+const BaseOutlinedButton = styled(BaseButton)`
+    border-width: 1px;
+    border-style: solid;
+`;
+
+const BaseTextButton = styled.button`
+    border-width: 0px;
+    letter-spacing: 1px;
     cursor: pointer;
 `;
 
@@ -30,12 +44,6 @@ const LightBlueContainButton = styled(BaseContainButton)`
     }
 `;
 
-const BaseTextButton = styled.button`
-    border-width: 0px;
-    letter-spacing: 1px;
-    cursor: pointer;
-`;
-
 const BlueTextButton = styled(BaseTextButton)`
     background-color: inherit;
     color: ${theme.colors.blue};
@@ -44,14 +52,14 @@ const BlueTextButton = styled(BaseTextButton)`
     }
 `;
 
-// const BlueOutLinedButton = styled(BaseContainButton)`
-//     background-color: ${theme.colors.lightBlue};
-//     color: ${theme.colors.blue};
-//     &:hover {
-//         background-color: ${theme.colors.blue};
-//         color: ${theme.colors.white};
-//     }
-// `;
+const BlueOutLinedButton = styled(BaseOutlinedButton)`
+    background-color: transparent;
+    border-color: ${theme.colors.blue};
+    color: ${theme.colors.blue};
+    &:hover {
+        background-color: ${theme.colors.lightBlue};
+    }
+`;
 
 const DisabledButton = styled(BaseContainButton)`
     background-color: ${theme.colors.gray};
@@ -70,8 +78,8 @@ const Button = (props) => {
         // case props.variant === 'outlined' && props.color === 'blue':
         case props.variant === 'contain' && props.color === 'lightBlue':
             return <LightBlueContainButton {...props}>{props.children}</LightBlueContainButton>;
-        // case props.variant === 'outlined' && props.color === 'blue':
-        //     return <BlueOutLinedButton {...props}>{props.children}</BlueOutLinedButton>;
+        case props.variant === 'outlined' && props.color === 'blue':
+            return <BlueOutLinedButton {...props}>{props.children}</BlueOutLinedButton>;
 
         default:
             break;

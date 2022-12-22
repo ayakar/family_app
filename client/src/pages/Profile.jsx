@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { getUserAvatarApiCall, deleteUserAvatarApiCall, uploadUserAvatarApiCall } from '../api/userApi';
-import { CloudUpload, Pencil, PersonFill } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
+import { signOutAllApiCall } from '../api/userApi';
+import { Pencil, PersonFill } from 'react-bootstrap-icons';
 import styled, { useTheme } from 'styled-components';
 import Container from '../UI/Container';
 import Button from '../UI/Button';
@@ -80,14 +81,23 @@ const StyledIconButton = styled(IconButton)`
 
 const Profile = (props) => {
     const { currentUser, currentUserAvatar, getUserProfile } = useAuth();
+    const navigate = useNavigate();
     const theme = useTheme();
 
     const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
     const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false);
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
-    const logOutAllHandler = () => {
-        console.log('logout!!');
+    const signOutAllHandler = async () => {
+        try {
+            const response = await signOutAllApiCall();
+            if (!response.ok) {
+                throw new Error();
+            }
+        } catch (error) {
+            console.log('Something went wrong');
+        }
+        navigate('/signIn');
     };
 
     return (
@@ -172,7 +182,7 @@ const Profile = (props) => {
                 <Button
                     color="lightBlue"
                     variant="contain"
-                    onClick={logOutAllHandler}
+                    onClick={signOutAllHandler}
                 >
                     Yes
                 </Button>
