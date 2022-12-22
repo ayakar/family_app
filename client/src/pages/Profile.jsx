@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { getUserAvatarApiCall } from '../api/userApi';
-import { CloudUpload, Pencil } from 'react-bootstrap-icons';
+import { getUserAvatarApiCall, deleteUserAvatarApiCall, uploadUserAvatarApiCall } from '../api/userApi';
+import { CloudUpload, Pencil, PersonFill } from 'react-bootstrap-icons';
 import styled, { useTheme } from 'styled-components';
 import Container from '../UI/Container';
 import Button from '../UI/Button';
@@ -10,6 +10,7 @@ import IconButton from '../UI/IconButton';
 import FamilyGroupLists from '../components/FamilyGroupLists';
 import Modal from '../UI/Modal';
 import EditProfileForm from '../components/EditProfileForm';
+import EditAvatarForm from '../components/EditAvatarForm';
 
 const StyledProfile = styled.div`
     display: flex;
@@ -31,12 +32,24 @@ const StyledContainerTop = styled(Container)`
 `;
 
 const StyledImageWrapper = styled.div`
-    & > * {
-        width: ${({ theme }) => theme.avatarSize.l};
-        height: ${({ theme }) => theme.avatarSize.l};
-        border-radius: ${({ theme }) => theme.borderRadius.m};
-        /* border-radius: 50%; */
-    }
+    width: ${({ theme }) => theme.avatarSize.l};
+    height: ${({ theme }) => theme.avatarSize.l};
+    cursor: pointer;
+`;
+const StyledAvatar = styled.img`
+    width: ${({ theme }) => theme.avatarSize.l};
+    height: ${({ theme }) => theme.avatarSize.l};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+`;
+const StyledIconWrapper = styled.div`
+    width: ${({ theme }) => theme.avatarSize.l};
+    height: ${({ theme }) => theme.avatarSize.l};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+    border: ${({ theme }) => `1px solid ${theme.colors.gray}`};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 const StyledTable = styled.table`
@@ -66,8 +79,9 @@ const StyledIconButton = styled(IconButton)`
 `;
 
 const Profile = (props) => {
-    const { currentUser, currentUserAvatar } = useAuth();
+    const { currentUser, currentUserAvatar, getUserProfile } = useAuth();
     const theme = useTheme();
+
     const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
     const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false);
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -83,18 +97,20 @@ const Profile = (props) => {
                     <StyledContainerTop>
                         <StyledImageWrapper onClick={() => setIsAvatarModalOpen(true)}>
                             {currentUserAvatar ? (
-                                <img
+                                <StyledAvatar
                                     src={currentUserAvatar}
                                     alt=""
                                 />
                             ) : (
-                                <CloudUpload
-                                    size="50"
-                                    // color={theme.colors.blue}
-                                    style={{ alignSelf: 'center' }}
-                                />
+                                <StyledIconWrapper>
+                                    <PersonFill
+                                        size="250"
+                                        color={theme.colors.gray}
+                                    />
+                                </StyledIconWrapper>
                             )}
                         </StyledImageWrapper>
+
                         <StyledRight>
                             <StyledTable>
                                 <tbody>
@@ -172,28 +188,7 @@ const Profile = (props) => {
                 isOpen={isAvatarModalOpen}
                 closeHandler={() => setIsAvatarModalOpen(false)}
             >
-                <StyledImageWrapper>
-                    <img
-                        src={currentUserAvatar}
-                        alt=""
-                    />
-                </StyledImageWrapper>
-                <Button
-                    color="lightBlue"
-                    variant="contain"
-                    onClick={() => {
-                        console.log('first');
-                    }}
-                >
-                    Delete Current Avatar
-                </Button>
-                <Button
-                    color="blue"
-                    variant="text"
-                    onClick={() => setIsAvatarModalOpen(false)}
-                >
-                    Cancel
-                </Button>
+                <EditAvatarForm cancelEditHandler={() => setIsAvatarModalOpen(false)} />
             </Modal>
         </>
     );

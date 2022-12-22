@@ -1,5 +1,6 @@
 const headers = { 'Content-Type': 'application/json' };
 
+// USER AUTH
 export const signInApiCall = async (email, password) => {
     const response = await fetch('/users/login', {
         method: 'POST',
@@ -28,11 +29,35 @@ export const signOutApiCall = async () => {
     return await response;
 };
 
+// USER PROFILE
 export const getUserProfileApiCall = async () => {
     const token = localStorage.getItem('token');
     const response = await fetch('/users', {
         method: 'GET',
         headers: { ...headers, Authorization: token },
+    });
+
+    return await response;
+};
+
+export const updateUserProfileApiCall = async (body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/users`, {
+        method: 'PATCH',
+        headers: { ...headers, Authorization: token },
+        body: JSON.stringify(body),
+    });
+
+    return await response;
+};
+
+// USER AVATAR
+export const uploadUserAvatarApiCall = async (body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/users/avatar`, {
+        method: 'POST',
+        headers: { Authorization: token },
+        body: body,
     });
 
     return await response;
@@ -48,22 +73,22 @@ export const getUserAvatarApiCall = async (userId) => {
     return await response;
 };
 
-export const getUserFamilyGroupsApiCall = async () => {
+export const deleteUserAvatarApiCall = async () => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/users/familyGroups`, {
-        method: 'GET',
+    const response = await fetch(`/users/avatar`, {
+        method: 'DELETE',
         headers: { ...headers, Authorization: token },
     });
 
     return await response;
 };
 
-export const updateUserProfileApiCall = async (body) => {
+// USER FAMILY GROUP
+export const getUserFamilyGroupsApiCall = async () => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/users`, {
-        method: 'PATCH',
+    const response = await fetch(`/users/familyGroups`, {
+        method: 'GET',
         headers: { ...headers, Authorization: token },
-        body: JSON.stringify(body),
     });
 
     return await response;
