@@ -9,6 +9,7 @@ router.post('/users', async (req, res) => {
     try {
         const existingUser = await User.findOne({ email: req.body.email });
         if (existingUser) {
+            // CAUTION!! THIS ERROR MESSAGE IS PARSED IN FRONTEND!!!
             return res.status(400).send({ error: 'Email duplicated' });
         }
         const user = new User(req.body);

@@ -70,6 +70,7 @@ router.patch('/familyGroups/:id/members', auth, async (req, res) => {
         }
         // VALIDATING IF THE NEW MEMBER EXIST
         if (!newMember) {
+            // CAUTION!! THIS ERROR MESSAGE IS PARSED IN FRONTEND!!!
             return res.status(404).send({ error: 'Member not found' });
         }
         // VALIDATING IF THE USER ALREADY IN MEMBERS
@@ -77,6 +78,7 @@ router.patch('/familyGroups/:id/members', auth, async (req, res) => {
             return JSON.stringify(member.member._id) !== JSON.stringify(newMember._id);
         });
         if (!isNewMemberExist) {
+            // CAUTION!! THIS ERROR MESSAGE IS PARSED IN FRONTEND!!!
             return res.status(400).send({ error: 'User is already member' });
         }
 
