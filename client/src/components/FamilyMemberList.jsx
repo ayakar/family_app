@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { PersonCircle, StarFill } from 'react-bootstrap-icons';
-
+import { useAuth } from '../contexts/AuthContext';
 import { getUserAvatarApiCall } from '../api/userApi';
 
 const StyledFamilyMemberList = styled.div`
@@ -21,6 +21,7 @@ const StyledAvatarWrapper = styled.div`
 
 const FamilyMemberList = ({ member, familyGroup }) => {
     const theme = useTheme();
+    const { currentUser, currentUserAvatar } = useAuth();
     const [userAvatar, setUserAvatars] = useState();
     useEffect(() => {
         getUserAvatar(member.member._id);
@@ -37,10 +38,13 @@ const FamilyMemberList = ({ member, familyGroup }) => {
     };
     return (
         <StyledFamilyMemberList>
-            {/* <pre>{JSON.stringify(userAvatar, null, 2)}</pre> */}
-
             <StyledAvatarWrapper>
-                {userAvatar ? (
+                {currentUser._id === member.member._id && currentUserAvatar ? (
+                    <img
+                        src={currentUserAvatar}
+                        alt={member.name}
+                    />
+                ) : userAvatar ? (
                     <img
                         src={userAvatar}
                         alt={member.name}
@@ -51,7 +55,7 @@ const FamilyMemberList = ({ member, familyGroup }) => {
             </StyledAvatarWrapper>
 
             <div>
-                {member.member.name}
+                {currentUser._id === member.member._id ? currentUser.name : member.member.name}
                 {familyGroup.owner === member.member._id && (
                     <StarFill
                         color={theme.colors.orange}
