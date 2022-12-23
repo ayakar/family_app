@@ -24,7 +24,16 @@ export const getFamilyGroupDetailsApi = async (familyGroupId) => {
 };
 
 // Edit Family Group
-export const updateFamilyGroupApi = async () => {};
+export const updateFamilyGroupApi = async (familyGroupId, body) => {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`familyGroups/${familyGroupId}`, {
+        method: 'PATCH',
+        headers: { ...headers, Authorization: token },
+        body: JSON.stringify(body),
+    });
+    return response;
+};
 // Add Family Member
 export const addMemberFamilyGroupApi = async (familyGroupId, body) => {
     const token = localStorage.getItem('token');
@@ -37,4 +46,12 @@ export const addMemberFamilyGroupApi = async (familyGroupId, body) => {
     return response;
 };
 // Delete Family Group
-export const deleteFamilyGroupApi = async () => {};
+export const deleteFamilyGroupApi = async (familyGroupId) => {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`familyGroups/${familyGroupId}`, {
+        method: 'DELETE',
+        headers: { ...headers, Authorization: token },
+    });
+    return response;
+};

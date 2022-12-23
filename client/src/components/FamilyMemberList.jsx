@@ -44,13 +44,17 @@ const FamilyMemberList = ({ member, familyGroup }) => {
                         src={currentUserAvatar}
                         alt={member.name}
                     />
-                ) : userAvatar ? (
+                ) : (
+                    currentUser._id === member.member._id && !currentUserAvatar && <PersonCircle color={theme.colors.blue} />
+                )}
+
+                {currentUser._id !== member.member._id && userAvatar ? (
                     <img
                         src={userAvatar}
                         alt={member.name}
                     />
                 ) : (
-                    <PersonCircle color={theme.colors.lightBlue} />
+                    currentUser._id !== member.member._id && !userAvatar && <PersonCircle color={theme.colors.lightBlue} />
                 )}
             </StyledAvatarWrapper>
 

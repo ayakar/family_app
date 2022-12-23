@@ -8,6 +8,7 @@ import IconButton from '../UI/IconButton';
 import Input from '../UI/Input';
 import Modal from '../UI/Modal';
 import FamilyGroupList from './FamilyGroupList';
+import FamilyGroupForm from './FamilyGroupForm';
 
 const StyledTitle = styled.h3`
     display: flex;
@@ -77,22 +78,13 @@ const FamilyGroupLists = () => {
                 {submissionStatus === 'success' ? (
                     <div>Family Group Successfully Created!</div>
                 ) : (
-                    <>
-                        <Input
-                            type="text"
-                            value={familyName}
-                            onChange={(event) => setFamilyName(event.target.value)}
-                            placeholder="Family Group Name"
-                        />
-                        <Button
-                            color="lightBlue"
-                            variant="contain"
-                            onClick={submitHandler}
-                        >
-                            Create New Family Group
-                        </Button>
-                        {errorMessage}
-                    </>
+                    <FamilyGroupForm
+                        familyName={familyName}
+                        setFamilyName={setFamilyName}
+                        buttonLabel="Create New Family Group"
+                        submitHandler={submitHandler}
+                        errorMessage={errorMessage}
+                    />
                 )}
             </Modal>
         </>

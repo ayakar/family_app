@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Star, Pencil, PlusCircle } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
-import { getFamilyGroupDetailsApi, addMemberFamilyGroupApi } from '../api/familyGroupApi';
+import { getFamilyGroupDetailsApi, addMemberFamilyGroupApi, updateFamilyGroupApi, deleteFamilyGroupApi } from '../api/familyGroupApi';
 import { useAuth } from '../contexts/AuthContext';
 import FamilyMemberList from './FamilyMemberList';
 import Modal from '../UI/Modal';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
+import FamilyGroupForm from './FamilyGroupForm';
 
 const StyledFamilyGroupList = styled.div`
     border-bottom: ${({ theme }) => `${theme.colors.lightGray} 2px solid`};
@@ -43,7 +44,12 @@ const FamilyGroupList = ({ familyGroup }) => {
     const theme = useTheme();
     const [familyGroupDetails, setFamilyGroupDetails] = useState('');
 
+    // For edit family group
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editFamilyGroupErrorMessage, setEditFamilyGroupErrorMessage] = useState('');
+    const [familyName, setFamilyName] = useState(familyGroup.name);
+
+    // For add member
     const [isAddMemberFormShown, setIsAddMemberFormShown] = useState(false);
     const [addMemberErrorMessage, setAddMemberErrorMessage] = useState('');
     const [memberEmail, setMemberEmail] = useState('');
@@ -58,7 +64,31 @@ const FamilyGroupList = ({ familyGroup }) => {
         setFamilyGroupDetails(data);
     };
 
-    const addMemberFamilyGroup = async () => {
+    const editFamilyGroupHandler = async () => {
+        try {
+            const response = await updateFamilyGroupApi(familyGroup._id, { name: familyName });
+            if (!response.ok) {
+                throw new Error();
+            }
+            getUserFamilyGroups();
+        } catch (error) {
+            console.log('Something went wrong');
+        }
+    };
+
+    const deleteFamilyGroupHandler = async () => {
+        try {
+            const response = await deleteFamilyGroupApi(familyGroup._id);
+            if (!response.ok) {
+                throw new Error();
+            }
+            getUserFamilyGroups();
+        } catch (error) {
+            console.log('Something went wrong');
+        }
+    };
+
+    const addMemberFamilyGroupHandler = async () => {
         try {
             const response = await addMemberFamilyGroupApi(familyGroup._id, { member: memberEmail });
             const data = await response.json();
@@ -83,7 +113,7 @@ const FamilyGroupList = ({ familyGroup }) => {
                 <StyledHeader>
                     <StyledTitle>{familyGroup.name}</StyledTitle>
                     {familyGroup.owner === currentUser._id && (
-                        <IconButton onClick={() => console.log('clicked')}>
+                        <IconButton onClick={() => setIsEditModalOpen(true)}>
                             <Pencil
                                 color={theme.colors.gray}
                                 size="20"
@@ -112,7 +142,7 @@ const FamilyGroupList = ({ familyGroup }) => {
                             <Button
                                 color="blue"
                                 variant="contain"
-                                onClick={addMemberFamilyGroup}
+                                onClick={addMemberFamilyGroupHandler}
                             >
                                 Add
                             </Button>
@@ -132,6 +162,20 @@ const FamilyGroupList = ({ familyGroup }) => {
                     )}
                 </StyledContent>
             </StyledFamilyGroupList>
+            <Modal
+                isOpen={isEditModalOpen}
+                closeHandler={() => setIsEditModalOpen(false)}
+            >
+                <FamilyGroupForm
+                    isOwner={familyGroup.owner === currentUser._id}
+                    familyName={familyName}
+                    setFamilyName={setFamilyName}
+                    buttonLabel="Save"
+                    submitHandler={editFamilyGroupHandler}
+                    errorMessage={editFamilyGroupErrorMessage}
+                    deleteHandler={deleteFamilyGroupHandler}
+                />
+            </Modal>
         </>
     );
 };
