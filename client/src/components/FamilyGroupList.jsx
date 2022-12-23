@@ -66,8 +66,18 @@ const FamilyGroupList = ({ familyGroup }) => {
 
     const editFamilyGroupHandler = async () => {
         try {
+            if (!familyName) {
+                setEditFamilyGroupErrorMessage('Please fill family name');
+                return;
+            }
+            if (familyName === familyGroup.name) {
+                setEditFamilyGroupErrorMessage('No filed is modified');
+                return;
+            }
+
             const response = await updateFamilyGroupApi(familyGroup._id, { name: familyName });
             if (!response.ok) {
+                setEditFamilyGroupErrorMessage('Editing fail');
                 throw new Error();
             }
             getUserFamilyGroups();
@@ -82,6 +92,7 @@ const FamilyGroupList = ({ familyGroup }) => {
             if (!response.ok) {
                 throw new Error();
             }
+            setIsEditModalOpen(false);
             getUserFamilyGroups();
         } catch (error) {
             console.log('Something went wrong');
@@ -149,7 +160,10 @@ const FamilyGroupList = ({ familyGroup }) => {
                             <Button
                                 color="blue"
                                 variant="outlined"
-                                onClick={() => setIsAddMemberFormShown(false)}
+                                onClick={() => {
+                                    setIsAddMemberFormShown(false);
+                                    setMemberEmail('');
+                                }}
                             >
                                 Cancel
                             </Button>
@@ -171,7 +185,7 @@ const FamilyGroupList = ({ familyGroup }) => {
                     familyName={familyName}
                     setFamilyName={setFamilyName}
                     buttonLabel="Save"
-                    submitHandler={editFamilyGroupHandler}
+                    editHandler={editFamilyGroupHandler}
                     errorMessage={editFamilyGroupErrorMessage}
                     deleteHandler={deleteFamilyGroupHandler}
                 />

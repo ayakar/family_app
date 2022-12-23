@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { PlusCircle, StarFill } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
@@ -77,7 +77,10 @@ const FamilyGroupLists = () => {
             </div>
             <Modal
                 isOpen={isCreateModalOpen}
-                closeHandler={() => setIsCreateModalOpen(false)}
+                closeHandler={() => {
+                    setIsCreateModalOpen(false);
+                    setSubmissionStatus(null);
+                }}
             >
                 <StyledModalTitle>Create New Family Group</StyledModalTitle>
                 {submissionStatus === 'success' ? (
@@ -87,7 +90,7 @@ const FamilyGroupLists = () => {
                         familyName={familyName}
                         setFamilyName={setFamilyName}
                         buttonLabel="Create New Family Group"
-                        submitHandler={submitHandler}
+                        editHandler={submitHandler}
                         errorMessage={errorMessage}
                     />
                 )}

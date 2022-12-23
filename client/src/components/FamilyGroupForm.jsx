@@ -5,7 +5,7 @@ import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 import Input from '../UI/Input';
 
-const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLabel, submitHandler, errorMessage, deleteHandler = null }) => {
+const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLabel, editHandler, errorMessage, deleteHandler = null }) => {
     const theme = useTheme();
     return (
         <>
@@ -18,7 +18,7 @@ const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLab
             <Button
                 color="lightBlue"
                 variant="contain"
-                onClick={submitHandler}
+                onClick={editHandler}
             >
                 {buttonLabel}
             </Button>
