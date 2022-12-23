@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { BoxArrowRight, PersonCircle } from 'react-bootstrap-icons';
-import { useNavigate } from 'react-router-dom';
 import IconButton from '../UI/IconButton';
 
 const StyledSideBarBottom = styled.div`

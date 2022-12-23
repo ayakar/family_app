@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import styled, { useTheme } from 'styled-components';
+import { useAuth } from '../contexts/AuthContext';
 import { signOutAllApiCall } from '../api/userApi';
 import { Pencil, PersonFill } from 'react-bootstrap-icons';
-import styled, { useTheme } from 'styled-components';
-import Container from '../UI/Container';
-import Button from '../UI/Button';
 import { removeTime } from '../util/formatTimestamp';
-import IconButton from '../UI/IconButton';
-import FamilyGroupLists from '../components/FamilyGroupLists';
-import Modal from '../UI/Modal';
 import EditProfileForm from '../components/EditProfileForm';
 import EditAvatarForm from '../components/EditAvatarForm';
+import FamilyGroupLists from '../components/FamilyGroupLists';
+import Container from '../UI/Container';
+import Button from '../UI/Button';
+import IconButton from '../UI/IconButton';
+import Modal from '../UI/Modal';
 
 const StyledProfile = styled.div`
     display: flex;

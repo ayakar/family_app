@@ -1,7 +1,6 @@
 import React from 'react';
-import { Trash } from 'react-bootstrap-icons';
 import { useTheme } from 'styled-components';
-
+import { Trash } from 'react-bootstrap-icons';
 import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 import Input from '../UI/Input';

@@ -1,10 +1,9 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-
 import { Link, useLocation } from 'react-router-dom';
 import { Person, Book, CartCheck, Check2Circle, ChatDots } from 'react-bootstrap-icons';
-import Logo from '../UI/Logo';
 import SideBarBottom from './SideBarBottom';
+import Logo from '../UI/Logo';
 
 const StyledSideBar = styled.aside`
     position: sticky;

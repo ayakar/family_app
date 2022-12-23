@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { PlusCircle, StarFill } from 'react-bootstrap-icons';
 import styled, { useTheme } from 'styled-components';
+import { PlusCircle, StarFill } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
 import { createFamilyGroupApi } from '../api/familyGroupApi';
-import IconButton from '../UI/IconButton';
-import Modal from '../UI/Modal';
 import FamilyGroupList from './FamilyGroupList';
 import FamilyGroupForm from './FamilyGroupForm';
+import IconButton from '../UI/IconButton';
+import Modal from '../UI/Modal';
 
 const StyledTitle = styled.h3`
     display: flex;

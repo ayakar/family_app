@@ -1,9 +1,6 @@
 import React from 'react';
-
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { useTheme } from 'styled-components';
-
+import { Link } from 'react-router-dom';
+import styled, { useTheme } from 'styled-components';
 import { HouseHeart } from 'react-bootstrap-icons';
 import Input from '../UI/Input';
 import Button from '../UI/Button';

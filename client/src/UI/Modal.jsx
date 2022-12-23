@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { X } from 'react-bootstrap-icons';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
+import { X } from 'react-bootstrap-icons';
 import IconButton from './IconButton';
 
 const StyledModalContent = styled.div`
