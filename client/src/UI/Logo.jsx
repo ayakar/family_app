@@ -1,7 +1,4 @@
 import React from 'react';
-import theme from '../theme';
-import { HouseHeartFill } from 'react-bootstrap-icons';
-import styled from 'styled-components';
 
 const Logo = ({ size, color, heartColor }) => {
     const outer = { fill: color, fillRule: 'nonzero' };

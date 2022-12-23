@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Trash } from 'react-bootstrap-icons';
-import theme from '../theme';
+import { useTheme } from 'styled-components';
+
 import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 import Input from '../UI/Input';
 
 const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLabel, submitHandler, errorMessage, deleteHandler = null }) => {
+    const theme = useTheme();
     return (
         <>
             <Input

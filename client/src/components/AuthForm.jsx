@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import theme from '../theme';
 import { useTheme } from 'styled-components';
 
 import { HouseHeart } from 'react-bootstrap-icons';
@@ -17,26 +16,26 @@ const StyledSignIn = styled.div`
 `;
 const StyledSignInForm = styled.div`
     width: 500px;
-    box-shadow: ${theme.shadow.s};
-    border-radius: ${theme.borderRadius.m};
-    padding: ${theme.spacing.l};
+    box-shadow: ${({ theme }) => theme.shadow.s};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+    padding: ${({ theme }) => theme.spacing.l};
     display: flex;
     flex-flow: column;
-    gap: ${theme.spacing.s};
+    gap: ${({ theme }) => theme.spacing.s};
     text-align: center;
 `;
 const StyledSmallText = styled.div`
-    font-size: ${theme.fontSize.s};
+    font-size: ${({ theme }) => theme.fontSize.s};
 `;
 const StyledTitle = styled.div`
-    color: ${theme.colors.darkGray};
-    font-size: ${theme.fontSize.l};
-    font-weight: ${theme.fontWeight.xl};
+    color: ${({ theme }) => theme.colors.darkGray};
+    font-size: ${({ theme }) => theme.fontSize.l};
+    font-weight: ${({ theme }) => theme.fontWeight.xl};
 `;
 
 const StyledErrorMessage = styled.div`
-    color: ${theme.colors.red};
-    font-size: ${theme.fontSize.s};
+    color: ${({ theme }) => theme.colors.red};
+    font-size: ${({ theme }) => theme.fontSize.s};
 `;
 
 const AuthForm = ({

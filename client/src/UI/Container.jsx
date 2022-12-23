@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../theme';
 
 const StyledContainer = styled.div`
     margin: 0 auto;

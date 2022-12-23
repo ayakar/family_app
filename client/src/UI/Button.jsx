@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../theme';
 
 // color
 const BaseButton = styled.button`
     min-width: 70px;
-    border-radius: ${theme.borderRadius.l};
-    padding: ${theme.spacing.xs} ${theme.spacing.s};
+    border-radius: ${({ theme }) => theme.borderRadius.l};
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.s};
     letter-spacing: 1px;
     transition: 0.3s ease;
     cursor: pointer;
@@ -28,42 +27,42 @@ const BaseTextButton = styled.button`
 `;
 
 const BlueContainButton = styled(BaseContainButton)`
-    background-color: ${theme.colors.blue};
-    color: ${theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.blue};
+    color: ${({ theme }) => theme.colors.white};
     &:hover {
-        color: ${theme.colors.blue};
-        background-color: ${theme.colors.lightBlue};
+        color: ${({ theme }) => theme.colors.blue};
+        background-color: ${({ theme }) => theme.colors.lightBlue};
     }
 `;
 const LightBlueContainButton = styled(BaseContainButton)`
-    background-color: ${theme.colors.lightBlue};
-    color: ${theme.colors.blue};
+    background-color: ${({ theme }) => theme.colors.lightBlue};
+    color: ${({ theme }) => theme.colors.blue};
     &:hover {
-        color: ${theme.colors.white};
-        background-color: ${theme.colors.blue};
+        color: ${({ theme }) => theme.colors.white};
+        background-color: ${({ theme }) => theme.colors.blue};
     }
 `;
 
 const BlueTextButton = styled(BaseTextButton)`
     background-color: inherit;
-    color: ${theme.colors.blue};
+    color: ${({ theme }) => theme.colors.blue};
     &:hover {
-        color: ${theme.colors.blue};
+        color: ${({ theme }) => theme.colors.blue};
     }
 `;
 
 const BlueOutLinedButton = styled(BaseOutlinedButton)`
     background-color: transparent;
-    border-color: ${theme.colors.blue};
-    color: ${theme.colors.blue};
+    border-color: ${({ theme }) => theme.colors.blue};
+    color: ${({ theme }) => theme.colors.blue};
     &:hover {
-        background-color: ${theme.colors.lightBlue};
+        background-color: ${({ theme }) => theme.colors.lightBlue};
     }
 `;
 
 const DisabledButton = styled(BaseContainButton)`
-    background-color: ${theme.colors.gray};
-    color: ${theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.gray};
+    color: ${({ theme }) => theme.colors.white};
     cursor: inherit;
 `;
 

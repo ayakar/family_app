@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../theme';
 
 const StyledSignInForm = styled.input`
-    border-radius: ${theme.borderRadius.l};
-    padding: ${theme.spacing.xs} ${theme.spacing.s};
-    border: ${theme.colors.lightGray} 1px solid;
+    border-radius: ${({ theme }) => theme.borderRadius.l};
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.s};
+    border: ${({ theme }) => theme.colors.lightGray} 1px solid;
     min-width: 250px;
 
     &:focus,
     &:active {
         outline: none;
-        border: ${theme.colors.gray} 1px solid;
+        border: ${({ theme }) => theme.colors.gray} 1px solid;
     }
 
     /* For Chrome auto fill background */

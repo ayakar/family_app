@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { PlusCircle } from 'react-bootstrap-icons';
+import React, { useState } from 'react';
+import { PlusCircle, StarFill } from 'react-bootstrap-icons';
 import styled, { useTheme } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
 import { createFamilyGroupApi } from '../api/familyGroupApi';
-import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
-import Input from '../UI/Input';
 import Modal from '../UI/Modal';
 import FamilyGroupList from './FamilyGroupList';
 import FamilyGroupForm from './FamilyGroupForm';
@@ -62,7 +60,6 @@ const FamilyGroupLists = () => {
                     />
                 </IconButton>
             </StyledTitle>
-
             {familyGroups &&
                 familyGroups.map((familyGroup) => (
                     <FamilyGroupList
@@ -70,6 +67,14 @@ const FamilyGroupLists = () => {
                         familyGroup={familyGroup}
                     />
                 ))}
+
+            <div style={{ fontSize: `${theme.fontSize.xs}` }}>
+                <StarFill
+                    color={theme.colors.orange}
+                    size={10}
+                />
+                = Family Group Owner
+            </div>
             <Modal
                 isOpen={isCreateModalOpen}
                 closeHandler={() => setIsCreateModalOpen(false)}

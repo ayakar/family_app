@@ -33,6 +33,7 @@ const StyledContainerTop = styled(Container)`
 `;
 
 const StyledImageWrapper = styled.div`
+    position: relative;
     width: ${({ theme }) => theme.avatarSize.l};
     height: ${({ theme }) => theme.avatarSize.l};
     cursor: pointer;
@@ -51,6 +52,11 @@ const StyledIconWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`;
+const StyledPencil = styled(Pencil)`
+    position: absolute;
+    top: 10px;
+    right: 10px;
 `;
 
 const StyledTable = styled.table`
@@ -119,6 +125,10 @@ const Profile = (props) => {
                                     />
                                 </StyledIconWrapper>
                             )}
+                            <StyledPencil
+                                size="20"
+                                color={theme.colors.gray}
+                            />
                         </StyledImageWrapper>
 
                         <StyledRight>

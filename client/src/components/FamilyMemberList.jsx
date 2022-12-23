@@ -45,7 +45,7 @@ const FamilyMemberList = ({ member, familyGroup }) => {
                         alt={member.name}
                     />
                 ) : (
-                    currentUser._id === member.member._id && !currentUserAvatar && <PersonCircle color={theme.colors.blue} />
+                    currentUser._id === member.member._id && !currentUserAvatar && <PersonCircle color={theme.colors.lightBlue} />
                 )}
 
                 {currentUser._id !== member.member._id && userAvatar ? (
@@ -54,7 +54,7 @@ const FamilyMemberList = ({ member, familyGroup }) => {
                         alt={member.name}
                     />
                 ) : (
-                    currentUser._id !== member.member._id && !userAvatar && <PersonCircle color={theme.colors.lightBlue} />
+                    currentUser._id !== member.member._id && !userAvatar && <PersonCircle color={theme.colors.lightPurple} />
                 )}
             </StyledAvatarWrapper>
 

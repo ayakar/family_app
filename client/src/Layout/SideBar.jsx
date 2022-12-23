@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import theme from '../theme';
+import styled, { useTheme } from 'styled-components';
+
 import { Link, useLocation } from 'react-router-dom';
 import { Person, Book, CartCheck, Check2Circle, ChatDots } from 'react-bootstrap-icons';
 import Logo from '../UI/Logo';
@@ -9,29 +9,29 @@ import SideBarBottom from './SideBarBottom';
 const StyledSideBar = styled.aside`
     position: sticky;
     top: 0;
-    height: ${` calc(100vh - (${theme.spacing.m}*2))`};
+    height: ${({ theme }) => ` calc(100vh - (${theme.spacing.m}*2))`};
     width: 250px;
 `;
 
 const InnerWrapper = styled.div`
-    border-radius: ${theme.borderRadius.m};
-    box-shadow: ${theme.shadow.s};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+    box-shadow: ${({ theme }) => theme.shadow.s};
     width: 100%;
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    padding: ${theme.spacing.m};
+    padding: ${({ theme }) => theme.spacing.m};
 `;
 
 const StyledLink = styled(Link)`
     text-decoration: none;
     display: flex;
     align-items: center;
-    margin-bottom: ${theme.spacing.s};
+    margin-bottom: ${({ theme }) => theme.spacing.s};
 `;
 
 const StyledIconWrapper = styled.div`
-    margin-right: ${theme.spacing.xs};
+    margin-right: ${({ theme }) => theme.spacing.xs};
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -39,15 +39,16 @@ const StyledIconWrapper = styled.div`
     height: 25px;
 `;
 const StyledText = styled.div`
-    padding-left: ${theme.spacing.xs};
-    padding-right: ${theme.spacing.xs};
-    ${({ isCurrent, highlightColor }) =>
+    padding-left: ${({ theme }) => theme.spacing.xs};
+    padding-right: ${({ theme }) => theme.spacing.xs};
+    ${({ theme, isCurrent, highlightColor }) =>
         isCurrent &&
         `font-weight:${theme.fontWeight.l};
        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 50%,${highlightColor} 50%, ${highlightColor} 100%)`}
 `;
 
 const SideBar = () => {
+    const theme = useTheme();
     const location = useLocation();
     const currentPath = location.pathname;
 

@@ -1,14 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../theme';
-import Container from '../UI/Container';
-
 import SideBar from './SideBar';
 
 const StyledLayout = styled.div`
     display: flex;
-    padding: ${theme.spacing.m};
-    gap: ${theme.spacing.m};
+    padding: ${({ theme }) => theme.spacing.m};
+    gap: ${({ theme }) => theme.spacing.m};
 `;
 
 const StyledMain = styled.main`
