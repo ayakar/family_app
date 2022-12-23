@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import IconButton from './IconButton';
 
 const StyledModalContent = styled.div`
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
