@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { uploadUserAvatarApiCall, deleteUserAvatarApiCall, getUserFamilyGroupsApiCall } from '../api/userApi';
 import Button from '../UI/Button';
 import DropZone from '../UI/DropZone';
+import { Trash } from 'react-bootstrap-icons';
+import IconButton from '../UI/IconButton';
 
 // duplicated style
 const StyledAvatar = styled.img`
@@ -12,20 +14,26 @@ const StyledAvatar = styled.img`
     border-radius: ${({ theme }) => theme.borderRadius.m};
 `;
 
-const EditAvatarForm = ({ cancelEditHandler }) => {
-    const { currentUserAvatar, getUserProfile, getUserFamilyGroups } = useAuth();
+const EditAvatarForm = () => {
     const theme = useTheme();
+    const { currentUserAvatar, getUserProfile } = useAuth();
     const [avatarFile, setAvatarFile] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const uploadAvatarHandler = async () => {
+        setErrorMessage('');
         try {
+            if (avatarFile === '') {
+                setErrorMessage('Please choose an image');
+                return;
+            }
             const reqBody = new FormData();
             reqBody.append('avatar', avatarFile);
             const response = await uploadUserAvatarApiCall(reqBody);
             if (!response.ok) {
                 throw new Error('Avatar upload fail');
             }
+            setAvatarFile('');
             getUserProfile();
         } catch (error) {
             console.log(error);
@@ -59,21 +67,34 @@ const EditAvatarForm = ({ cancelEditHandler }) => {
                     setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
                 />
             )}
-            {errorMessage}
-            <Button
-                color="lightBlue"
-                variant="contain"
-                onClick={currentUserAvatar ? deleteAvatarHandler : uploadAvatarHandler}
-            >
-                {currentUserAvatar ? ' Delete Current Avatar' : 'Upload image'}
-            </Button>
-            <Button
-                color="blue"
-                variant="text"
-                onClick={cancelEditHandler}
-            >
-                Cancel
-            </Button>
+            <div>
+                {currentUserAvatar ? (
+                    <IconButton onClick={deleteAvatarHandler}>
+                        <Trash
+                            size={20}
+                            color={theme.colors.gray}
+                        />
+                    </IconButton>
+                ) : (
+                    <Button
+                        color="lightBlue"
+                        variant="contain"
+                        onClick={uploadAvatarHandler}
+                    >
+                        Upload image
+                    </Button>
+                )}
+                {!currentUserAvatar && avatarFile && (
+                    <Button
+                        color="blue"
+                        variant="text"
+                        onClick={() => setAvatarFile('')}
+                    >
+                        Cancel
+                    </Button>
+                )}
+            </div>
+            <div>{errorMessage}</div>
         </>
     );
 };

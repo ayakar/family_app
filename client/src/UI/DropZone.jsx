@@ -15,6 +15,12 @@ const StyledIconWrapper = styled.div`
     gap: ${({ theme }) => theme.spacing.xs};
 `;
 
+const StyledPreviewImage = styled.img`
+    width: ${({ theme }) => theme.avatarSize.l};
+    height: ${({ theme }) => theme.avatarSize.l};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+`;
+
 const StyledFileInput = styled.input`
     border: 1px solid;
     width: 100%;
@@ -35,23 +41,23 @@ const DropZone = ({ file, setFile, maximumFileSize, setErrorMessage }) => {
     };
 
     return (
-        <StyledIconWrapper>
+        <>
             {file ? (
-                <img
+                <StyledPreviewImage
                     src={URL.createObjectURL(file)}
                     alt="upload image preview"
                 />
             ) : (
-                <>
+                <StyledIconWrapper>
                     <CloudUpload size="50" />
                     <div>Select or Drop Image</div>
                     <StyledFileInput
                         type="file"
                         onChange={(event) => onChangeFileHandler(event)}
                     />
-                </>
+                </StyledIconWrapper>
             )}
-        </StyledIconWrapper>
+        </>
     );
 };
 

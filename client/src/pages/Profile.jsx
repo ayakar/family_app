@@ -85,6 +85,16 @@ const StyledIconButton = styled(IconButton)`
     right: 0;
 `;
 
+const StyledModalInnerWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing.m};
+`;
+const StyledModalTitle = styled.h4`
+    font-size: ${({ theme }) => theme.fontSize.l};
+`;
+
 const Profile = (props) => {
     const { currentUser, currentUserAvatar, getUserProfile } = useAuth();
     const navigate = useNavigate();
@@ -208,7 +218,10 @@ const Profile = (props) => {
                 isOpen={isAvatarModalOpen}
                 closeHandler={() => setIsAvatarModalOpen(false)}
             >
-                <EditAvatarForm cancelEditHandler={() => setIsAvatarModalOpen(false)} />
+                <StyledModalInnerWrapper>
+                    <StyledModalTitle StyledModalTitle>Set Profile Image</StyledModalTitle>
+                    <EditAvatarForm />
+                </StyledModalInnerWrapper>
             </Modal>
         </>
     );
