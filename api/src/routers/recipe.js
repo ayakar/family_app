@@ -53,7 +53,7 @@ router.get('/recipes/:id', auth, async (req, res) => {
 });
 
 // read all joined family group recipes
-router.get('/recipes/recipe/:id', auth, async (req, res) => {
+router.get('/recipes/familyGroup/:id', auth, async (req, res) => {
     try {
         const familyGroupId = req.params.id;
 
