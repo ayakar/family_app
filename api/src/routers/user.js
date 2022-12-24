@@ -1,7 +1,7 @@
 const express = require('express');
 const router = new express.Router();
-const multer = require('multer');
 const sharp = require('sharp');
+const { upload } = require('../config/multerConfig');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 
@@ -85,20 +85,6 @@ router.delete('/users', auth, async (req, res) => {
     } catch (error) {
         res.status(500).send();
     }
-});
-
-// SET UP MULTER
-const upload = multer({
-    limits: {
-        fileSize: 1000000,
-    },
-    // Validating if it's image file by file format
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Please upload an image. The image needs to be jpg, jpeg, or png'));
-        }
-        cb(undefined, true);
-    },
 });
 
 router.post(

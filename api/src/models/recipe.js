@@ -71,6 +71,14 @@ const recipeSchema = new mongoose.Schema({
     ],
 });
 
+// Remove image from json response
+recipeSchema.methods.toJSON = function () {
+    const recipe = this;
+    const recipeObject = recipe.toObject();
+    delete recipeObject.image;
+    return recipeObject;
+};
+
 const Recipe = mongoose.model('Recipe', recipeSchema);
 
 module.exports = Recipe;

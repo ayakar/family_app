@@ -52,7 +52,7 @@ router.patch('/familyGroups/:id', auth, async (req, res) => {
         });
 
         await familyGroup.save();
-        await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
+        // await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
         res.send(familyGroup);
     } catch (error) {
         res.status(500).send(error);
@@ -88,7 +88,7 @@ router.patch('/familyGroups/:id/members', auth, async (req, res) => {
         await familyGroup.save();
 
         // SEND DATA TO FRONTEND
-        await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
+        // await familyGroup.populate('members.member'); // Converting userIDs to name/email etc
         res.send(familyGroup);
     } catch (error) {
         res.status(500).send(error);

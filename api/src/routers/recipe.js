@@ -1,10 +1,12 @@
 const express = require('express');
 const auth = require('../middleware/auth');
 const router = new express.Router();
+const sharp = require('sharp');
 const mongoose = require('mongoose');
 const Recipe = require('../models/recipe');
 const FamilyGroup = require('../models/familyGroup');
 const checkFamilyGroup = require('../helper/checkFamilyGroup');
+const { upload } = require('../config/multerConfig');
 
 // Routers
 router.post('/recipes', auth, async (req, res) => {
@@ -43,8 +45,8 @@ router.get('/recipes/:id', auth, async (req, res) => {
             return res.status(404).send({ error: 'Recipe not found. Please make sure joining the family group' });
         }
 
-        await recipe.populate('familyGroupIds');
-        await recipe.populate('owner');
+        // await recipe.populate('familyGroupIds');
+        // await recipe.populate('owner');
 
         res.send(recipe);
     } catch (error) {
@@ -153,7 +155,7 @@ router.patch('/recipes/:id/familyGroup', auth, async (req, res) => {
         await recipe.save();
 
         // SEND DATA TO FRONTEND
-        await recipe.populate('familyGroupIds'); // Converting userIDs to name/email etc
+        //await recipe.populate('familyGroupIds'); // Converting userIDs to name/email etc
         res.send(recipe);
     } catch (error) {
         res.status(500).send(error);
@@ -179,5 +181,49 @@ router.delete('/recipes/:id', auth, async (req, res) => {
         res.status(500).send();
     }
 });
+
+// post recipe image
+router.post(
+    '/recipes/:id/image',
+    auth,
+    upload.single('recipeImage'),
+    async (req, res) => {
+        if (!req.file) {
+            return res.status(400).send({ error: 'Please upload an image' });
+        }
+        const buffer = await sharp(req.file.buffer).resize({ width: 500, height: 500 }).jpeg().toBuffer();
+
+        // TODO: make sure user is in the family group
+        const recipe = await Recipe.findById(req.params.id);
+        recipe.image = buffer;
+        await recipe.save();
+        res.send();
+    },
+    (error, req, res, next) => {
+        res.status(400).send({ error: error.message });
+    }
+);
+// read recipe image
+router.get('/recipes/:id/image', auth, async (req, res) => {
+    try {
+        // TODO: make sure user is in the family group
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            return res.status(404).send({ error: 'Recipe not found' });
+        }
+        if (!recipe.image) {
+            return res.send();
+        }
+        res.set('Content-Type', 'image/jpeg');
+        res.send(recipe.image);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+// delete recipe image
+
+// post recipe step image
+// read recipe step image
+// delete recipe step image
 
 module.exports = router;
