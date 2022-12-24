@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import RequireAuthLayout from './Layout/RequireAuthLayout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Recipe from './pages/Recipe';
 import Recipes from './pages/Recipes';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -47,6 +48,16 @@ function App() {
                             </RequireAuthLayout>
                         }
                     />
+
+                    <Route
+                        path="/recipes/:recipeId"
+                        element={
+                            <RequireAuthLayout>
+                                <Recipe />
+                            </RequireAuthLayout>
+                        }
+                    />
+
                     <Route
                         path="/taskManager"
                         element={<RequireAuthLayout>"Task Manager TBI"</RequireAuthLayout>}

@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { PlusCircle } from 'react-bootstrap-icons';
-import { getFamilyGroupRecipesApiCall } from '../api/recipeApi';
+import { getUserRecipesApiCall } from '../api/recipeApi';
 import Button from '../UI/Button';
+import RecipeList from './RecipeList';
 
 const StyledRecipeLists = styled.div``;
-const StyledTitle = styled.h3`
-    font-size: ${({ theme }) => theme.fontSize.l};
-`;
+// const StyledTitle = styled.h3`
+//     font-size: ${({ theme }) => theme.fontSize.l};
+// `;
 
 const RecipeLists = ({ familyGroup }) => {
     const theme = useTheme();
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
-        getFamilyGroupRecipes(familyGroup._id);
+        getUserRecipes();
     }, []);
 
-    const getFamilyGroupRecipes = async (familyGroupId) => {
+    const getUserRecipes = async () => {
         try {
-            const response = await getFamilyGroupRecipesApiCall(familyGroupId);
+            const response = await getUserRecipesApiCall();
             if (!response.ok) {
                 throw new Error();
             }
@@ -33,13 +34,16 @@ const RecipeLists = ({ familyGroup }) => {
     return (
         <>
             <StyledRecipeLists>
-                <StyledTitle>{familyGroup.name}</StyledTitle>
-
                 <div>
                     {recipes.length <= 0 ? (
-                        <div>No recipe found for this family group</div>
+                        <div>No recipe found</div>
                     ) : (
-                        recipes.map((recipe) => <div key={recipe._id}>{recipe.name}</div>)
+                        recipes.map((recipe) => (
+                            <RecipeList
+                                key={recipe._id}
+                                recipe={recipe}
+                            />
+                        ))
                     )}
                 </div>
             </StyledRecipeLists>

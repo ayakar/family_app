@@ -19,7 +19,6 @@ const StyledWrapper = styled.div`
 `;
 
 const Recipes = () => {
-    const { familyGroups } = useAuth();
     return (
         <StyledRecipes>
             <Button
@@ -31,13 +30,11 @@ const Recipes = () => {
                 Create New Recipe
             </Button>
 
-            {familyGroups.map((familyGroup) => (
-                <StyledWrapper key={familyGroup._id}>
-                    <Container>
-                        <RecipeLists familyGroup={familyGroup} />
-                    </Container>
-                </StyledWrapper>
-            ))}
+            <StyledWrapper>
+                <Container>
+                    <RecipeLists />
+                </Container>
+            </StyledWrapper>
         </StyledRecipes>
     );
 };
