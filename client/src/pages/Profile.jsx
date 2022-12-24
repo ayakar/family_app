@@ -227,6 +227,9 @@ const Profile = (props) => {
     );
 };
 
+// TODO: Implement Delete User. Add logic for family group and recipe
+// TODO: Add backend logic for relationship between family group and recipe when family group deleted
+
 Profile.propTypes = {};
 
 export default Profile;

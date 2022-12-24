@@ -92,7 +92,7 @@ export const deleteUserAvatarApiCall = async () => {
     return await response;
 };
 
-// USER FAMILY GROUP
+// USER FAMILY GROUP // TODO: move this under familyGroupApi.js
 export const getUserFamilyGroupsApiCall = async () => {
     const token = localStorage.getItem('token');
     const response = await fetch(`/users/familyGroups`, {

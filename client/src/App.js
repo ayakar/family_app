@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import RequireAuthLayout from './Layout/RequireAuthLayout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Recipes from './pages/Recipes';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 
@@ -40,7 +41,11 @@ function App() {
                     />
                     <Route
                         path="/recipes"
-                        element={<RequireAuthLayout>"Recipes TBI"</RequireAuthLayout>}
+                        element={
+                            <RequireAuthLayout>
+                                <Recipes />
+                            </RequireAuthLayout>
+                        }
                     />
                     <Route
                         path="/taskManager"
