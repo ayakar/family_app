@@ -71,7 +71,17 @@ router.get('/recipes/familyGroup/:id', auth, async (req, res) => {
         res.status(500).send(error);
     }
 });
-// TODO: TBI read specific joined family group recipes
+// read all recipe for the user
+router.get('/recipes', auth, async (req, res) => {
+    try {
+        const usersFamilyGroups = req.familyGroups;
+        const usersFamilyGroupsIds = usersFamilyGroups.map((usersFamilyGroup) => usersFamilyGroup._id);
+        const recipes = await Recipe.find({ familyGroupIds: { $in: usersFamilyGroupsIds } });
+        res.send(recipes);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 // update
 router.patch('/recipes/:id', auth, async (req, res) => {
