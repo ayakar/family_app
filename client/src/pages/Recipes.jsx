@@ -6,35 +6,22 @@ import Container from '../UI/Container';
 import { PlusCircle } from 'react-bootstrap-icons';
 import Button from '../UI/Button';
 
-const StyledRecipes = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.spacing.m};
-`;
-
-const StyledWrapper = styled.div`
-    box-shadow: ${({ theme }) => theme.shadow.s};
-    border-radius: ${({ theme }) => theme.borderRadius.m};
-    padding: ${({ theme }) => theme.spacing.l};
-`;
+const StyledRecipes = styled.div``;
 
 const Recipes = () => {
     return (
         <StyledRecipes>
-            <Button
-                color="blue"
-                variant="text"
-                onClick={() => console.log('test')}
-                style={{ marginLeft: 'auto' }}
-            >
-                Create New Recipe
-            </Button>
-
-            <StyledWrapper>
-                <Container>
-                    <RecipeLists />
-                </Container>
-            </StyledWrapper>
+            <Container>
+                <Button
+                    color="blue"
+                    variant="text"
+                    onClick={() => console.log('create new recipe clicked')}
+                    // style={{ marginLeft: 'auto' }}
+                >
+                    Create New Recipe
+                </Button>
+                <RecipeLists />
+            </Container>
         </StyledRecipes>
     );
 };

@@ -5,10 +5,19 @@ import { getUserRecipesApiCall } from '../api/recipeApi';
 import Button from '../UI/Button';
 import RecipeList from './RecipeList';
 
-const StyledRecipeLists = styled.div``;
-// const StyledTitle = styled.h3`
-//     font-size: ${({ theme }) => theme.fontSize.l};
-// `;
+const StyledRecipeLists = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: ${({ theme }) => theme.spacing.m};
+`;
+
+const StyledRecipeList = styled.div`
+    width: ${({ theme }) => `calc(33% - (${theme.spacing.m} * 2))`};
+    width: calc(33% - (8px * 2));
+    box-shadow: ${({ theme }) => theme.shadow.s};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+    padding: ${({ theme }) => theme.spacing.l};
+`;
 
 const RecipeLists = ({ familyGroup }) => {
     const theme = useTheme();
@@ -32,22 +41,17 @@ const RecipeLists = ({ familyGroup }) => {
     };
 
     return (
-        <>
-            <StyledRecipeLists>
-                <div>
-                    {recipes.length <= 0 ? (
-                        <div>No recipe found</div>
-                    ) : (
-                        recipes.map((recipe) => (
-                            <RecipeList
-                                key={recipe._id}
-                                recipe={recipe}
-                            />
-                        ))
-                    )}
-                </div>
-            </StyledRecipeLists>
-        </>
+        <StyledRecipeLists>
+            {recipes.length <= 0 ? (
+                <div>No recipe found</div>
+            ) : (
+                recipes.map((recipe) => (
+                    <StyledRecipeList key={recipe._id}>
+                        <RecipeList recipe={recipe} />
+                    </StyledRecipeList>
+                ))
+            )}
+        </StyledRecipeLists>
     );
 };
 
