@@ -35,3 +35,14 @@ export const getRecipeApiCall = async (recipeId) => {
 // UPDATE RECIPE
 // ADD FAMILY GROUP TO A RECIPE
 // DELETE RECIPE
+
+// GET RECIPE IMAGE
+export const getRecipeImageApiCall = async (recipeId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/recipes/${recipeId}/image`, {
+        method: 'GET',
+        headers: { ...headers, Authorization: token },
+    });
+
+    return await response;
+};
