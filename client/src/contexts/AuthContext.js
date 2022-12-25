@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall, getUserAvatarApiCall, getUserFamilyGroupsApiCall } from '../api/userApi';
+import { generateObjectUrl } from '../util/generateObjectUrl';
 
 const AuthContext = createContext();
 
@@ -48,15 +49,17 @@ export const AuthProvider = ({ children }) => {
     // GET Avatar
     const getUserAvatar = async () => {
         const response = await getUserAvatarApiCall(currentUser._id);
+        const objectUrl = await generateObjectUrl(response);
+        setCurrentUserAvatar(objectUrl);
         // Create URL using the data.
-        const blob = await response.blob(); // TODO:
+        // const blob = await response.blob();
 
-        if (blob.size > 0 && blob.type === 'image/jpeg') {
-            const objectUrl = URL.createObjectURL(blob); // TODO:
-            setCurrentUserAvatar(objectUrl);
-        } else {
-            setCurrentUserAvatar(null);
-        }
+        // if (blob.size > 0 && blob.type === 'image/jpeg') {
+        //     const objectUrl = URL.createObjectURL(blob); // TODO:
+        //     setCurrentUserAvatar(objectUrl);
+        // } else {
+        //     setCurrentUserAvatar(null);
+        // }
         setIsLoading(false);
     };
 

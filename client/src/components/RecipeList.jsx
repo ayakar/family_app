@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { getRecipeImageApiCall } from '../api/recipeApi';
 import { CupHot, CupStraw, Pencil, PersonFill } from 'react-bootstrap-icons';
+import { generateObjectUrl } from '../util/generateObjectUrl';
 
 const StyledImageWrapper = styled.div`
     /* width: 100%; */
@@ -31,13 +32,8 @@ const RecipeList = ({ recipe }) => {
     }, []);
     const getRecipeImage = async (recipeId) => {
         const response = await getRecipeImageApiCall(recipeId);
-        const blob = await response.blob();
-        if (blob.size > 0 && blob.type === 'image/jpeg') {
-            const objectUrl = URL.createObjectURL(blob);
-            setRecipeImage(objectUrl);
-        } else {
-            setRecipeImage(null);
-        }
+        const objectUrl = await generateObjectUrl(response);
+        setRecipeImage(objectUrl);
     };
 
     return (

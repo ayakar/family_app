@@ -3,6 +3,7 @@ import styled, { useTheme } from 'styled-components';
 import { PersonCircle, StarFill } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
 import { getUserAvatarApiCall } from '../api/userApi';
+import { generateObjectUrl } from '../util/generateObjectUrl';
 
 const StyledFamilyMemberList = styled.div`
     display: flex;
@@ -28,13 +29,8 @@ const FamilyMemberList = ({ member, familyGroup }) => {
     }, []);
     const getUserAvatar = async (userId) => {
         const response = await getUserAvatarApiCall(userId);
-        const blob = await response.blob();
-        if (blob.size > 0 && blob.type === 'image/jpeg') {
-            const objectUrl = URL.createObjectURL(blob);
-            setUserAvatars(objectUrl);
-        } else {
-            setUserAvatars(null);
-        }
+        const objectUrl = await generateObjectUrl(response);
+        setUserAvatars(objectUrl);
     };
     return (
         <StyledFamilyMemberList>
