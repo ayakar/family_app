@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { PlusCircle } from 'react-bootstrap-icons';
 import { getUserRecipesApiCall } from '../api/recipeApi';
-import Button from '../UI/Button';
 import RecipeList from './RecipeList';
 
 const StyledRecipeLists = styled.div`
@@ -19,7 +17,7 @@ const StyledRecipeList = styled.div`
     padding: ${({ theme }) => theme.spacing.l};
 `;
 
-const RecipeLists = ({ familyGroup }) => {
+const RecipeLists = () => {
     const theme = useTheme();
     const [recipes, setRecipes] = useState([]);
 

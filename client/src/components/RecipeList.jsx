@@ -28,7 +28,7 @@ const RecipeList = ({ recipe }) => {
 
     useEffect(() => {
         getRecipeImage(recipe._id);
-    });
+    }, []);
     const getRecipeImage = async (recipeId) => {
         const response = await getRecipeImageApiCall(recipeId);
         const blob = await response.blob();
@@ -59,6 +59,7 @@ const RecipeList = ({ recipe }) => {
                 )}
             </StyledImageWrapper>
             <div>{recipe.name}</div>
+            <div>{recipe.owner}</div>
             {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}
         </Link>
     );

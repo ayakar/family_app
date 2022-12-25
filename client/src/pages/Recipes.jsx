@@ -1,9 +1,8 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import RecipeLists from '../components/RecipeLists';
-import { useAuth } from '../contexts/AuthContext';
 import Container from '../UI/Container';
-import { PlusCircle } from 'react-bootstrap-icons';
+import { PlusCircleFill } from 'react-bootstrap-icons';
 import Button from '../UI/Button';
 
 const StyledRecipes = styled.div``;
@@ -16,8 +15,8 @@ const Recipes = () => {
                     color="blue"
                     variant="text"
                     onClick={() => console.log('create new recipe clicked')}
-                    // style={{ marginLeft: 'auto' }}
                 >
+                    <PlusCircleFill size={20} />
                     Create New Recipe
                 </Button>
                 <RecipeLists />
