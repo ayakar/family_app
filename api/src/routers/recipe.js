@@ -87,7 +87,7 @@ router.get('/recipes', auth, async (req, res) => {
 
 // update
 router.patch('/recipes/:id', auth, async (req, res) => {
-    const allowedProperties = ['name', 'portions', 'ingredients', 'steps', 'note', 'externalUrl'];
+    const allowedProperties = ['name', 'recipeDescription', 'portions', 'ingredients', 'steps', 'note', 'externalUrl'];
     const requestedProperties = Object.keys(req.body);
 
     const isPropertyAllow = requestedProperties.every((property) => allowedProperties.includes(property));

@@ -7,6 +7,10 @@ const recipeSchema = new mongoose.Schema({
         trim: true,
         required: true,
     },
+    recipeDescription: {
+        type: String,
+        trim: true,
+    },
     portions: {
         type: String,
         trim: true,
