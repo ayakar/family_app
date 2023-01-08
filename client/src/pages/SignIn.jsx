@@ -7,8 +7,8 @@ const SignIn = () => {
     const navigate = useNavigate();
     const { signIn } = useAuth();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('test@test.ca'); // TODO: remove this
+    const [password, setPassword] = useState('Testtest123!!'); // TODO: remove this
     const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
     const [errorMessage, setErrorMessage] = useState(null);
     const submitHandler = async () => {

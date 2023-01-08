@@ -14,7 +14,6 @@ const StyledRecipeList = styled.div`
     width: calc(33% - (8px * 2));
     box-shadow: ${({ theme }) => theme.shadow.s};
     border-radius: ${({ theme }) => theme.borderRadius.m};
-    padding: ${({ theme }) => theme.spacing.l};
 `;
 
 const RecipeLists = () => {

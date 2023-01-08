@@ -46,6 +46,10 @@ const theme = {
         m: '',
         l: '200px',
     },
+    recipeImageSize: {
+        m: { width: '', height: '250px' },
+        l: { width: '400px', height: '300px' },
+    },
 };
 
 export default theme;

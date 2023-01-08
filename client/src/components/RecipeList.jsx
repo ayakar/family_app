@@ -3,47 +3,74 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { getRecipeImageApiCall } from '../api/recipeApi';
-import { CupHot, CupStraw, Pencil, PersonFill } from 'react-bootstrap-icons';
+import { CupHot } from 'react-bootstrap-icons';
 import { generateObjectUrl } from '../util/generateObjectUrl';
+import { getUserAvatarApiCall } from '../api/userApi';
 
-const StyledImageWrapper = styled.div`
-    /* width: 100%; */
-    /* height: ${({ theme }) => theme.avatarSize.l};
-    border-radius: ${({ theme }) => theme.borderRadius.m}; */
+const StyledRecipeList = styled(Link)`
+    /* display: block;
+    padding: ${({ theme }) => theme.spacing.l}; */
+    text-decoration: none;
 `;
+const StyledImageWrapper = styled.div`
+    height: ${({ theme }) => theme.recipeImageSize.m.height};
+`;
+
+const StyledImage = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: ${({ theme }) => theme.borderRadius.m} ${({ theme }) => theme.borderRadius.m} 0 0;
+    object-fit: cover;
+`;
+
 const StyledIconWrapper = styled.div`
-    /* width: ${({ theme }) => theme.avatarSize.l};
-    height: ${({ theme }) => theme.avatarSize.l}; */
-    height: ${({ theme }) => theme.avatarSize.l};
-    border-radius: ${({ theme }) => theme.borderRadius.m};
-    border: ${({ theme }) => `1px solid ${theme.colors.gray}`};
+    height: 100%;
+    border-radius: ${({ theme }) => theme.borderRadius.m} ${({ theme }) => theme.borderRadius.m} 0 0;
+    border-bottom: ${({ theme }) => `2px solid ${theme.colors.lightGray}`};
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
+const StyledContentWrapper = styled.div`
+    padding: ${({ theme }) => theme.spacing.m};
+`;
+
+const StyledAvatar = styled.img`
+    width: ${({ theme }) => theme.avatarSize.xs};
+    height: ${({ theme }) => theme.avatarSize.xs};
+    border-radius: 50%;
+`;
 
 const RecipeList = ({ recipe }) => {
     const theme = useTheme();
     const [recipeImage, setRecipeImage] = useState('');
+    const [ownerAvatar, setOwnerAvatar] = useState('');
 
     useEffect(() => {
-        getRecipeImage(recipe._id);
+        getRecipeImage();
+        getOwnerAvatar();
     }, []);
-    const getRecipeImage = async (recipeId) => {
-        const response = await getRecipeImageApiCall(recipeId);
+
+    const getRecipeImage = async () => {
+        const response = await getRecipeImageApiCall(recipe._id);
         const objectUrl = await generateObjectUrl(response);
         setRecipeImage(objectUrl);
     };
 
+    const getOwnerAvatar = async () => {
+        const response = await getUserAvatarApiCall(recipe.owner);
+        const objectUrl = await generateObjectUrl(response);
+        setOwnerAvatar(objectUrl);
+    };
+
     return (
-        <Link to={`/recipes/${recipe._id}`}>
+        <StyledRecipeList to={`/recipes/${recipe._id}`}>
             <StyledImageWrapper>
                 {recipeImage ? (
-                    <img
+                    <StyledImage
                         src={recipeImage}
                         alt=""
-                        // style={{ maxHeight: '100%' }}
                     />
                 ) : (
                     <StyledIconWrapper>
@@ -54,10 +81,17 @@ const RecipeList = ({ recipe }) => {
                     </StyledIconWrapper>
                 )}
             </StyledImageWrapper>
-            <div>{recipe.name}</div>
-            <div>{recipe.owner}</div>
+            <StyledContentWrapper>
+                <div>{recipe.name}</div>
+                <div>{recipe.recipeDescription}</div>
+                <StyledAvatar
+                    src={ownerAvatar}
+                    alt=""
+                />
+            </StyledContentWrapper>
+
             {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}
-        </Link>
+        </StyledRecipeList>
     );
 };
 
