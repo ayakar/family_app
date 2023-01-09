@@ -35,6 +35,11 @@ const StyledIconWrapper = styled.div`
 const StyledContentWrapper = styled.div`
     padding: ${({ theme }) => theme.spacing.m};
 `;
+const StyledRecipeName = styled.div`
+    font-size: ${({ theme }) => theme.fontSize.l};
+    font-weight: ${({ theme }) => theme.fontWeight.xl};
+    color: ${({ theme }) => theme.colors.darkGray}; ;
+`;
 
 const StyledAvatar = styled.img`
     width: ${({ theme }) => theme.avatarSize.xs};
@@ -82,15 +87,13 @@ const RecipeList = ({ recipe }) => {
                 )}
             </StyledImageWrapper>
             <StyledContentWrapper>
-                <div>{recipe.name}</div>
+                <StyledRecipeName>{recipe.name}</StyledRecipeName>
                 <div>{recipe.recipeDescription}</div>
                 <StyledAvatar
                     src={ownerAvatar}
                     alt=""
                 />
             </StyledContentWrapper>
-
-            {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}
         </StyledRecipeList>
     );
 };

@@ -23,6 +23,7 @@ const theme = {
         s: '14px',
         // m: '16px',
         l: '20px',
+        xl: '30px',
     },
     fontWeight: {
         // m: 300,

@@ -1,10 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
-import { ArrowLeft, CaretLeftFill, CaretLeftSquareFill, CupHot } from 'react-bootstrap-icons';
+import { ArrowLeft, Pencil, CupHot } from 'react-bootstrap-icons';
+import { useAuth } from '../contexts/AuthContext';
 import { getRecipeApiCall, getRecipeImageApiCall } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
+import { getUserAvatarApiCall } from '../api/userApi';
 import IconButton from '../UI/IconButton';
+import Container from '../UI/Container';
+import { removeTime } from '../util/formatTimestamp';
+
+const StyledTitleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+const StyledTitle = styled.div`
+    /* /* width: ${({ theme }) => theme.recipeImageSize.l.width}; */
+    color: ${({ theme }) => theme.colors.orange};
+    font-size: ${({ theme }) => theme.fontSize.xl};
+    font-weight: ${({ theme }) => theme.fontWeight.xl};
+    text-transform: capitalize;
+`;
+
+// Editing icon
+const StyledIconButton = styled(IconButton)`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.xs};
+    font: inherit;
+    margin-top: ${({ theme }) => theme.spacing.s};
+`;
+
+const StyledPencil = styled(Pencil)`
+    /* position: absolute;
+    top: 10px;
+    right: 10px; */
+`;
+
+const StyledImageIngredientsWrapper = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.s};
+`;
 
 const StyledImageWrapper = styled.div`
     width: ${({ theme }) => theme.recipeImageSize.l.width};
@@ -28,17 +63,35 @@ const StyledIconWrapper = styled.div`
     align-items: center;
 `;
 
+const StyledAvatar = styled.img`
+    width: ${({ theme }) => theme.avatarSize.xs};
+    height: ${({ theme }) => theme.avatarSize.xs};
+    border-radius: 50%;
+`;
+
+const StyledStepsWrapper = styled.div``;
+
 const Recipe = () => {
     const { recipeId } = useParams();
     const theme = useTheme();
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
+
     const [recipe, setRecipe] = useState({});
     const [recipeImage, setRecipeImage] = useState('');
+    const [ownerAvatar, setOwnerAvatar] = useState('');
 
     useEffect(() => {
         getRecipe(recipeId);
         getRecipeImage(recipeId);
     }, []);
+
+    // Need to fetch once getRecipe is done
+    useEffect(() => {
+        if (recipe.owner) {
+            getOwnerAvatar(recipe.owner);
+        }
+    }, [recipe]);
 
     const getRecipe = async (recipeId) => {
         try {
@@ -59,30 +112,80 @@ const Recipe = () => {
         setRecipeImage(objectUrl);
     };
 
+    const getOwnerAvatar = async (recipeOwnerId) => {
+        const response = await getUserAvatarApiCall(recipeOwnerId);
+        const objectUrl = await generateObjectUrl(response);
+        setOwnerAvatar(objectUrl);
+    };
+
     return (
-        <div>
+        <Container>
             <IconButton onClick={() => navigate(-1)}>
                 <ArrowLeft />
                 Back to Recipe List
             </IconButton>
 
-            <div>{recipe.name}</div>
-            <StyledImageWrapper>
-                {recipeImage ? (
-                    <StyledImage
-                        src={recipeImage}
+            <StyledTitleWrapper>
+                <StyledTitle>{recipe.name}</StyledTitle>
+                {recipe.owner === currentUser._id && (
+                    <StyledIconButton onClick={() => console.log('edit page')}>
+                        <StyledPencil size="20" />
+                        Edit This Recipe
+                    </StyledIconButton>
+                )}
+            </StyledTitleWrapper>
+
+            <StyledImageIngredientsWrapper>
+                <StyledImageWrapper>
+                    {recipeImage ? (
+                        <StyledImage
+                            src={recipeImage}
+                            alt=""
+                        />
+                    ) : (
+                        <StyledIconWrapper>
+                            <CupHot
+                                size="50"
+                                color={theme.colors.gray}
+                            />
+                        </StyledIconWrapper>
+                    )}
+                </StyledImageWrapper>
+                <div>
+                    <div>{recipe.recipeDescription}</div>
+                    <StyledAvatar
+                        src={ownerAvatar}
                         alt=""
                     />
-                ) : (
-                    <StyledIconWrapper>
-                        <CupHot
-                            size="50"
-                            color={theme.colors.gray}
-                        />
-                    </StyledIconWrapper>
-                )}
-            </StyledImageWrapper>
-        </div>
+                    {recipe.familyGroupIds && (
+                        <div>
+                            This recipe is for:
+                            <ul>
+                                {recipe.familyGroupIds.map((group) => (
+                                    <li key={group._id}>{group.name}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    Reference Page:
+                    <a
+                        href={recipe.externalUrl}
+                        target="_blank"
+                    >
+                        {recipe.externalUrl}
+                    </a>
+                    <div>Ingredients (for {recipe.portions})</div>
+                    <pre>{JSON.stringify(recipe.ingredients, null, 2)}</pre>
+                </div>
+            </StyledImageIngredientsWrapper>
+            <StyledStepsWrapper>
+                <pre>{JSON.stringify(recipe.steps, null, 2)}</pre>
+                <div>{recipe.note}</div>
+                {recipe.createdAt && <span>Created: {removeTime(recipe.createdAt)}</span>}{' '}
+                {recipe.updatedAt && <span>Last Updated: {removeTime(recipe.updatedAt)}</span>}
+            </StyledStepsWrapper>
+            {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}
+        </Container>
     );
 };
 
