@@ -14,6 +14,13 @@ import RecipeSingleSecondRow from '../components/RecipeSingleSecondRow';
 import RecipeSingleThirdRow from '../components/RecipeSingleThirdRow';
 import ErrorBoundary from '../ErrorBoundary';
 
+const StyledContainer = styled(Container)`
+    padding: ${({ theme }) => theme.spacing.l};
+`;
+const StyledIconButton = styled(IconButton)`
+    margin-bottom: ${({ theme }) => theme.spacing.s};
+`;
+
 const Recipe = () => {
     const { recipeId } = useParams();
 
@@ -62,12 +69,12 @@ const Recipe = () => {
     };
 
     return (
-        <Container>
+        <StyledContainer>
             <ErrorBoundary>
-                <IconButton onClick={() => navigate(-1)}>
+                <StyledIconButton onClick={() => navigate(-1)}>
                     <ArrowLeft />
                     Back to Recipe List
-                </IconButton>
+                </StyledIconButton>
             </ErrorBoundary>
             <ErrorBoundary>
                 <RecipeSingleFirstRow
@@ -81,7 +88,6 @@ const Recipe = () => {
                     recipeImage={recipeImage}
                     recipeDescription={recipe.recipeDescription}
                     ownerAvatar={ownerAvatar}
-                    familyGroupIds={recipe.familyGroupIds}
                     externalUrl={recipe.externalUrl}
                     portions={recipe.portions}
                     ingredients={recipe.ingredients}
@@ -93,10 +99,11 @@ const Recipe = () => {
                     note={recipe.note}
                     createdAt={recipe.createAt}
                     updatedAt={recipe.updatedAt}
+                    familyGroupIds={recipe.familyGroupIds}
                 />
             </ErrorBoundary>
             {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}
-        </Container>
+        </StyledContainer>
     );
 };
 

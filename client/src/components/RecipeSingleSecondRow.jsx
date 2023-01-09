@@ -1,10 +1,11 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { CupHot } from 'react-bootstrap-icons';
+import H3Title from '../UI/H3Title';
 
 const StyledRecipeSingleSecondRow = styled.div`
     display: flex;
-    gap: ${({ theme }) => theme.spacing.s};
+    gap: ${({ theme }) => theme.spacing.l};
 `;
 
 const StyledLeftWrapper = styled.div`
@@ -32,14 +33,44 @@ const StyledIconWrapper = styled.div`
 const StyledRightWrapper = styled.div`
     flex: 1;
 `;
+const StyledRecipeDescription = styled.div`
+    margin-bottom: ${({ theme }) => theme.spacing.s};
+    font-size: ${({ theme }) => theme.fontSize.l};
+    line-height: 1.5;
+`;
 
+const StyledUrlAvatarWrapper = styled.div`
+    margin-bottom: ${({ theme }) => theme.spacing.m};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
 const StyledAvatar = styled.img`
+    margin-left: auto;
     width: ${({ theme }) => theme.avatarSize.xs};
     height: ${({ theme }) => theme.avatarSize.xs};
     border-radius: 50%;
 `;
 
-const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, familyGroupIds, externalUrl, portions, ingredients }) => {
+const StyledIngredientLists = styled.div`
+    width: 100%;
+    max-width: 400px;
+`;
+const StyledIngredientList = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: ${({ theme }) => theme.spacing.xs};
+    padding-bottom: ${({ theme }) => theme.spacing.xs};
+
+    & ~ & {
+        border-top: ${({ theme }) => `${theme.colors.lightGray} 1px solid`};
+    }
+`;
+const StyledIngredientAmount = styled.div`
+    margin-left: auto;
+`;
+
+const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, externalUrl, portions, ingredients }) => {
     const theme = useTheme();
 
     return (
@@ -60,30 +91,37 @@ const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, fa
                 )}
             </StyledLeftWrapper>
             <StyledRightWrapper>
-                <div>{recipeDescription}</div>
-                <StyledAvatar
-                    src={ownerAvatar}
-                    alt=""
-                />
-                {familyGroupIds && (
-                    <div>
-                        This recipe is for:
-                        <ul>
-                            {familyGroupIds.map((group) => (
-                                <li key={group._id}>{group.name}</li>
-                            ))}
-                        </ul>
-                    </div>
+                <StyledRecipeDescription>{recipeDescription}</StyledRecipeDescription>
+                <StyledUrlAvatarWrapper>
+                    {externalUrl && (
+                        <div>
+                            Reference Page:{' '}
+                            <a
+                                href={externalUrl}
+                                target="_blank"
+                            >
+                                {externalUrl}
+                            </a>
+                        </div>
+                    )}
+
+                    <StyledAvatar
+                        src={ownerAvatar}
+                        alt=""
+                    />
+                </StyledUrlAvatarWrapper>
+
+                <H3Title color={theme.colors.orange}>Ingredients (for {portions})</H3Title>
+                {ingredients && (
+                    <StyledIngredientLists>
+                        {ingredients.map((ingredient) => (
+                            <StyledIngredientList key={ingredient.name}>
+                                <div>{ingredient.name}</div>
+                                <StyledIngredientAmount>{ingredient.amount}</StyledIngredientAmount>
+                            </StyledIngredientList>
+                        ))}
+                    </StyledIngredientLists>
                 )}
-                Reference Page:
-                <a
-                    href={externalUrl}
-                    target="_blank"
-                >
-                    {externalUrl}
-                </a>
-                <div>Ingredients (for {portions})</div>
-                <pre>{JSON.stringify(ingredients, null, 2)}</pre>
             </StyledRightWrapper>
         </StyledRecipeSingleSecondRow>
     );

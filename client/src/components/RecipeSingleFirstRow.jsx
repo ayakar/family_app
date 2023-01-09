@@ -6,9 +6,11 @@ import IconButton from '../UI/IconButton';
 const StyledRecipeSingleFirstRow = styled.div`
     display: flex;
     justify-content: space-between;
+    margin-bottom: ${({ theme }) => theme.spacing.s};
 `;
 const StyledTitle = styled.h2`
     /* /* width: ${({ theme }) => theme.recipeImageSize.l.width}; */
+    max-width: 550px;
     color: ${({ theme }) => theme.colors.orange};
     font-size: ${({ theme }) => theme.fontSize.xl};
     font-weight: ${({ theme }) => theme.fontWeight.xl};
