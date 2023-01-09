@@ -51,7 +51,7 @@ const RecipeSingleThirdRow = ({ steps, note, createdAt, updatedAt, familyGroupId
             <StyledStepsWrapper>
                 {steps &&
                     steps.map((step, index) => (
-                        <StyledStepWrapper>
+                        <StyledStepWrapper key={step._id}>
                             <StyledStepNumber>{index + 1}</StyledStepNumber>
                             <p>{step.description}</p>
                         </StyledStepWrapper>

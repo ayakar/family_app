@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Pencil } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
+import { Link } from 'react-router-dom';
 
 const StyledRecipeSingleFirstRow = styled.div`
     display: flex;
@@ -30,15 +31,18 @@ const StyledPencil = styled(Pencil)`
     right: 10px; */
 `;
 
-const RecipeSingleFirstRow = ({ name, recipeOwnerId, currentUserId }) => {
+const RecipeSingleFirstRow = ({ recipeId, name, recipeOwnerId, currentUserId }) => {
     return (
         <StyledRecipeSingleFirstRow>
             <StyledTitle>{name}</StyledTitle>
             {recipeOwnerId === currentUserId && (
-                <StyledIconButton onClick={() => console.log('edit page')}>
-                    <StyledPencil size="20" />
-                    Edit This Recipe
-                </StyledIconButton>
+                <>
+                    <StyledIconButton onClick={() => console.log('edit page')}>
+                        <StyledPencil size="20" />
+                        Edit This Recipe
+                    </StyledIconButton>
+                    <Link to={`/recipes/edit/${recipeId}`}>new recipe</Link>
+                </>
             )}
         </StyledRecipeSingleFirstRow>
     );

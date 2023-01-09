@@ -57,6 +57,24 @@ function App() {
                             </RequireAuthLayout>
                         }
                     />
+                    <Route
+                        path="/recipes/edit/:recipeId"
+                        element={
+                            <RequireAuthLayout>
+                                edit recipe page
+                                {/* <Recipe /> */}
+                            </RequireAuthLayout>
+                        }
+                    />
+                    <Route
+                        path="/recipes/create"
+                        element={
+                            <RequireAuthLayout>
+                                create recipe page
+                                {/* <Recipe /> */}
+                            </RequireAuthLayout>
+                        }
+                    />
 
                     <Route
                         path="/taskManager"

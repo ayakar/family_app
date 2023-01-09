@@ -5,6 +5,7 @@ import Container from '../UI/Container';
 import { PlusCircleFill } from 'react-bootstrap-icons';
 import Button from '../UI/Button';
 import ErrorBoundary from '../ErrorBoundary';
+import { Link } from 'react-router-dom';
 
 const StyledRecipes = styled.div``;
 
@@ -21,6 +22,7 @@ const Recipes = () => {
                         <PlusCircleFill size={20} />
                         Create New Recipe
                     </Button>
+                    <Link to="/recipes/create">new recipe</Link>
                 </ErrorBoundary>
                 <ErrorBoundary>
                     <RecipeLists />

@@ -78,6 +78,7 @@ const Recipe = () => {
             </ErrorBoundary>
             <ErrorBoundary>
                 <RecipeSingleFirstRow
+                    recipeId={recipeId}
                     name={recipe.name}
                     recipeOwnerId={recipe.owner}
                     currentUserId={currentUser._id}
