@@ -4,6 +4,7 @@ import RequireAuthLayout from './Layout/RequireAuthLayout';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import Recipe from './pages/Recipe';
+import RecipeEdit from './pages/RecipeEdit';
 import Recipes from './pages/Recipes';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -61,8 +62,7 @@ function App() {
                         path="/recipes/edit/:recipeId"
                         element={
                             <RequireAuthLayout>
-                                edit recipe page
-                                {/* <Recipe /> */}
+                                <RecipeEdit />
                             </RequireAuthLayout>
                         }
                     />
