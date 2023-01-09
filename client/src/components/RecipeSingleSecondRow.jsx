@@ -7,7 +7,7 @@ const StyledRecipeSingleSecondRow = styled.div`
     gap: ${({ theme }) => theme.spacing.s};
 `;
 
-const StyledImageWrapper = styled.div`
+const StyledLeftWrapper = styled.div`
     width: ${({ theme }) => theme.recipeImageSize.l.width};
     height: ${({ theme }) => theme.recipeImageSize.l.height};
 `;
@@ -29,18 +29,22 @@ const StyledIconWrapper = styled.div`
     align-items: center;
 `;
 
+const StyledRightWrapper = styled.div`
+    flex: 1;
+`;
+
 const StyledAvatar = styled.img`
     width: ${({ theme }) => theme.avatarSize.xs};
     height: ${({ theme }) => theme.avatarSize.xs};
     border-radius: 50%;
 `;
 
-const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, familyGroupIds, externalUrl, portions }) => {
+const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, familyGroupIds, externalUrl, portions, ingredients }) => {
     const theme = useTheme();
 
     return (
         <StyledRecipeSingleSecondRow>
-            <StyledImageWrapper>
+            <StyledLeftWrapper>
                 {recipeImage ? (
                     <StyledImage
                         src={recipeImage}
@@ -54,8 +58,8 @@ const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, fa
                         />
                     </StyledIconWrapper>
                 )}
-            </StyledImageWrapper>
-            <div>
+            </StyledLeftWrapper>
+            <StyledRightWrapper>
                 <div>{recipeDescription}</div>
                 <StyledAvatar
                     src={ownerAvatar}
@@ -79,8 +83,8 @@ const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, fa
                     {externalUrl}
                 </a>
                 <div>Ingredients (for {portions})</div>
-                {/* <pre>{JSON.stringify(recipe.ingredients, null, 2)}</pre> */}
-            </div>
+                <pre>{JSON.stringify(ingredients, null, 2)}</pre>
+            </StyledRightWrapper>
         </StyledRecipeSingleSecondRow>
     );
 };

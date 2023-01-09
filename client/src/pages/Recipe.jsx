@@ -12,6 +12,7 @@ import Container from '../UI/Container';
 import RecipeSingleFirstRow from '../components/RecipeSingleFirstRow';
 import RecipeSingleSecondRow from '../components/RecipeSingleSecondRow';
 import RecipeSingleThirdRow from '../components/RecipeSingleThirdRow';
+import ErrorBoundary from '../ErrorBoundary';
 
 const Recipe = () => {
     const { recipeId } = useParams();
@@ -62,31 +63,38 @@ const Recipe = () => {
 
     return (
         <Container>
-            <IconButton onClick={() => navigate(-1)}>
-                <ArrowLeft />
-                Back to Recipe List
-            </IconButton>
-
-            <RecipeSingleFirstRow
-                name={recipe.name}
-                recipeOwnerId={recipe.owner}
-                currentUserId={currentUser._id}
-            />
-            <RecipeSingleSecondRow
-                recipeImage={recipeImage}
-                recipeDescription={recipe.recipeDescription}
-                ownerAvatar={ownerAvatar}
-                familyGroupIds={recipe.familyGroupIds}
-                externalUrl={recipe.externalUrl}
-                portions={recipe.portions}
-            />
-
-            <RecipeSingleThirdRow
-                steps={recipe.steps}
-                note={recipe.note}
-                createdAt={recipe.createAt}
-                updatedAt={recipe.updatedAt}
-            />
+            <ErrorBoundary>
+                <IconButton onClick={() => navigate(-1)}>
+                    <ArrowLeft />
+                    Back to Recipe List
+                </IconButton>
+            </ErrorBoundary>
+            <ErrorBoundary>
+                <RecipeSingleFirstRow
+                    name={recipe.name}
+                    recipeOwnerId={recipe.owner}
+                    currentUserId={currentUser._id}
+                />
+            </ErrorBoundary>
+            <ErrorBoundary>
+                <RecipeSingleSecondRow
+                    recipeImage={recipeImage}
+                    recipeDescription={recipe.recipeDescription}
+                    ownerAvatar={ownerAvatar}
+                    familyGroupIds={recipe.familyGroupIds}
+                    externalUrl={recipe.externalUrl}
+                    portions={recipe.portions}
+                    ingredients={recipe.ingredients}
+                />
+            </ErrorBoundary>
+            <ErrorBoundary>
+                <RecipeSingleThirdRow
+                    steps={recipe.steps}
+                    note={recipe.note}
+                    createdAt={recipe.createAt}
+                    updatedAt={recipe.updatedAt}
+                />
+            </ErrorBoundary>
             {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}
         </Container>
     );

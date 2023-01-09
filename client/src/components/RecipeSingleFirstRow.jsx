@@ -7,7 +7,7 @@ const StyledRecipeSingleFirstRow = styled.div`
     display: flex;
     justify-content: space-between;
 `;
-const StyledTitle = styled.div`
+const StyledTitle = styled.h2`
     /* /* width: ${({ theme }) => theme.recipeImageSize.l.width}; */
     color: ${({ theme }) => theme.colors.orange};
     font-size: ${({ theme }) => theme.fontSize.xl};
