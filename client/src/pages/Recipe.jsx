@@ -97,7 +97,7 @@ const Recipe = () => {
                 <RecipeSingleThirdRow
                     steps={recipe.steps}
                     note={recipe.note}
-                    createdAt={recipe.createAt}
+                    createdAt={recipe.createdAt}
                     updatedAt={recipe.updatedAt}
                     familyGroupIds={recipe.familyGroupIds}
                 />

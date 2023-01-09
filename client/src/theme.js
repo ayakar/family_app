@@ -36,7 +36,7 @@ const theme = {
         m: '24px',
         l: '32px',
     },
-    borderRadius: { m: '16px', l: '32px' },
+    borderRadius: { s: '5px', m: '16px', l: '32px' },
     shadow: {
         s: '0 2px 12px 0 #c0c0c0',
         //  m: '',

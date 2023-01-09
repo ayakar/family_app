@@ -6,6 +6,7 @@ import H3Title from '../UI/H3Title';
 const StyledRecipeSingleSecondRow = styled.div`
     display: flex;
     gap: ${({ theme }) => theme.spacing.l};
+    margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 
 const StyledLeftWrapper = styled.div`
@@ -33,10 +34,8 @@ const StyledIconWrapper = styled.div`
 const StyledRightWrapper = styled.div`
     flex: 1;
 `;
-const StyledRecipeDescription = styled.div`
-    margin-bottom: ${({ theme }) => theme.spacing.s};
+const StyledRecipeDescription = styled.p`
     font-size: ${({ theme }) => theme.fontSize.l};
-    line-height: 1.5;
 `;
 
 const StyledUrlAvatarWrapper = styled.div`

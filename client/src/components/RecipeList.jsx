@@ -6,6 +6,7 @@ import { getRecipeImageApiCall } from '../api/recipeApi';
 import { CupHot } from 'react-bootstrap-icons';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
+import H3Title from '../UI/H3Title';
 
 const StyledRecipeList = styled(Link)`
     /* display: block;
@@ -35,9 +36,7 @@ const StyledIconWrapper = styled.div`
 const StyledContentWrapper = styled.div`
     padding: ${({ theme }) => theme.spacing.m};
 `;
-const StyledRecipeName = styled.div`
-    font-size: ${({ theme }) => theme.fontSize.l};
-    font-weight: ${({ theme }) => theme.fontWeight.xl};
+const StyledRecipeName = styled(H3Title)`
     color: ${({ theme }) => theme.colors.darkGray}; ;
 `;
 
@@ -69,6 +68,12 @@ const RecipeList = ({ recipe }) => {
         setOwnerAvatar(objectUrl);
     };
 
+    const trimDescription = (desc, num) => {
+        if (desc) {
+            return `${desc.substring(0, num)}...`;
+        }
+    };
+
     return (
         <StyledRecipeList to={`/recipes/${recipe._id}`}>
             <StyledImageWrapper>
@@ -88,7 +93,7 @@ const RecipeList = ({ recipe }) => {
             </StyledImageWrapper>
             <StyledContentWrapper>
                 <StyledRecipeName>{recipe.name}</StyledRecipeName>
-                <div>{recipe.recipeDescription}</div>
+                <div>{trimDescription(recipe.recipeDescription, 150)}</div>
                 <StyledAvatar
                     src={ownerAvatar}
                     alt=""

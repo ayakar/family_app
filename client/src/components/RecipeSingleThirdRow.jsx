@@ -1,4 +1,5 @@
 import React from 'react';
+import { House, HouseFill } from 'react-bootstrap-icons';
 import styled, { useTheme } from 'styled-components';
 import H3Title from '../UI/H3Title';
 import { removeTime } from '../util/formatTimestamp';
@@ -8,37 +9,76 @@ const StyledStepsWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: ${({ theme }) => theme.spacing.l};
+    border-bottom: ${({ theme }) => `${theme.colors.lightGray} 1px solid`};
+    padding-bottom: ${({ theme }) => theme.spacing.l};
+    margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 const StyledStepWrapper = styled.div`
-    width: ${({ theme }) => `calc(100% / 3 - ${theme.spacing.l}*2)`};
+    width: ${({ theme }) => `calc(100% / 3 - (${theme.spacing.l}*2/3))`};
+`;
+const StyledStepNumber = styled.div`
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: ${({ theme }) => theme.borderRadius.s};
+    background-color: ${({ theme }) => theme.colors.gray};
+    height: 35px;
+    min-width: 35px;
+    padding: 3px;
+    margin-bottom: ${({ theme }) => theme.spacing.s};
+    color: ${({ theme }) => theme.colors.white};
+    font-weight: ${({ theme }) => theme.fontWeight.xl};
+`;
+const StyledNoteFamilyWrapper = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.l};
+    border-bottom: ${({ theme }) => `${theme.colors.lightGray} 1px solid`};
+    padding-bottom: ${({ theme }) => theme.spacing.l};
+    margin-bottom: ${({ theme }) => theme.spacing.s};
+    & > div {
+        width: 50%;
+    }
+`;
+const StyledRecipeFooter = styled.div`
+    text-align: right;
+    font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
 const RecipeSingleThirdRow = ({ steps, note, createdAt, updatedAt, familyGroupIds }) => {
     const theme = useTheme();
     return (
         <StyledRecipeSingleThirdRow>
-            <H3Title color={theme.colors.orange}>Steps</H3Title>
             <StyledStepsWrapper>
-                {/* <pre>{JSON.stringify(steps, null, 2)}</pre> */}
-                {steps.map((step, index) => (
-                    <StyledStepWrapper>
-                        {index + 1}: {step.description}
-                    </StyledStepWrapper>
-                ))}
+                {steps &&
+                    steps.map((step, index) => (
+                        <StyledStepWrapper>
+                            <StyledStepNumber>{index + 1}</StyledStepNumber>
+                            <p>{step.description}</p>
+                        </StyledStepWrapper>
+                    ))}
             </StyledStepsWrapper>
-            <H3Title color={theme.colors.orange}>Note</H3Title>
-            <div>{note}</div>
-            {familyGroupIds && (
+            <StyledNoteFamilyWrapper>
                 <div>
-                    This recipe is for:
-                    <ul>
-                        {familyGroupIds.map((group) => (
-                            <li key={group._id}>{group.name}</li>
-                        ))}
-                    </ul>
+                    <H3Title color={theme.colors.orange}>Note</H3Title>
+                    <div>{note}</div>
                 </div>
-            )}
-            {createdAt && <span>Created: {removeTime(createdAt)}</span>} {updatedAt && <span>Last Updated: {removeTime(updatedAt)}</span>}
+
+                {familyGroupIds && (
+                    <div>
+                        <H3Title color={theme.colors.orange}>This recipe is for</H3Title>
+                        <div>
+                            {familyGroupIds.map((group) => (
+                                <div key={group._id}>
+                                    <HouseFill color={theme.colors.gray} /> {group.name}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </StyledNoteFamilyWrapper>
+            <StyledRecipeFooter>
+                {createdAt && <span>Created: {removeTime(createdAt)} </span>} {updatedAt && <span>Last Updated: {removeTime(updatedAt)}</span>}
+            </StyledRecipeFooter>
         </StyledRecipeSingleThirdRow>
     );
 };
