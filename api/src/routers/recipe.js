@@ -47,6 +47,7 @@ router.get('/recipes/:id', auth, async (req, res) => {
 
         // await recipe.populate('familyGroupIds');
         // await recipe.populate('owner');
+        await recipe.populate('familyGroupIds');
 
         res.send(recipe);
     } catch (error) {
@@ -67,7 +68,6 @@ router.get('/recipes/familyGroup/:id', auth, async (req, res) => {
         }
 
         const recipes = await Recipe.find({ familyGroupIds: familyGroupId });
-
         res.send(recipes);
     } catch (error) {
         res.status(500).send(error);
