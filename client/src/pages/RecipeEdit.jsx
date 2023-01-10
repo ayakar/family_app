@@ -13,6 +13,17 @@ import Container from '../UI/Container';
 
 import ErrorBoundary from '../ErrorBoundary';
 
+const StyledContainer = styled(Container)`
+    padding: ${({ theme }) => theme.spacing.l};
+`;
+const StyledIconButton = styled(IconButton)`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing.xs};
+    margin-bottom: ${({ theme }) => theme.spacing.s};
+    font: inherit;
+`;
+
 const RecipeEdit = () => {
     const { recipeId } = useParams();
 
@@ -61,21 +72,23 @@ const RecipeEdit = () => {
     };
 
     return (
-        <ErrorBoundary>
-            {recipe && recipeImage && (
-                <RecipeFrom
-                    name={recipe.name}
-                    recipeImage={recipeImage}
-                    recipeDescription={recipe.recipeDescription}
-                    externalUrl={recipe.externalUrl}
-                    portions={recipe.portions}
-                    ingredients={recipe.ingredients}
-                    steps={recipe.steps}
-                    note={recipe.note}
-                    familyGroupIds={recipe.familyGroupIds}
-                />
-            )}
-        </ErrorBoundary>
+        <StyledContainer>
+            <ErrorBoundary>
+                <StyledIconButton onClick={() => navigate(-1)}>
+                    <ArrowLeft />
+                    Back to Recipe
+                </StyledIconButton>
+            </ErrorBoundary>
+            <ErrorBoundary>
+                {recipe && recipeImage && (
+                    <RecipeFrom
+                        recipeImage={recipeImage}
+                        recipe={recipe}
+                        setRecipe={setRecipe}
+                    />
+                )}
+            </ErrorBoundary>
+        </StyledContainer>
     );
 };
 

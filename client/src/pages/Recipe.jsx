@@ -18,7 +18,11 @@ const StyledContainer = styled(Container)`
     padding: ${({ theme }) => theme.spacing.l};
 `;
 const StyledIconButton = styled(IconButton)`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing.xs};
     margin-bottom: ${({ theme }) => theme.spacing.s};
+    font: inherit;
 `;
 
 const Recipe = () => {
@@ -73,7 +77,7 @@ const Recipe = () => {
             <ErrorBoundary>
                 <StyledIconButton onClick={() => navigate(-1)}>
                     <ArrowLeft />
-                    Back to Recipe List
+                    Back to Recipe Lists
                 </StyledIconButton>
             </ErrorBoundary>
             <ErrorBoundary>

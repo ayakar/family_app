@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledInput = styled.input`
+const StyledTextarea = styled.textarea`
     border-radius: ${({ theme }) => theme.borderRadius.l};
     padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.s};
     border: ${({ theme }) => theme.colors.lightGray} 1px solid;
@@ -21,9 +21,8 @@ const StyledInput = styled.input`
         box-shadow: 0 0 0 30px #fff inset !important;
     }
 `;
-
-const Input = (props) => {
-    return <StyledInput {...props} />;
+const Textarea = (props) => {
+    return <StyledTextarea {...props} />;
 };
 
-export default Input;
+export default Textarea;

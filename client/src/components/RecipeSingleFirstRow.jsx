@@ -19,16 +19,12 @@ const StyledTitle = styled.h2`
 `;
 
 // Editing icon
-const StyledIconButton = styled(IconButton)`
+const StyledLink = styled(Link)`
     display: flex;
     gap: ${({ theme }) => theme.spacing.xs};
-    font: inherit;
     margin-top: ${({ theme }) => theme.spacing.s};
-`;
-const StyledPencil = styled(Pencil)`
-    /* position: absolute;
-    top: 10px;
-    right: 10px; */
+    font: inherit;
+    text-decoration: none;
 `;
 
 const RecipeSingleFirstRow = ({ recipeId, name, recipeOwnerId, currentUserId }) => {
@@ -36,13 +32,10 @@ const RecipeSingleFirstRow = ({ recipeId, name, recipeOwnerId, currentUserId }) 
         <StyledRecipeSingleFirstRow>
             <StyledTitle>{name}</StyledTitle>
             {recipeOwnerId === currentUserId && (
-                <>
-                    <StyledIconButton onClick={() => console.log('edit page')}>
-                        <StyledPencil size="20" />
-                        Edit This Recipe
-                    </StyledIconButton>
-                    <Link to={`/recipes/edit/${recipeId}`}>new recipe</Link>
-                </>
+                <StyledLink to={`/recipes/edit/${recipeId}`}>
+                    <Pencil size="20" />
+                    Edit This Recipe
+                </StyledLink>
             )}
         </StyledRecipeSingleFirstRow>
     );

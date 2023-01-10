@@ -100,7 +100,6 @@ const EditProfileForm = () => {
     return (
         <div>
             <StyledTitle>Edit Profile</StyledTitle>
-            {/* TODO: Use UI component */}
             <StyledLabelInput>
                 <Label label="Name" />
                 <Input
@@ -110,7 +109,6 @@ const EditProfileForm = () => {
                     placeholder="Name"
                 />
             </StyledLabelInput>
-            {/* TODO: Use UI component */}
             <StyledLabelInput>
                 <Label label="Email" />
                 <Input
@@ -120,7 +118,6 @@ const EditProfileForm = () => {
                     placeholder="Email"
                 />
             </StyledLabelInput>
-            {/* TODO: Use UI component */}
             <StyledLabelInput>
                 <Label label="Password" />
                 <Input
