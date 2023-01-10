@@ -33,6 +33,16 @@ export const getRecipeApiCall = async (recipeId) => {
 };
 
 // UPDATE RECIPE
+export const updateRecipeApiCall = async (recipeId, body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/recipes/${recipeId}`, {
+        method: 'PATCH',
+        headers: { ...headers, Authorization: token },
+        body: JSON.stringify(body),
+    });
+
+    return await response;
+};
 // ADD FAMILY GROUP TO A RECIPE
 // DELETE RECIPE
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// color
+// Base Buttons
 const BaseButton = styled.button`
     min-width: 70px;
     border-radius: ${({ theme }) => theme.borderRadius.l};
@@ -10,7 +10,6 @@ const BaseButton = styled.button`
     transition: 0.3s ease;
     cursor: pointer;
 `;
-
 const BaseContainButton = styled(BaseButton)`
     border-width: 0px;
 `;
@@ -26,6 +25,7 @@ const BaseTextButton = styled.button`
     cursor: pointer;
 `;
 
+// Contain
 const BlueContainButton = styled(BaseContainButton)`
     background-color: ${({ theme }) => theme.colors.blue};
     color: ${({ theme }) => theme.colors.white};
@@ -42,7 +42,16 @@ const LightBlueContainButton = styled(BaseContainButton)`
         background-color: ${({ theme }) => theme.colors.blue};
     }
 `;
+const GreenContainButton = styled(BaseContainButton)`
+    background-color: ${({ theme }) => theme.colors.lightGreen};
+    color: ${({ theme }) => theme.colors.green};
+    &:hover {
+        color: ${({ theme }) => theme.colors.white};
+        background-color: ${({ theme }) => theme.colors.green};
+    }
+`;
 
+// Text
 const BlueTextButton = styled(BaseTextButton)`
     background-color: inherit;
     color: ${({ theme }) => theme.colors.blue};
@@ -51,6 +60,7 @@ const BlueTextButton = styled(BaseTextButton)`
     }
 `;
 
+// OutLined
 const BlueOutLinedButton = styled(BaseOutlinedButton)`
     background-color: transparent;
     border-color: ${({ theme }) => theme.colors.blue};
@@ -60,6 +70,7 @@ const BlueOutLinedButton = styled(BaseOutlinedButton)`
     }
 `;
 
+// Disabled
 const DisabledButton = styled(BaseContainButton)`
     background-color: ${({ theme }) => theme.colors.gray};
     color: ${({ theme }) => theme.colors.white};
@@ -77,6 +88,8 @@ const Button = (props) => {
         // case props.variant === 'outlined' && props.color === 'blue':
         case props.variant === 'contain' && props.color === 'lightBlue':
             return <LightBlueContainButton {...props}>{props.children}</LightBlueContainButton>;
+        case props.variant === 'contain' && props.color === 'green':
+            return <GreenContainButton {...props}>{props.children}</GreenContainButton>;
         case props.variant === 'outlined' && props.color === 'blue':
             return <BlueOutLinedButton {...props}>{props.children}</BlueOutLinedButton>;
 

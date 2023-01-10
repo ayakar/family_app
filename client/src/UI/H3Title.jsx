@@ -6,8 +6,15 @@ const StyledH3Title = styled.h3`
     margin-bottom: 0.5em;
 `;
 
-const H3Title = ({ color, children }) => {
-    return <StyledH3Title color={color}>{children}</StyledH3Title>;
+const H3Title = ({ color, children, className }) => {
+    return (
+        <StyledH3Title
+            className={className}
+            color={color}
+        >
+            {children}
+        </StyledH3Title>
+    );
 };
 
 export default H3Title;

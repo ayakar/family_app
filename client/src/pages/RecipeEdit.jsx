@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
-import { getRecipeApiCall, getRecipeImageApiCall } from '../api/recipeApi';
+import { getRecipeApiCall, getRecipeImageApiCall, updateRecipeApiCall } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
 import RecipeFrom from '../components/RecipeFrom';
@@ -33,6 +33,9 @@ const RecipeEdit = () => {
     const [recipe, setRecipe] = useState({});
     const [recipeImage, setRecipeImage] = useState('');
     const [ownerAvatar, setOwnerAvatar] = useState('');
+    const [contentUpdateStatus, setContentUpdateStatus] = useState(null);
+    // const [imageErrorMessage, setImageErrorMessage] = useState('');
+    // const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
 
     useEffect(() => {
         getRecipe(recipeId);
@@ -71,8 +74,35 @@ const RecipeEdit = () => {
         setOwnerAvatar(objectUrl);
     };
 
+    // Submit update (name, desc, url, ing, steps, note)
+    const contentUpdateHandler = async (reqBody) => {
+        setContentUpdateStatus(null);
+        try {
+            const response = await updateRecipeApiCall(recipeId, reqBody);
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+            setContentUpdateStatus('Update Success');
+            setTimeout(() => {
+                setContentUpdateStatus(null);
+            }, 5000);
+        } catch (error) {
+            // setSubmissionStatus('fail');
+            setContentUpdateStatus('Update fail');
+            console.log(error);
+        }
+    };
+    // Submit images update (image)
+    const imageUpdateHandler = async (reqBody) => {
+        console.log(reqBody);
+    };
+    // Submit Add Family Group (familyGroup)
+    const familyGroupsUpdateHandler = async (reqBody) => {
+        console.log(reqBody);
+    };
+
     return (
-        <StyledContainer>
+        <>
             <ErrorBoundary>
                 <StyledIconButton onClick={() => navigate(-1)}>
                     <ArrowLeft />
@@ -82,13 +112,19 @@ const RecipeEdit = () => {
             <ErrorBoundary>
                 {recipe && recipeImage && (
                     <RecipeFrom
+                        isCreate={false}
                         recipeImage={recipeImage}
                         recipe={recipe}
                         setRecipe={setRecipe}
+                        contentSubmitHandler={contentUpdateHandler}
+                        contentContentUpdateStatus={contentUpdateStatus}
+                        setContentContentUpdateStatus={setContentUpdateStatus}
+                        imageSubmitHandler={imageUpdateHandler}
+                        familyGroupsUpdateHandler={familyGroupsUpdateHandler}
                     />
                 )}
             </ErrorBoundary>
-        </StyledContainer>
+        </>
     );
 };
 
