@@ -27,8 +27,6 @@ const StyledContent = styled.div`
     padding-left: 50px;
 `;
 const StyledIconButton = styled(IconButton)`
-    display: flex;
-    gap: ${({ theme }) => theme.spacing.xs};
     font: inherit;
     margin-top: ${({ theme }) => theme.spacing.s};
 `;
