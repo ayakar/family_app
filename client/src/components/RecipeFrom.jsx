@@ -144,6 +144,13 @@ const RecipeFrom = ({
         setRecipe({ ...recipe, ingredients: [...recipe.ingredients, newIngField] });
     };
 
+    // Remove Ingredients field
+    const removeIngredients = (id) => {
+        const newIngArr = recipe.ingredients.filter((ing) => ing._id !== id && ing.tempId !== id);
+        console.log(newIngArr);
+        setRecipe({ ...recipe, ingredients: newIngArr });
+    };
+
     useEffect(() => {
         setImage(recipeImage);
     }, []);
@@ -225,10 +232,10 @@ const RecipeFrom = ({
                                             onChange={(event) => onChangeIngredientsHandler(id, 'amount', event.target.value)}
                                             defaultValue={recipe.ingredients[index].amount}
                                         />
-                                        {/* <button onClick={()=>removeIngredients(index)}>Remove</button> */}
-                                        <IconButton onClick={addIngredientsField}>
+
+                                        <IconButton onClick={() => removeIngredients(id)}>
                                             <DashCircle
-                                                color={theme.colors.red}
+                                                color={theme.colors.pink}
                                                 size={15}
                                             />
                                         </IconButton>
@@ -258,11 +265,20 @@ const RecipeFrom = ({
                         />
                     </StyledLabelInput>
                     <Button
-                        color="green"
+                        color="lightGreen"
                         variant="contain"
                         onClick={contentSubmit}
                     >
                         Save
+                    </Button>
+                    <Button
+                        color="green"
+                        variant="text"
+                        onClick={() => {
+                            console.log('cancel clicked');
+                        }}
+                    >
+                        Cancel
                     </Button>
                     {contentContentUpdateStatus}
                     {/* 
