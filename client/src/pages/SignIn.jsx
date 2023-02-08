@@ -13,7 +13,7 @@ const SignIn = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const submitHandler = async () => {
         setSubmissionStatus(null);
-        setErrorMessage('Sign up fail'); // Set error message for generic
+        setErrorMessage('Sign in fail'); // Set error message for generic
         setSubmissionStatus('loading');
         try {
             // Validation
@@ -26,7 +26,7 @@ const SignIn = () => {
             navigate('/');
         } catch (error) {
             setSubmissionStatus('fail');
-            setErrorMessage('Sign up fail');
+            setErrorMessage('Sign in fail');
         }
     };
 

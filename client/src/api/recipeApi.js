@@ -19,7 +19,7 @@ export const getUserRecipesApiCall = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 // READ RECIPE
 export const getRecipeApiCall = async (recipeId) => {
@@ -29,7 +29,7 @@ export const getRecipeApiCall = async (recipeId) => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 
 // UPDATE RECIPE
@@ -41,9 +41,19 @@ export const updateRecipeApiCall = async (recipeId, body) => {
         body: JSON.stringify(body),
     });
 
-    return await response;
+    return response;
 };
 // ADD FAMILY GROUP TO A RECIPE
+export const addFamilyGroupToRecipeApiCall = async (recipeId, body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/recipes/${recipeId}/familyGroup`, {
+        method: 'PATCH',
+        headers: { ...headers, Authorization: token },
+        body: JSON.stringify(body),
+    });
+
+    return response;
+};
 // DELETE RECIPE
 
 // GET RECIPE IMAGE
@@ -54,5 +64,5 @@ export const getRecipeImageApiCall = async (recipeId) => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };

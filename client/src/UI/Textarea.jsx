@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledTextarea = styled.textarea`
-    border-radius: ${({ theme }) => theme.borderRadius.l};
+    border-radius: ${({ theme }) => theme.borderRadius.m};
     padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.s};
     border: ${({ theme }) => theme.colors.lightGray} 1px solid;
     min-width: 250px;

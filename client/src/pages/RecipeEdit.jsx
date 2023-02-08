@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
-import { getRecipeApiCall, getRecipeImageApiCall, updateRecipeApiCall } from '../api/recipeApi';
+import { getRecipeApiCall, getRecipeImageApiCall, updateRecipeApiCall, addFamilyGroupToRecipeApiCall } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
 import RecipeFrom from '../components/RecipeFrom';
@@ -95,7 +95,8 @@ const RecipeEdit = () => {
     };
     // Submit Add Family Group (familyGroup)
     const familyGroupsUpdateHandler = async (reqBody) => {
-        console.log(reqBody);
+        await addFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
+        getRecipe(recipeId);
     };
 
     return (
