@@ -173,7 +173,10 @@ router.delete('/recipes/:id/familyGroup', auth, async (req, res) => {
         if (!recipe) {
             return res.status(404).send({ error: 'Recipe not Found' });
         }
-        // console.log(deletingFamilyGroup);
+        // VALIDATING IF THE FAMILY GROUP IS PRIMARY
+        if (JSON.stringify(recipe.primaryFamilyGroup) === JSON.stringify(req.body['familyGroup'])) {
+            return res.status(400).send({ error: 'Primary Family Group cannot be removed' });
+        }
 
         // VALIDATING IF THE FAMILY GROUP IS IN THE RECIPE
         const isDeletingFamilyExist = recipe.familyGroupIds.some((familyGroupId) => {
@@ -186,7 +189,6 @@ router.delete('/recipes/:id/familyGroup', auth, async (req, res) => {
 
         // UPDATING DB
         const newFamilyGroupIDs = recipe.familyGroupIds.filter((familyGroup) => {
-            console.log(JSON.stringify(familyGroup) !== JSON.stringify(deletingFamilyGroup._id));
             return JSON.stringify(familyGroup) !== JSON.stringify(deletingFamilyGroup._id);
         });
 
@@ -259,6 +261,22 @@ router.get('/recipes/:id/image', auth, async (req, res) => {
     }
 });
 // delete recipe image
+router.delete('/recipes/:id/image', auth, async (req, res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            return res.status(404).send({ error: 'Recipe not found' });
+        }
+        if (!recipe.image) {
+            return res.send();
+        }
+        recipe.image = undefined;
+        await recipe.save();
+        res.send('Recipe image removed');
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 // post recipe step image
 // read recipe step image

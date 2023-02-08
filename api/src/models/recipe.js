@@ -74,6 +74,11 @@ const recipeSchema = new mongoose.Schema(
                 ref: 'FamilyGroup',
             },
         ],
+        primaryFamilyGroup: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'FamilyGroup',
+            required: true,
+        },
     },
     { timestamps: true }
 );
