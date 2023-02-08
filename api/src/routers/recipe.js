@@ -119,6 +119,7 @@ router.patch('/recipes/:id', auth, async (req, res) => {
     }
 });
 
+// add family group
 router.patch('/recipes/:id/familyGroup', auth, async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id);
@@ -157,6 +158,43 @@ router.patch('/recipes/:id/familyGroup', auth, async (req, res) => {
         // SEND DATA TO FRONTEND
         //await recipe.populate('familyGroupIds'); // Converting userIDs to name/email etc
         res.send(recipe);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+// remove family group from recipe
+router.delete('/recipes/:id/familyGroup', auth, async (req, res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        const deletingFamilyGroup = await FamilyGroup.findOne({ _id: req.body['familyGroup'] });
+
+        // VALIDATING IF RECIPE EXIST AND USER IS THE OWNER
+        if (!recipe) {
+            return res.status(404).send({ error: 'Recipe not Found' });
+        }
+        // console.log(deletingFamilyGroup);
+
+        // VALIDATING IF THE FAMILY GROUP IS IN THE RECIPE
+        const isDeletingFamilyExist = recipe.familyGroupIds.some((familyGroupId) => {
+            return JSON.stringify(familyGroupId) === JSON.stringify(deletingFamilyGroup._id);
+        });
+
+        if (!isDeletingFamilyExist) {
+            return res.status(400).send({ error: 'This family group is not joined this recipe' });
+        }
+
+        // UPDATING DB
+        const newFamilyGroupIDs = recipe.familyGroupIds.filter((familyGroup) => {
+            console.log(JSON.stringify(familyGroup) !== JSON.stringify(deletingFamilyGroup._id));
+            return JSON.stringify(familyGroup) !== JSON.stringify(deletingFamilyGroup._id);
+        });
+
+        recipe.familyGroupIds = newFamilyGroupIDs;
+
+        await recipe.save();
+
+        res.send('delete');
     } catch (error) {
         res.status(500).send(error);
     }
