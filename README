@@ -1,8 +1,9 @@
 Fullstack app (in process)
 
-To share Recipe in your family group.
-To manage daily tasks
-To share meal planning
+Features:
+Share Recipe in your family group.
+Manage daily tasks
+Share meal planning
 
 Backend:
 node.js, mongoDB, express.js
