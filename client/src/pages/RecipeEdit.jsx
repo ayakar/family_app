@@ -118,7 +118,7 @@ const RecipeEdit = () => {
                 </StyledIconButton>
             </ErrorBoundary>
             <ErrorBoundary>
-                {recipe && recipeImage && (
+                {recipe && (
                     <RecipeFrom
                         isCreate={false}
                         recipeImage={recipeImage}

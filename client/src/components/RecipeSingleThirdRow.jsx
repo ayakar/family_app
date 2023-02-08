@@ -1,5 +1,5 @@
 import React from 'react';
-import { House, HouseFill } from 'react-bootstrap-icons';
+import { House, HouseFill, StarFill } from 'react-bootstrap-icons';
 import styled, { useTheme } from 'styled-components';
 import H3Title from '../UI/H3Title';
 import { removeTime } from '../util/formatTimestamp';
@@ -44,7 +44,7 @@ const StyledRecipeFooter = styled.div`
     font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
-const RecipeSingleThirdRow = ({ steps, note, createdAt, updatedAt, familyGroupIds }) => {
+const RecipeSingleThirdRow = ({ steps, note, createdAt, updatedAt, familyGroupIds, primaryFamilyGroup }) => {
     const theme = useTheme();
     return (
         <StyledRecipeSingleThirdRow>
@@ -70,8 +70,22 @@ const RecipeSingleThirdRow = ({ steps, note, createdAt, updatedAt, familyGroupId
                             {familyGroupIds.map((group) => (
                                 <div key={group._id}>
                                     <HouseFill color={theme.colors.gray} /> {group.name}
+                                    {primaryFamilyGroup === group._id && (
+                                        <StarFill
+                                            color={theme.colors.orange}
+                                            size={10}
+                                            style={{ position: 'relative', top: '-5px' }}
+                                        />
+                                    )}
                                 </div>
                             ))}
+                        </div>
+                        <div style={{ fontSize: `${theme.fontSize.xs}` }}>
+                            <StarFill
+                                color={theme.colors.orange}
+                                size={10}
+                            />
+                            = Primary Family Group
                         </div>
                     </div>
                 )}

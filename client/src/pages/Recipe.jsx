@@ -102,6 +102,7 @@ const Recipe = () => {
                     createdAt={recipe.createdAt}
                     updatedAt={recipe.updatedAt}
                     familyGroupIds={recipe.familyGroupIds}
+                    primaryFamilyGroup={recipe.primaryFamilyGroup}
                 />
             </ErrorBoundary>
             {/* <pre>{JSON.stringify(recipe, null, 2)}</pre> */}

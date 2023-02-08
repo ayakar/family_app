@@ -10,6 +10,7 @@ import IconButton from '../UI/IconButton';
 import { DashCircle, PlusCircle, HouseFill } from 'react-bootstrap-icons';
 import Modal from '../UI/Modal';
 import { useAuth } from '../contexts/AuthContext';
+import Select from '../UI/Select';
 
 const StyledRecipeFrom = styled.div`
     display: flex;
@@ -76,6 +77,11 @@ const StyledStepNumber = styled.div`
     color: ${({ theme }) => theme.colors.white};
     font-size: ${({ theme }) => theme.fontSize.s};
     font-weight: ${({ theme }) => theme.fontWeight.xl};
+`;
+const StyledFamilyGroupList = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.xs};
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
 const RecipeFrom = ({
@@ -220,11 +226,15 @@ const RecipeFrom = ({
                 <StyledWrapper>
                     <StyledContainer>
                         <StyledH3Title color={theme.colors.orange}>Recipe Image</StyledH3Title>
-                        <img
-                            src={image}
-                            alt=""
-                            style={{ maxWidth: '300px' }}
-                        />
+                        {image ? (
+                            <img
+                                src={image}
+                                alt=""
+                                style={{ maxWidth: '300px' }}
+                            />
+                        ) : (
+                            'no image'
+                        )}
                     </StyledContainer>
                 </StyledWrapper>
                 <StyledWrapper>
@@ -384,14 +394,17 @@ const RecipeFrom = ({
                         <StyledH3Title color={theme.colors.orange}>Family Groups</StyledH3Title>
                         {recipe.familyGroupIds &&
                             recipe.familyGroupIds.map((familyId) => (
-                                <div key={familyId._id}>
+                                <StyledFamilyGroupList key={familyId._id}>
                                     <HouseFill color={theme.colors.gray} />
-                                    {familyId.name} - {familyId._id}
-                                    <IconButton onClick={() => removeFamilyGroup(familyId._id)}>
-                                        <DashCircle color={theme.colors.pink} />
-                                    </IconButton>
-                                </div>
+                                    {familyId.name}
+                                    {familyId._id !== recipe.primaryFamilyGroup && (
+                                        <IconButton onClick={() => removeFamilyGroup(familyId._id)}>
+                                            <DashCircle color={theme.colors.pink} />
+                                        </IconButton>
+                                    )}
+                                </StyledFamilyGroupList>
                             ))}
+
                         <IconButton onClick={() => setIsAddFamilyModalOpen(true)}>
                             <PlusCircle
                                 color={theme.colors.green}
@@ -406,24 +419,13 @@ const RecipeFrom = ({
                 isOpen={isAddFamilyModalOpen}
                 closeHandler={() => setIsAddFamilyModalOpen(false)}
             >
-                {/* {JSON.stringify(recipe.familyGroupIds)} */}
-                <select
-                    onChange={(event) => setFamilyGroupSelectValue(event.target.value)}
+                {/* TODO: filter options to removed groups already joined */}
+                <Select
+                    onChange={setFamilyGroupSelectValue}
                     value={familyGroupSelectValue}
-                >
-                    {familyGroups.map((familyGroup) => {
-                        // TODO filter with recipe.familyGroupIds. _id
-                        return (
-                            <option
-                                key={familyGroup._id}
-                                value={familyGroup._id}
-                            >
-                                {familyGroup.name}
-                            </option>
-                        );
-                    })}
-                </select>
-
+                    options={familyGroups}
+                    optionsProperties={{ value: '_id', label: 'name' }}
+                />
                 <Button
                     onClick={familyGroupSubmit}
                     variant="contain"
