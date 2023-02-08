@@ -4,7 +4,13 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
-import { getRecipeApiCall, getRecipeImageApiCall, updateRecipeApiCall, addFamilyGroupToRecipeApiCall } from '../api/recipeApi';
+import {
+    getRecipeApiCall,
+    getRecipeImageApiCall,
+    updateRecipeApiCall,
+    addFamilyGroupToRecipeApiCall,
+    removeFamilyGroupToRecipeApiCall,
+} from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
 import RecipeFrom from '../components/RecipeFrom';
@@ -98,6 +104,10 @@ const RecipeEdit = () => {
         await addFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
         getRecipe(recipeId);
     };
+    const familyGroupsRemoveHandler = async (reqBody) => {
+        await removeFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
+        getRecipe(recipeId);
+    };
 
     return (
         <>
@@ -119,6 +129,7 @@ const RecipeEdit = () => {
                         setContentContentUpdateStatus={setContentUpdateStatus}
                         imageSubmitHandler={imageUpdateHandler}
                         familyGroupsUpdateHandler={familyGroupsUpdateHandler}
+                        familyGroupsRemoveHandler={familyGroupsRemoveHandler}
                     />
                 )}
             </ErrorBoundary>

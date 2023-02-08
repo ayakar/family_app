@@ -54,6 +54,19 @@ export const addFamilyGroupToRecipeApiCall = async (recipeId, body) => {
 
     return response;
 };
+
+// REMOVE FAMILY GROUP TO A RECIPE
+export const removeFamilyGroupToRecipeApiCall = async (recipeId, body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/recipes/${recipeId}/familyGroup`, {
+        method: 'DELETE',
+        headers: { ...headers, Authorization: token },
+        body: JSON.stringify(body),
+    });
+
+    return response;
+};
+
 // DELETE RECIPE
 
 // GET RECIPE IMAGE

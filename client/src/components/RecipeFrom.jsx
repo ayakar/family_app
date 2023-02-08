@@ -87,6 +87,7 @@ const RecipeFrom = ({
     contentContentUpdateStatus,
     imageSubmitHandler,
     familyGroupsUpdateHandler,
+    familyGroupsRemoveHandler,
 }) => {
     const theme = useTheme();
     const { familyGroups, getUserFamilyGroups } = useAuth();
@@ -204,6 +205,7 @@ const RecipeFrom = ({
     // Delete Family Group
     const removeFamilyGroup = (familyGroupId) => {
         console.log('removing', familyGroupId);
+        familyGroupsRemoveHandler(familyGroupId);
     };
 
     // Submit Add Family Group (familyGroup)
@@ -384,7 +386,7 @@ const RecipeFrom = ({
                             recipe.familyGroupIds.map((familyId) => (
                                 <div key={familyId._id}>
                                     <HouseFill color={theme.colors.gray} />
-                                    {familyId.name}
+                                    {familyId.name} - {familyId._id}
                                     <IconButton onClick={() => removeFamilyGroup(familyId._id)}>
                                         <DashCircle color={theme.colors.pink} />
                                     </IconButton>
