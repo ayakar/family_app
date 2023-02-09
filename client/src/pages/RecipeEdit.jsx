@@ -140,8 +140,8 @@ const RecipeEdit = () => {
                         setContentContentUpdateStatus={setContentUpdateStatus}
                         imageSubmitHandler={imageUpdateHandler}
                         imageDeleteHandler={imageDeleteHandler}
-                        familyGroupsUpdateHandler={familyGroupsUpdateHandler}
-                        familyGroupsRemoveHandler={familyGroupsRemoveHandler}
+                        familyGroupSubmitHandler={familyGroupsUpdateHandler}
+                        removeFamilyGroupSubmitHandler={familyGroupsRemoveHandler}
                     />
                 )}
             </ErrorBoundary>

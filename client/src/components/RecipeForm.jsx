@@ -16,6 +16,7 @@ import RecipeFormImage from './RecipeFormImage';
 import RecipeFormBasicInfo from './RecipeFormBasicInfo';
 import RecipeFormIngredients from './RecipeFormIngredients';
 import RecipeFormSteps from './RecipeFormSteps';
+import { RecipeFormFamilyGroup } from './RecipeFormFamilyGroup';
 
 const StyledRecipeForm = styled.div`
     display: flex;
@@ -57,12 +58,6 @@ const StyledSecondRowInnerWrap = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 
-const StyledFamilyGroupList = styled.div`
-    display: flex;
-    gap: ${({ theme }) => theme.spacing.xs};
-    margin-bottom: ${({ theme }) => theme.spacing.xs};
-`;
-
 const RecipeForm = ({
     recipeImage,
     recipe,
@@ -72,15 +67,12 @@ const RecipeForm = ({
     contentContentUpdateStatus,
     imageSubmitHandler,
     imageDeleteHandler,
-    familyGroupsUpdateHandler,
-    familyGroupsRemoveHandler,
+    removeFamilyGroupSubmitHandler,
+    familyGroupSubmitHandler,
 }) => {
     const theme = useTheme();
-    const { familyGroups, getUserFamilyGroups } = useAuth();
+    const { familyGroups } = useAuth();
     const [image, setImage] = useState('');
-    const [isAddFamilyModalOpen, setIsAddFamilyModalOpen] = useState(false);
-
-    const [familyGroupSelectValue, setFamilyGroupSelectValue] = useState('');
 
     useEffect(() => {
         setImage(recipeImage);
@@ -135,18 +127,6 @@ const RecipeForm = ({
             //     setContentContentUpdateStatus(null);
             // }, 5000);
         }
-    };
-
-    // Delete Family Group
-    const removeFamilyGroup = (familyGroupId) => {
-        console.log('removing', familyGroupId);
-        familyGroupsRemoveHandler(familyGroupId);
-    };
-
-    // Submit Add Family Group (familyGroup)
-    const familyGroupSubmit = () => {
-        // TODO: select need initial value or place holder
-        familyGroupsUpdateHandler(familyGroupSelectValue);
     };
 
     return (
@@ -228,48 +208,15 @@ const RecipeForm = ({
                 <StyledWrapper>
                     <StyledContainer>
                         <StyledH3Title color={theme.colors.orange}>Family Groups</StyledH3Title>
-                        {recipe.familyGroupIds &&
-                            recipe.familyGroupIds.map((familyId) => (
-                                <StyledFamilyGroupList key={familyId._id}>
-                                    <HouseFill color={theme.colors.gray} />
-                                    {familyId.name}
-                                    {familyId._id !== recipe.primaryFamilyGroup && (
-                                        <IconButton onClick={() => removeFamilyGroup(familyId._id)}>
-                                            <DashCircle color={theme.colors.pink} />
-                                        </IconButton>
-                                    )}
-                                </StyledFamilyGroupList>
-                            ))}
-
-                        <IconButton onClick={() => setIsAddFamilyModalOpen(true)}>
-                            <PlusCircle
-                                color={theme.colors.green}
-                                size={23}
-                            />
-                            <span>Add More Family Group</span>
-                        </IconButton>
+                        <RecipeFormFamilyGroup
+                            recipe={recipe}
+                            familyGroups={familyGroups}
+                            removeFamilyGroupSubmitHandler={removeFamilyGroupSubmitHandler}
+                            familyGroupSubmitHandler={familyGroupSubmitHandler}
+                        />
                     </StyledContainer>
                 </StyledWrapper>
             </StyledRecipeForm>
-            <Modal
-                isOpen={isAddFamilyModalOpen}
-                closeHandler={() => setIsAddFamilyModalOpen(false)}
-            >
-                {/* TODO: filter options to removed groups already joined */}
-                <Select
-                    onChange={setFamilyGroupSelectValue}
-                    value={familyGroupSelectValue}
-                    options={familyGroups}
-                    optionsProperties={{ value: '_id', label: 'name' }}
-                />
-                <Button
-                    onClick={familyGroupSubmit}
-                    variant="contain"
-                    color="blue"
-                >
-                    Add this family group
-                </Button>
-            </Modal>
         </>
     );
 };

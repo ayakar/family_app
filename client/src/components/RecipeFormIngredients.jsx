@@ -72,7 +72,6 @@ const RecipeFormIngredients = ({ recipe, setRecipe }) => {
                 {recipe.ingredients &&
                     recipe.ingredients.map((ing, index) => {
                         const id = ing._id || ing.tempId;
-                        console.log(id);
                         return (
                             <StyledIngredientList key={id}>
                                 <Input
