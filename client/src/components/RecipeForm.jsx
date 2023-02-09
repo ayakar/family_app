@@ -13,6 +13,7 @@ import { useAuth } from '../contexts/AuthContext';
 import Select from '../UI/Select';
 
 import RecipeFormImage from './RecipeFormImage';
+import RecipeFormBasicInfo from './RecipeFormBasicInfo';
 
 const StyledRecipeForm = styled.div`
     display: flex;
@@ -249,37 +250,10 @@ const RecipeForm = ({
                     <StyledContainer>
                         <StyledSecondRowInnerWrap>
                             <StyledH3Title color={theme.colors.orange}>Basic Info</StyledH3Title>
-                            <StyledLabelInput>
-                                <Label
-                                    label="Recipe Name"
-                                    color={theme.colors.green}
-                                />
-                                <Input
-                                    onChange={(event) => setRecipe({ ...recipe, name: event.target.value })}
-                                    defaultValue={recipe.name}
-                                />
-                            </StyledLabelInput>
-                            <StyledLabelInput>
-                                <Label
-                                    label="Description"
-                                    color={theme.colors.green}
-                                />
-                                <Textarea
-                                    onChange={(event) => setRecipe({ ...recipe, recipeDescription: event.target.value })}
-                                    defaultValue={recipe.recipeDescription}
-                                    rows={5}
-                                />
-                            </StyledLabelInput>
-                            <StyledLabelInput>
-                                <Label
-                                    label="Reference Url"
-                                    color={theme.colors.green}
-                                />
-                                <Input
-                                    onChange={(event) => setRecipe({ ...recipe, externalUrl: event.target.value })}
-                                    defaultValue={recipe.externalUrl}
-                                />
-                            </StyledLabelInput>
+                            <RecipeFormBasicInfo
+                                recipe={recipe}
+                                setRecipe={setRecipe}
+                            />
                         </StyledSecondRowInnerWrap>
                         <StyledSecondRowInnerWrap>
                             <StyledH3Title color={theme.colors.orange}>Ingredients</StyledH3Title>
