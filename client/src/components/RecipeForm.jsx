@@ -459,7 +459,7 @@ const RecipeForm = ({
                         >
                             Save
                         </Button>
-                        <Button
+                        {/* <Button
                             color="green"
                             variant="text"
                             onClick={() => {
@@ -467,7 +467,7 @@ const RecipeForm = ({
                             }}
                         >
                             Cancel
-                        </Button>
+                        </Button> */}
                         {contentContentUpdateStatus}
                         {/* 
             <div>{JSON.stringify(ingredients)}</div>

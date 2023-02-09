@@ -4,8 +4,8 @@ import { CloudUpload } from 'react-bootstrap-icons';
 
 const StyledIconWrapper = styled.div`
     position: relative;
-    width: ${({ theme }) => theme.avatarSize.l};
-    height: ${({ theme }) => theme.avatarSize.l};
+    width: 100%;
+    height: 100%;
     border-radius: ${({ theme }) => theme.borderRadius.m};
     border: ${({ theme }) => `1px solid ${theme.colors.gray}`};
     display: flex;
@@ -16,8 +16,8 @@ const StyledIconWrapper = styled.div`
 `;
 
 const StyledPreviewImage = styled.img`
-    width: ${({ theme }) => theme.avatarSize.l};
-    height: ${({ theme }) => theme.avatarSize.l};
+    width: 100%;
+    height: 100%;
     border-radius: ${({ theme }) => theme.borderRadius.m};
     object-fit: cover;
 `;

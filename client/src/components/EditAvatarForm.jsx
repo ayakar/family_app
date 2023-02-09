@@ -8,9 +8,14 @@ import { Trash } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
 
 // duplicated style
-const StyledAvatar = styled.img`
+const StyledAvatarWrapper = styled.div`
     width: ${({ theme }) => theme.avatarSize.l};
     height: ${({ theme }) => theme.avatarSize.l};
+`;
+// duplicated style
+const StyledAvatar = styled.img`
+    /* width: ${({ theme }) => theme.avatarSize.l};
+    height: ${({ theme }) => theme.avatarSize.l}; */
     border-radius: ${({ theme }) => theme.borderRadius.m};
 `;
 
@@ -54,19 +59,21 @@ const EditAvatarForm = () => {
 
     return (
         <>
-            {currentUserAvatar ? (
-                <StyledAvatar
-                    src={currentUserAvatar}
-                    alt=""
-                />
-            ) : (
-                <DropZone
-                    file={avatarFile}
-                    setFile={setAvatarFile}
-                    maximumFileSize={1000000}
-                    setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
-                />
-            )}
+            <StyledAvatarWrapper>
+                {currentUserAvatar ? (
+                    <StyledAvatar
+                        src={currentUserAvatar}
+                        alt=""
+                    />
+                ) : (
+                    <DropZone
+                        file={avatarFile}
+                        setFile={setAvatarFile}
+                        maximumFileSize={1000000}
+                        setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
+                    />
+                )}
+            </StyledAvatarWrapper>
             <div>
                 {currentUserAvatar ? (
                     <IconButton onClick={deleteAvatarHandler}>
