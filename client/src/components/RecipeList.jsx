@@ -14,7 +14,7 @@ const StyledRecipeList = styled(Link)`
     text-decoration: none;
 `;
 const StyledImageWrapper = styled.div`
-    height: ${({ theme }) => theme.recipeImageSize.m.height};
+    height: ${({ theme }) => theme.recipeImageSize.s.height};
 `;
 
 const StyledImage = styled.img`

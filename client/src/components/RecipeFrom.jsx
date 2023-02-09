@@ -7,10 +7,11 @@ import H3Title from '../UI/H3Title';
 import Button from '../UI/Button';
 import Container from '../UI/Container';
 import IconButton from '../UI/IconButton';
-import { DashCircle, PlusCircle, HouseFill } from 'react-bootstrap-icons';
+import { DashCircle, PlusCircle, HouseFill, PencilFill, CupHot } from 'react-bootstrap-icons';
 import Modal from '../UI/Modal';
 import { useAuth } from '../contexts/AuthContext';
 import Select from '../UI/Select';
+import DropZone from '../UI/DropZone';
 
 const StyledRecipeFrom = styled.div`
     display: flex;
@@ -29,6 +30,8 @@ const StyledContainer = styled(Container)``;
 
 const StyledH3Title = styled(H3Title)`
     width: 100%;
+
+    margin-bottom: ${({ theme }) => theme.spacing.s};
 `;
 
 const StyledLabelInput = styled.div`
@@ -38,6 +41,37 @@ const StyledLabelInput = styled.div`
     & > label {
         padding-left: ${({ theme }) => theme.spacing.xs};
     }
+`;
+
+// const StyledIconButton = styled(IconButton)`
+//     margin-bottom: ${({ theme }) => theme.spacing.s};
+// `;
+
+const StyledFirstRowInnerWrap = styled.div`
+    display: flex;
+    align-items: flex-end;
+    gap: ${({ theme }) => theme.spacing.m};
+`;
+
+const StyledImageWrapper = styled.div`
+    width: ${({ theme }) => theme.recipeImageSize.m.width};
+    height: ${({ theme }) => theme.recipeImageSize.m.height};
+`;
+
+const StyledImage = styled.img`
+    width: 100%;
+    height: 100%;
+    border-radius: ${({ theme }) => theme.borderRadius.m};
+    object-fit: cover;
+`;
+
+const StyledButtonWrapper = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.s};
+`;
+
+const StyledSecondRowInnerWrap = styled.div`
+    margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 
 const StyledIngredientLists = styled.div`
@@ -92,6 +126,7 @@ const RecipeFrom = ({
     setContentContentUpdateStatus,
     contentContentUpdateStatus,
     imageSubmitHandler,
+    imageDeleteHandler,
     familyGroupsUpdateHandler,
     familyGroupsRemoveHandler,
 }) => {
@@ -99,11 +134,13 @@ const RecipeFrom = ({
     const { familyGroups, getUserFamilyGroups } = useAuth();
     const [image, setImage] = useState('');
     const [isAddFamilyModalOpen, setIsAddFamilyModalOpen] = useState(false);
+    const [recipeImageFile, setRecipeImageFile] = useState('');
+
     const [familyGroupSelectValue, setFamilyGroupSelectValue] = useState('');
 
     useEffect(() => {
         setImage(recipeImage);
-    }, []);
+    }, [recipeImage]);
 
     // Submit (name, desc, url, ing, steps, note)
     const contentSubmit = () => {
@@ -157,8 +194,12 @@ const RecipeFrom = ({
         }
     };
     // Submit (image)
-    const imageSubmit = (reqBody) => {
-        imageSubmitHandler(reqBody);
+    const imageSubmit = () => {
+        imageSubmitHandler(recipeImageFile);
+    };
+    // Submit Delete image
+    const deleteImageSubmit = () => {
+        imageDeleteHandler();
     };
 
     // Update ingredients
@@ -204,7 +245,6 @@ const RecipeFrom = ({
     // Remove Steps field
     const removeSteps = (id) => {
         const newStepArr = recipe.steps.filter((step) => step._id !== id && step.tempId !== id);
-        console.log(newStepArr);
         setRecipe({ ...recipe, steps: newStepArr });
     };
 
@@ -226,132 +266,180 @@ const RecipeFrom = ({
                 <StyledWrapper>
                     <StyledContainer>
                         <StyledH3Title color={theme.colors.orange}>Recipe Image</StyledH3Title>
-                        {image ? (
-                            <img
-                                src={image}
-                                alt=""
-                                style={{ maxWidth: '300px' }}
-                            />
-                        ) : (
-                            'no image'
-                        )}
+                        <StyledFirstRowInnerWrap>
+                            <StyledImageWrapper>
+                                {image ? (
+                                    <StyledImage
+                                        src={image}
+                                        alt="recipe image"
+                                    />
+                                ) : (
+                                    <DropZone
+                                        file={recipeImageFile}
+                                        setFile={setRecipeImageFile}
+                                        maximumFileSize={1000000}
+                                        //setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
+                                    />
+                                )}
+                            </StyledImageWrapper>
+                            <StyledButtonWrapper>
+                                {!image && (
+                                    <>
+                                        <Button
+                                            variant="contain"
+                                            color="lightGreen"
+                                            disabled={recipeImageFile ? false : true}
+                                            onClick={imageSubmit}
+                                        >
+                                            Upload Image
+                                        </Button>
+                                        {recipeImageFile && (
+                                            <Button
+                                                variant="text"
+                                                color="green"
+                                                onClick={() => setRecipeImageFile('')}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        )}
+                                    </>
+                                )}
+
+                                {image && (
+                                    <Button
+                                        variant="contain"
+                                        color="lightGreen"
+                                        onClick={deleteImageSubmit}
+                                    >
+                                        Delete this image
+                                    </Button>
+                                )}
+                            </StyledButtonWrapper>
+                        </StyledFirstRowInnerWrap>
                     </StyledContainer>
                 </StyledWrapper>
                 <StyledWrapper>
                     <StyledContainer>
-                        <StyledH3Title color={theme.colors.orange}>Basic Info</StyledH3Title>
-                        <StyledLabelInput>
-                            <Label
-                                label="Recipe Name"
-                                color={theme.colors.green}
-                            />
-                            <Input
-                                onChange={(event) => setRecipe({ ...recipe, name: event.target.value })}
-                                defaultValue={recipe.name}
-                            />
-                        </StyledLabelInput>
-                        <StyledLabelInput>
-                            <Label
-                                label="Description"
-                                color={theme.colors.green}
-                            />
-                            <Textarea
-                                onChange={(event) => setRecipe({ ...recipe, recipeDescription: event.target.value })}
-                                defaultValue={recipe.recipeDescription}
-                                rows={5}
-                            />
-                        </StyledLabelInput>
-                        <StyledLabelInput>
-                            <Label
-                                label="Reference Url"
-                                color={theme.colors.green}
-                            />
-                            <Input
-                                onChange={(event) => setRecipe({ ...recipe, externalUrl: event.target.value })}
-                                defaultValue={recipe.externalUrl}
-                            />
-                        </StyledLabelInput>
-                        <StyledH3Title color={theme.colors.orange}>Ingredients</StyledH3Title>
-                        <StyledLabelInput>
-                            <Label
-                                label="Portion"
-                                color={theme.colors.green}
-                            />
-                            <Input
-                                onChange={(event) => setRecipe({ ...recipe, portions: event.target.value })}
-                                defaultValue={recipe.portions}
-                            />
-                        </StyledLabelInput>
-                        <Label
-                            label="Ingredients"
-                            color={theme.colors.green}
-                        />
-
-                        <StyledIngredientLists>
-                            {recipe.ingredients &&
-                                recipe.ingredients.map((ing, index) => {
-                                    const id = ing._id || ing.tempId;
-                                    return (
-                                        <StyledIngredientList key={ing._id || ing.tempId}>
-                                            <Input
-                                                key={id}
-                                                onChange={(event) => onChangeIngredientsHandler(id, 'name', event.target.value)}
-                                                defaultValue={recipe.ingredients[index].name}
-                                            />
-                                            <Input
-                                                onChange={(event) => onChangeIngredientsHandler(id, 'amount', event.target.value)}
-                                                defaultValue={recipe.ingredients[index].amount}
-                                            />
-
-                                            <IconButton onClick={() => removeIngredients(id)}>
-                                                <DashCircle
-                                                    color={theme.colors.pink}
-                                                    size={15}
-                                                />
-                                            </IconButton>
-                                        </StyledIngredientList>
-                                    );
-                                })}
-
-                            <IconButton onClick={addIngredientsField}>
-                                <PlusCircle
+                        <StyledSecondRowInnerWrap>
+                            <StyledH3Title color={theme.colors.orange}>Basic Info</StyledH3Title>
+                            <StyledLabelInput>
+                                <Label
+                                    label="Recipe Name"
                                     color={theme.colors.green}
-                                    size={23}
                                 />
-                                Add More Ingredients
-                            </IconButton>
-                        </StyledIngredientLists>
-                        <StyledH3Title color={theme.colors.orange}>Steps</StyledH3Title>
-                        {/* <pre>{JSON.stringify(recipe.steps, null, 2)}</pre> */}
-                        <StyledStepsWrapper>
-                            {recipe.steps &&
-                                recipe.steps.map((step, index) => {
-                                    const id = step._id || step.tempId;
-                                    return (
-                                        <StyledStepWrapper key={id}>
-                                            <StyledStepNumber>{index + 1}</StyledStepNumber>
-                                            <Textarea
-                                                onChange={(event) => onChangeStepsHandler(id, event.target.value)}
-                                                defaultValue={step.description}
-                                                rows={5}
-                                            />
-                                            <IconButton onClick={() => removeSteps(id)}>
-                                                <DashCircle
-                                                    color={theme.colors.pink}
-                                                    size={15}
-                                                />
-                                            </IconButton>
-                                        </StyledStepWrapper>
-                                    );
-                                })}
-                            <IconButton onClick={addStepsField}>
-                                <PlusCircle
+                                <Input
+                                    onChange={(event) => setRecipe({ ...recipe, name: event.target.value })}
+                                    defaultValue={recipe.name}
+                                />
+                            </StyledLabelInput>
+                            <StyledLabelInput>
+                                <Label
+                                    label="Description"
                                     color={theme.colors.green}
-                                    size={23}
                                 />
-                                Add More Step
-                            </IconButton>
-                        </StyledStepsWrapper>
+                                <Textarea
+                                    onChange={(event) => setRecipe({ ...recipe, recipeDescription: event.target.value })}
+                                    defaultValue={recipe.recipeDescription}
+                                    rows={5}
+                                />
+                            </StyledLabelInput>
+                            <StyledLabelInput>
+                                <Label
+                                    label="Reference Url"
+                                    color={theme.colors.green}
+                                />
+                                <Input
+                                    onChange={(event) => setRecipe({ ...recipe, externalUrl: event.target.value })}
+                                    defaultValue={recipe.externalUrl}
+                                />
+                            </StyledLabelInput>
+                        </StyledSecondRowInnerWrap>
+                        <StyledSecondRowInnerWrap>
+                            <StyledH3Title color={theme.colors.orange}>Ingredients</StyledH3Title>
+                            <StyledLabelInput>
+                                <Label
+                                    label="Portion"
+                                    color={theme.colors.green}
+                                />
+                                <Input
+                                    onChange={(event) => setRecipe({ ...recipe, portions: event.target.value })}
+                                    defaultValue={recipe.portions}
+                                />
+                            </StyledLabelInput>
+                            <Label
+                                label="Ingredients"
+                                color={theme.colors.green}
+                            />
+
+                            <StyledIngredientLists>
+                                {recipe.ingredients &&
+                                    recipe.ingredients.map((ing, index) => {
+                                        const id = ing._id || ing.tempId;
+                                        return (
+                                            <StyledIngredientList key={ing._id || ing.tempId}>
+                                                <Input
+                                                    key={id}
+                                                    onChange={(event) => onChangeIngredientsHandler(id, 'name', event.target.value)}
+                                                    defaultValue={recipe.ingredients[index].name}
+                                                />
+                                                <Input
+                                                    onChange={(event) => onChangeIngredientsHandler(id, 'amount', event.target.value)}
+                                                    defaultValue={recipe.ingredients[index].amount}
+                                                />
+
+                                                <IconButton onClick={() => removeIngredients(id)}>
+                                                    <DashCircle
+                                                        color={theme.colors.pink}
+                                                        size={15}
+                                                    />
+                                                </IconButton>
+                                            </StyledIngredientList>
+                                        );
+                                    })}
+
+                                <IconButton onClick={addIngredientsField}>
+                                    <PlusCircle
+                                        color={theme.colors.green}
+                                        size={23}
+                                    />
+                                    Add More Ingredients
+                                </IconButton>
+                            </StyledIngredientLists>
+                        </StyledSecondRowInnerWrap>
+                        <StyledSecondRowInnerWrap>
+                            <StyledH3Title color={theme.colors.orange}>Steps</StyledH3Title>
+                            {/* <pre>{JSON.stringify(recipe.steps, null, 2)}</pre> */}
+                            <StyledStepsWrapper>
+                                {recipe.steps &&
+                                    recipe.steps.map((step, index) => {
+                                        const id = step._id || step.tempId;
+                                        return (
+                                            <StyledStepWrapper key={id}>
+                                                <StyledStepNumber>{index + 1}</StyledStepNumber>
+                                                <Textarea
+                                                    onChange={(event) => onChangeStepsHandler(id, event.target.value)}
+                                                    defaultValue={step.description}
+                                                    rows={5}
+                                                />
+                                                <IconButton onClick={() => removeSteps(id)}>
+                                                    <DashCircle
+                                                        color={theme.colors.pink}
+                                                        size={15}
+                                                    />
+                                                </IconButton>
+                                            </StyledStepWrapper>
+                                        );
+                                    })}
+                                <IconButton onClick={addStepsField}>
+                                    <PlusCircle
+                                        color={theme.colors.green}
+                                        size={23}
+                                    />
+                                    Add More Step
+                                </IconButton>
+                            </StyledStepsWrapper>
+                        </StyledSecondRowInnerWrap>
+
                         <StyledLabelInput>
                             <StyledH3Title color={theme.colors.orange}>Additional Info</StyledH3Title>
                             <Label
@@ -410,7 +498,7 @@ const RecipeFrom = ({
                                 color={theme.colors.green}
                                 size={23}
                             />
-                            Add More Family Group
+                            <span>Add More Family Group</span>
                         </IconButton>
                     </StyledContainer>
                 </StyledWrapper>

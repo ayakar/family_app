@@ -7,6 +7,8 @@ const StyledButton = styled.button`
     gap: ${({ theme }) => theme.spacing.xs};
     background-color: transparent;
     border: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: ${({ theme }) => theme.fontWeight.m};
     cursor: pointer;
 `;
 

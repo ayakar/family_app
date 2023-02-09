@@ -6,6 +6,7 @@ const BaseButton = styled.button`
     min-width: 70px;
     border-radius: ${({ theme }) => theme.borderRadius.l};
     padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.s};
+    font-family: 'Lato', sans-serif;
     letter-spacing: 1px;
     transition: 0.3s ease;
     cursor: pointer;

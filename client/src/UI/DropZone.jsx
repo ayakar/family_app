@@ -19,6 +19,7 @@ const StyledPreviewImage = styled.img`
     width: ${({ theme }) => theme.avatarSize.l};
     height: ${({ theme }) => theme.avatarSize.l};
     border-radius: ${({ theme }) => theme.borderRadius.m};
+    object-fit: cover;
 `;
 
 const StyledFileInput = styled.input`

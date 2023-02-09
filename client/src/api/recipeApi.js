@@ -79,3 +79,26 @@ export const getRecipeImageApiCall = async (recipeId) => {
 
     return response;
 };
+
+// UPLOAD RECIPE IMAGE
+export const uploadRecipeImageApiCall = async (recipeId, body) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/recipes/${recipeId}/image`, {
+        method: 'POST',
+        headers: { Authorization: token },
+        body: body,
+    });
+
+    return response;
+};
+
+// DELETE RECIPE IMAGE
+export const deleteRecipeImageApiCall = async (recipeId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`/recipes/${recipeId}/image`, {
+        method: 'DELETE',
+        headers: { Authorization: token },
+    });
+
+    return response;
+};

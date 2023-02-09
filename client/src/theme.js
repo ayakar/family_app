@@ -21,12 +21,12 @@ const theme = {
     fontSize: {
         xs: '12px',
         s: '14px',
-        // m: '16px',
+        m: '16px',
         l: '20px',
         xl: '30px',
     },
     fontWeight: {
-        // m: 300,
+        m: 300,
         l: 400,
         xl: 700,
     },
@@ -48,7 +48,8 @@ const theme = {
         l: '200px',
     },
     recipeImageSize: {
-        m: { width: '', height: '250px' },
+        s: { width: '', height: '250px' },
+        m: { width: '300px', height: '220px' },
         l: { width: '400px', height: '300px' },
     },
 };

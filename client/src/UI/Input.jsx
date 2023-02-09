@@ -6,6 +6,7 @@ const StyledInput = styled.input`
     padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.s};
     border: ${({ theme }) => theme.colors.lightGray} 1px solid;
     min-width: 250px;
+    font: inherit;
 
     &:focus,
     &:active {

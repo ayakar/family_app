@@ -10,6 +10,8 @@ import {
     updateRecipeApiCall,
     addFamilyGroupToRecipeApiCall,
     removeFamilyGroupToRecipeApiCall,
+    uploadRecipeImageApiCall,
+    deleteRecipeImageApiCall,
 } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
@@ -96,9 +98,36 @@ const RecipeEdit = () => {
         }
     };
     // Submit images update (image)
-    const imageUpdateHandler = async (reqBody) => {
-        console.log(reqBody);
+    const imageUpdateHandler = async (recipeImageFile) => {
+        console.log(recipeImageFile);
+        // setErrorMessage('');
+        try {
+            if (recipeImageFile === '') {
+                return;
+                // setErrorMessage('Please choose an image');
+            }
+            const reqBody = new FormData();
+            reqBody.append('recipeImage', recipeImageFile);
+            const response = await uploadRecipeImageApiCall(recipeId, reqBody);
+            if (!response.ok) {
+                throw new Error('Recipe Image upload fail');
+            }
+            getRecipeImage(recipeId);
+        } catch (error) {}
     };
+
+    // Submit images delete (image)
+    const imageDeleteHandler = async () => {
+        // setErrorMessage('');
+        try {
+            const response = await deleteRecipeImageApiCall(recipeId);
+            if (!response.ok) {
+                throw new Error('Recipe Image upload fail');
+            }
+            getRecipeImage(recipeId);
+        } catch (error) {}
+    };
+
     // Submit Add Family Group (familyGroup)
     const familyGroupsUpdateHandler = async (reqBody) => {
         await addFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
@@ -128,6 +157,7 @@ const RecipeEdit = () => {
                         contentContentUpdateStatus={contentUpdateStatus}
                         setContentContentUpdateStatus={setContentUpdateStatus}
                         imageSubmitHandler={imageUpdateHandler}
+                        imageDeleteHandler={imageDeleteHandler}
                         familyGroupsUpdateHandler={familyGroupsUpdateHandler}
                         familyGroupsRemoveHandler={familyGroupsRemoveHandler}
                     />
