@@ -72,6 +72,7 @@ const RecipeEdit = () => {
             setTimeout(() => {
                 setContentUpdateStatus(null);
             }, 5000);
+            getRecipe(recipeId);
         } catch (error) {
             // setSubmissionStatus('fail');
             setContentUpdateStatus('Update fail');

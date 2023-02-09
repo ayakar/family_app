@@ -14,6 +14,7 @@ import Select from '../UI/Select';
 
 import RecipeFormImage from './RecipeFormImage';
 import RecipeFormBasicInfo from './RecipeFormBasicInfo';
+import RecipeFormIngredients from './RecipeFormIngredients';
 
 const StyledRecipeForm = styled.div`
     display: flex;
@@ -55,22 +56,6 @@ const StyledSecondRowInnerWrap = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 
-const StyledIngredientLists = styled.div`
-    width: 100%;
-    /* border: ${({ theme }) => `${theme.colors.lightGray} 1px solid`}; */
-    /* max-width: 400px; */
-`;
-const StyledIngredientList = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: ${({ theme }) => theme.spacing.xs};
-    padding-top: ${({ theme }) => theme.spacing.xs};
-    padding-bottom: ${({ theme }) => theme.spacing.xs};
-
-    & ~ & {
-        /* border-top: ${({ theme }) => `${theme.colors.lightGray} 1px solid`}; */
-    }
-`;
 const StyledStepsWrapper = styled.div``;
 const StyledStepWrapper = styled.div`
     display: flex;
@@ -173,30 +158,6 @@ const RecipeForm = ({
         }
     };
 
-    // Update ingredients
-    const onChangeIngredientsHandler = (id, property, value) => {
-        console.log('onchange', id, property, value);
-        const newArray = recipe.ingredients.map((ing) => (ing._id === id || ing.tempId === id ? { ...ing, [property]: value } : ing));
-        setRecipe({ ...recipe, ingredients: newArray });
-    };
-    // Add Ingredients field
-    const addIngredientsField = () => {
-        const newIngField = {
-            name: '',
-            amount: '',
-            // tempId: Math.floor(Math.random() * 10000),
-            tempId: recipe.ingredients.length + 1,
-        };
-        setRecipe({ ...recipe, ingredients: [...recipe.ingredients, newIngField] });
-    };
-
-    // Remove Ingredients field
-    const removeIngredients = (id) => {
-        const newIngArr = recipe.ingredients.filter((ing) => ing._id !== id && ing.tempId !== id);
-        console.log(newIngArr);
-        setRecipe({ ...recipe, ingredients: newIngArr });
-    };
-
     // Update Steps
     const onChangeStepsHandler = (id, value) => {
         const newArray = recipe.steps.map((step) => (step._id === id || step.tempId === id ? { ...step, description: value } : step));
@@ -257,55 +218,10 @@ const RecipeForm = ({
                         </StyledSecondRowInnerWrap>
                         <StyledSecondRowInnerWrap>
                             <StyledH3Title color={theme.colors.orange}>Ingredients</StyledH3Title>
-                            <StyledLabelInput>
-                                <Label
-                                    label="Portion"
-                                    color={theme.colors.green}
-                                />
-                                <Input
-                                    onChange={(event) => setRecipe({ ...recipe, portions: event.target.value })}
-                                    defaultValue={recipe.portions}
-                                />
-                            </StyledLabelInput>
-                            <Label
-                                label="Ingredients"
-                                color={theme.colors.green}
+                            <RecipeFormIngredients
+                                recipe={recipe}
+                                setRecipe={setRecipe}
                             />
-
-                            <StyledIngredientLists>
-                                {recipe.ingredients &&
-                                    recipe.ingredients.map((ing, index) => {
-                                        const id = ing._id || ing.tempId;
-                                        return (
-                                            <StyledIngredientList key={ing._id || ing.tempId}>
-                                                <Input
-                                                    key={id}
-                                                    onChange={(event) => onChangeIngredientsHandler(id, 'name', event.target.value)}
-                                                    defaultValue={recipe.ingredients[index].name}
-                                                />
-                                                <Input
-                                                    onChange={(event) => onChangeIngredientsHandler(id, 'amount', event.target.value)}
-                                                    defaultValue={recipe.ingredients[index].amount}
-                                                />
-
-                                                <IconButton onClick={() => removeIngredients(id)}>
-                                                    <DashCircle
-                                                        color={theme.colors.pink}
-                                                        size={15}
-                                                    />
-                                                </IconButton>
-                                            </StyledIngredientList>
-                                        );
-                                    })}
-
-                                <IconButton onClick={addIngredientsField}>
-                                    <PlusCircle
-                                        color={theme.colors.green}
-                                        size={23}
-                                    />
-                                    Add More Ingredients
-                                </IconButton>
-                            </StyledIngredientLists>
                         </StyledSecondRowInnerWrap>
                         <StyledSecondRowInnerWrap>
                             <StyledH3Title color={theme.colors.orange}>Steps</StyledH3Title>
