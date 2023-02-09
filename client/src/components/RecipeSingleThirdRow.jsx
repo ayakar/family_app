@@ -80,7 +80,7 @@ const RecipeSingleThirdRow = ({ steps, note, createdAt, updatedAt, familyGroupId
                                 </div>
                             ))}
                         </div>
-                        <div style={{ fontSize: `${theme.fontSize.xs}` }}>
+                        <div style={{ fontSize: `${theme.fontSize.xs}`, marginTop: '30px' }}>
                             <StarFill
                                 color={theme.colors.orange}
                                 size={10}

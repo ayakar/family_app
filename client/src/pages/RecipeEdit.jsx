@@ -14,16 +14,11 @@ import {
     deleteRecipeImageApiCall,
 } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
-import { getUserAvatarApiCall } from '../api/userApi';
 import RecipeFrom from '../components/RecipeForm';
 import IconButton from '../UI/IconButton';
-import Container from '../UI/Container';
 
 import ErrorBoundary from '../ErrorBoundary';
 
-const StyledContainer = styled(Container)`
-    padding: ${({ theme }) => theme.spacing.l};
-`;
 const StyledIconButton = styled(IconButton)`
     margin-bottom: ${({ theme }) => theme.spacing.s};
     font: inherit;
@@ -37,7 +32,6 @@ const RecipeEdit = () => {
 
     const [recipe, setRecipe] = useState({});
     const [recipeImage, setRecipeImage] = useState('');
-    const [ownerAvatar, setOwnerAvatar] = useState('');
     const [contentUpdateStatus, setContentUpdateStatus] = useState(null);
     // const [imageErrorMessage, setImageErrorMessage] = useState('');
     // const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
@@ -46,13 +40,6 @@ const RecipeEdit = () => {
         getRecipe(recipeId);
         getRecipeImage(recipeId);
     }, []);
-
-    // Need to fetch once getRecipe is done
-    useEffect(() => {
-        if (recipe.owner) {
-            getOwnerAvatar(recipe.owner);
-        }
-    }, [recipe]);
 
     const getRecipe = async (recipeId) => {
         try {
@@ -71,12 +58,6 @@ const RecipeEdit = () => {
         const response = await getRecipeImageApiCall(recipeId);
         const objectUrl = await generateObjectUrl(response);
         setRecipeImage(objectUrl);
-    };
-
-    const getOwnerAvatar = async (recipeOwnerId) => {
-        const response = await getUserAvatarApiCall(recipeOwnerId);
-        const objectUrl = await generateObjectUrl(response);
-        setOwnerAvatar(objectUrl);
     };
 
     // Submit update (name, desc, url, ing, steps, note)

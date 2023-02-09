@@ -171,7 +171,6 @@ const RecipeForm = ({
                     return;
                 }
             });
-            // TODO - remove empty field from ingredients
 
             const reqBody = {
                 name: recipe.name,
