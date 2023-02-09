@@ -15,7 +15,7 @@ import {
 } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
-import RecipeFrom from '../components/RecipeFrom';
+import RecipeFrom from '../components/RecipeForm';
 import IconButton from '../UI/IconButton';
 import Container from '../UI/Container';
 

@@ -13,7 +13,7 @@ import { useAuth } from '../contexts/AuthContext';
 import Select from '../UI/Select';
 import DropZone from '../UI/DropZone';
 
-const StyledRecipeFrom = styled.div`
+const StyledRecipeForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.spacing.m};
@@ -118,7 +118,7 @@ const StyledFamilyGroupList = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
-const RecipeFrom = ({
+const RecipeForm = ({
     recipeImage,
     recipe,
     setRecipe,
@@ -262,7 +262,7 @@ const RecipeFrom = ({
 
     return (
         <>
-            <StyledRecipeFrom>
+            <StyledRecipeForm>
                 <StyledWrapper>
                     <StyledContainer>
                         <StyledH3Title color={theme.colors.orange}>Recipe Image</StyledH3Title>
@@ -502,7 +502,7 @@ const RecipeFrom = ({
                         </IconButton>
                     </StyledContainer>
                 </StyledWrapper>
-            </StyledRecipeFrom>
+            </StyledRecipeForm>
             <Modal
                 isOpen={isAddFamilyModalOpen}
                 closeHandler={() => setIsAddFamilyModalOpen(false)}
@@ -526,4 +526,4 @@ const RecipeFrom = ({
     );
 };
 
-export default RecipeFrom;
+export default RecipeForm;
