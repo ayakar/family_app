@@ -11,7 +11,8 @@ import { DashCircle, PlusCircle, HouseFill, PencilFill, CupHot } from 'react-boo
 import Modal from '../UI/Modal';
 import { useAuth } from '../contexts/AuthContext';
 import Select from '../UI/Select';
-import DropZone from '../UI/DropZone';
+
+import RecipeFormImage from './RecipeFormImage';
 
 const StyledRecipeForm = styled.div`
     display: flex;
@@ -43,31 +44,10 @@ const StyledLabelInput = styled.div`
     }
 `;
 
-// const StyledIconButton = styled(IconButton)`
-//     margin-bottom: ${({ theme }) => theme.spacing.s};
-// `;
-
 const StyledFirstRowInnerWrap = styled.div`
     display: flex;
     align-items: flex-end;
     gap: ${({ theme }) => theme.spacing.m};
-`;
-
-const StyledImageWrapper = styled.div`
-    width: ${({ theme }) => theme.recipeImageSize.m.width};
-    height: ${({ theme }) => theme.recipeImageSize.m.height};
-`;
-
-const StyledImage = styled.img`
-    width: 100%;
-    height: 100%;
-    border-radius: ${({ theme }) => theme.borderRadius.m};
-    object-fit: cover;
-`;
-
-const StyledButtonWrapper = styled.div`
-    display: flex;
-    gap: ${({ theme }) => theme.spacing.s};
 `;
 
 const StyledSecondRowInnerWrap = styled.div`
@@ -134,7 +114,6 @@ const RecipeForm = ({
     const { familyGroups, getUserFamilyGroups } = useAuth();
     const [image, setImage] = useState('');
     const [isAddFamilyModalOpen, setIsAddFamilyModalOpen] = useState(false);
-    const [recipeImageFile, setRecipeImageFile] = useState('');
 
     const [familyGroupSelectValue, setFamilyGroupSelectValue] = useState('');
 
@@ -191,14 +170,6 @@ const RecipeForm = ({
             //     setContentContentUpdateStatus(null);
             // }, 5000);
         }
-    };
-    // Submit (image)
-    const imageSubmit = () => {
-        imageSubmitHandler(recipeImageFile);
-    };
-    // Submit Delete image
-    const deleteImageSubmit = () => {
-        imageDeleteHandler();
     };
 
     // Update ingredients
@@ -266,54 +237,11 @@ const RecipeForm = ({
                     <StyledContainer>
                         <StyledH3Title color={theme.colors.orange}>Recipe Image</StyledH3Title>
                         <StyledFirstRowInnerWrap>
-                            <StyledImageWrapper>
-                                {image ? (
-                                    <StyledImage
-                                        src={image}
-                                        alt="recipe image"
-                                    />
-                                ) : (
-                                    <DropZone
-                                        file={recipeImageFile}
-                                        setFile={setRecipeImageFile}
-                                        maximumFileSize={1000000}
-                                        //setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
-                                    />
-                                )}
-                            </StyledImageWrapper>
-                            <StyledButtonWrapper>
-                                {!image && (
-                                    <>
-                                        <Button
-                                            variant="contain"
-                                            color="lightGreen"
-                                            disabled={recipeImageFile ? false : true}
-                                            onClick={imageSubmit}
-                                        >
-                                            Upload Image
-                                        </Button>
-                                        {recipeImageFile && (
-                                            <Button
-                                                variant="text"
-                                                color="green"
-                                                onClick={() => setRecipeImageFile('')}
-                                            >
-                                                Cancel
-                                            </Button>
-                                        )}
-                                    </>
-                                )}
-
-                                {image && (
-                                    <Button
-                                        variant="contain"
-                                        color="lightGreen"
-                                        onClick={deleteImageSubmit}
-                                    >
-                                        Delete this image
-                                    </Button>
-                                )}
-                            </StyledButtonWrapper>
+                            <RecipeFormImage
+                                image={image}
+                                imageSubmitHandler={imageSubmitHandler}
+                                deleteImageSubmitHandler={imageDeleteHandler}
+                            />
                         </StyledFirstRowInnerWrap>
                     </StyledContainer>
                 </StyledWrapper>
