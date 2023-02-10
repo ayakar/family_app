@@ -14,7 +14,7 @@ import {
     deleteRecipeImageApiCall,
 } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
-import RecipeFrom from '../components/RecipeForm';
+import RecipeEditFrom from '../components/RecipeEditForm';
 import IconButton from '../UI/IconButton';
 
 import ErrorBoundary from '../ErrorBoundary';
@@ -130,7 +130,7 @@ const RecipeEdit = () => {
             </ErrorBoundary>
             <ErrorBoundary>
                 {recipe && (
-                    <RecipeFrom
+                    <RecipeEditFrom
                         isCreate={false}
                         recipeImage={recipeImage}
                         recipe={recipe}

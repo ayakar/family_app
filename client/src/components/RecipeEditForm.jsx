@@ -54,7 +54,7 @@ const StyledSecondRowInnerWrap = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 
-const RecipeForm = ({
+const RecipeEditForm = ({
     recipeImage,
     recipe,
     setRecipe,
@@ -217,4 +217,4 @@ const RecipeForm = ({
     );
 };
 
-export default RecipeForm;
+export default RecipeEditForm;
