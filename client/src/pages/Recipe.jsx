@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
+import { useConfirmation } from '../contexts/ConfirmationContext';
 import { getRecipeApiCall, getRecipeImageApiCall, deleteRecipeApiCall } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
@@ -27,6 +28,7 @@ const Recipe = () => {
 
     const navigate = useNavigate();
     const { currentUser } = useAuth();
+    const { confirmation } = useConfirmation();
 
     const [recipe, setRecipe] = useState({});
     const [recipeImage, setRecipeImage] = useState('');
@@ -71,11 +73,18 @@ const Recipe = () => {
 
     const deleteSubmitHandler = async () => {
         try {
-            const response = await deleteRecipeApiCall(recipeId);
-            if (!response.ok) {
-                throw new Error();
+            const isConfirmed = await confirmation({
+                text: 'Are you sure you want to delete this recipe?',
+                buttonLabel: 'Yes. I want to delete this recipe',
+            });
+            console.log(isConfirmed);
+            if (isConfirmed) {
+                const response = await deleteRecipeApiCall(recipeId);
+                if (!response.ok) {
+                    throw new Error();
+                }
+                // TODO: redirect user to recipe lists
             }
-            // TODO: redirect user to recipe lists
         } catch (error) {
             console.log(error);
         }
