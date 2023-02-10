@@ -15,7 +15,7 @@ import RecipeSingleThirdRow from '../components/RecipeSingleThirdRow';
 import ErrorBoundary from '../ErrorBoundary';
 
 const StyledContainer = styled(Container)`
-    padding: ${({ theme }) => theme.spacing.l};
+    /* padding: ${({ theme }) => theme.spacing.l}; */
 `;
 const StyledIconButton = styled(IconButton)`
     margin-bottom: ${({ theme }) => theme.spacing.s};

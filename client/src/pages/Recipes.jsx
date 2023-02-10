@@ -4,6 +4,7 @@ import RecipeLists from '../components/RecipeLists';
 import Container from '../UI/Container';
 import { PlusCircleFill } from 'react-bootstrap-icons';
 import Button from '../UI/Button';
+import LinkButton from '../UI/LinkButton';
 import ErrorBoundary from '../ErrorBoundary';
 import { Link } from 'react-router-dom';
 
@@ -14,15 +15,16 @@ const Recipes = () => {
         <StyledRecipes>
             <Container>
                 <ErrorBoundary>
-                    <Button
-                        color="blue"
-                        variant="text"
-                        onClick={() => console.log('create new recipe clicked')}
-                    >
-                        <PlusCircleFill size={20} />
-                        Create New Recipe
-                    </Button>
-                    <Link to="/recipes/create">new recipe</Link>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '16px' }}>
+                        <LinkButton
+                            to="/recipes/create"
+                            color="blue"
+                            variant="text"
+                        >
+                            <PlusCircleFill size={25} />
+                            Create New Recipe
+                        </LinkButton>
+                    </div>
                 </ErrorBoundary>
                 <ErrorBoundary>
                     <RecipeLists />

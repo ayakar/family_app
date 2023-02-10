@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import Input from '../UI/Input';
-import Label from '../UI/Label';
-import Textarea from '../UI/Textarea';
-import H3Title from '../UI/H3Title';
-import Button from '../UI/Button';
-import Container from '../UI/Container';
-import IconButton from '../UI/IconButton';
-import { DashCircle, PlusCircle, HouseFill, PencilFill, CupHot } from 'react-bootstrap-icons';
-import Modal from '../UI/Modal';
 import { useAuth } from '../contexts/AuthContext';
-import Select from '../UI/Select';
 
 import RecipeFormImage from './RecipeFormImage';
 import RecipeFormBasicInfo from './RecipeFormBasicInfo';
 import RecipeFormIngredients from './RecipeFormIngredients';
 import RecipeFormSteps from './RecipeFormSteps';
 import { RecipeFormFamilyGroup } from './RecipeFormFamilyGroup';
+
+import Label from '../UI/Label';
+import Textarea from '../UI/Textarea';
+import H3Title from '../UI/H3Title';
+import Button from '../UI/Button';
+import Container from '../UI/Container';
 
 const StyledRecipeForm = styled.div`
     display: flex;
