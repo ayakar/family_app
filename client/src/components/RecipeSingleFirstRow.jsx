@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Pencil } from 'react-bootstrap-icons';
+import { Pencil, Trash3 } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
 import { Link } from 'react-router-dom';
 
 const StyledRecipeSingleFirstRow = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: ${({ theme }) => theme.spacing.s};
 `;
 const StyledTitle = styled.h2`
@@ -22,20 +23,23 @@ const StyledTitle = styled.h2`
 const StyledLink = styled(Link)`
     display: flex;
     gap: ${({ theme }) => theme.spacing.xs};
-    margin-top: ${({ theme }) => theme.spacing.s};
     font: inherit;
     text-decoration: none;
 `;
 
-const RecipeSingleFirstRow = ({ recipeId, name, recipeOwnerId, currentUserId }) => {
+const RecipeSingleFirstRow = ({ recipeId, name, recipeOwnerId, currentUserId, deleteSubmitHandler }) => {
     return (
         <StyledRecipeSingleFirstRow>
             <StyledTitle>{name}</StyledTitle>
             {recipeOwnerId === currentUserId && (
-                <StyledLink to={`/recipes/edit/${recipeId}`}>
-                    <Pencil size="20" />
-                    Edit This Recipe
-                </StyledLink>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <StyledLink to={`/recipes/edit/${recipeId}`}>
+                        <Pencil size="20" />
+                    </StyledLink>
+                    <IconButton onClick={deleteSubmitHandler}>
+                        <Trash3 size="20" />
+                    </IconButton>
+                </div>
             )}
         </StyledRecipeSingleFirstRow>
     );

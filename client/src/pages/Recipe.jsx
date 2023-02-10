@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
-import { getRecipeApiCall, getRecipeImageApiCall } from '../api/recipeApi';
+import { getRecipeApiCall, getRecipeImageApiCall, deleteRecipeApiCall } from '../api/recipeApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
 import IconButton from '../UI/IconButton';
@@ -69,6 +69,18 @@ const Recipe = () => {
         setOwnerAvatar(objectUrl);
     };
 
+    const deleteSubmitHandler = async () => {
+        try {
+            const response = await deleteRecipeApiCall(recipeId);
+            if (!response.ok) {
+                throw new Error();
+            }
+            // TODO: redirect user to recipe lists
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <StyledContainer>
             <ErrorBoundary>
@@ -83,6 +95,7 @@ const Recipe = () => {
                     name={recipe.name}
                     recipeOwnerId={recipe.owner}
                     currentUserId={currentUser._id}
+                    deleteSubmitHandler={deleteSubmitHandler}
                 />
             </ErrorBoundary>
             <ErrorBoundary>
