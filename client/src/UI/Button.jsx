@@ -59,6 +59,14 @@ const LightGreenContainButton = styled(BaseContainButton)`
         background-color: ${({ theme }) => theme.colors.green};
     }
 `;
+const LightRedContainButton = styled(BaseContainButton)`
+    background-color: ${({ theme }) => theme.colors.lightPink};
+    color: ${({ theme }) => theme.colors.red};
+    &:hover {
+        color: ${({ theme }) => theme.colors.white};
+        background-color: ${({ theme }) => theme.colors.red};
+    }
+`;
 
 // Text
 const BlueTextButton = styled(BaseTextButton)`
@@ -121,6 +129,8 @@ const Button = (props) => {
 
         case props.variant === 'contain' && props.color === 'lightGreen':
             return <LightGreenContainButton {...props}>{props.children}</LightGreenContainButton>;
+        case props.variant === 'contain' && props.color === 'lightRed':
+            return <LightRedContainButton {...props}>{props.children}</LightRedContainButton>;
 
         case props.variant === 'outlined' && props.color === 'blue':
             return <BlueOutLinedButton {...props}>{props.children}</BlueOutLinedButton>;
