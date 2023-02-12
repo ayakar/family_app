@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
@@ -55,6 +55,7 @@ const Recipe = () => {
             const data = await response.json();
             setRecipe(data);
         } catch (error) {
+            navigate('/recipes');
             console.log('Something went wrong');
         }
     };
@@ -83,7 +84,9 @@ const Recipe = () => {
                 if (!response.ok) {
                     throw new Error();
                 }
-                // TODO: redirect user to recipe lists
+                // Redirect user to recipe lists by getting recipe data with deleted id
+                // TODO show confirmation message before calling this function
+                getRecipe(recipeId);
             }
         } catch (error) {
             console.log(error);
