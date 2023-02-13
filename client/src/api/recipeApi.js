@@ -1,6 +1,6 @@
 const headers = { 'Content-Type': 'application/json' };
 // CREATE RECIPE
-export const createRecipeApiCall = async (reqBody, recipeImageFile) => {
+export const createRecipeApiCall = async (reqBody) => {
     const token = localStorage.getItem('token');
     const response = await fetch(`/recipes`, {
         method: 'POST',
@@ -8,14 +8,6 @@ export const createRecipeApiCall = async (reqBody, recipeImageFile) => {
         body: JSON.stringify(reqBody),
     });
 
-    // API call for image upload
-    console.log(recipeImageFile);
-
-    // if (recipeImageFile) {
-    //     const data = await response.json();
-    //     const responseImage = await uploadRecipeImageApiCall(data._id, recipeImageFile);
-    //     return responseImage;
-    // }
     return response;
 };
 

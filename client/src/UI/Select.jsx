@@ -12,7 +12,7 @@ const Select = ({ onChange, value, options, optionsProperties }) => {
             onChange={(event) => onChange(event.target.value)}
             value={value}
         >
-            <option>Please Select</option>
+            <option value="">Please Select</option>
             {options?.map((option) => {
                 return (
                     <option

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { ArrowLeft } from 'react-bootstrap-icons';
 import { useAuth } from '../contexts/AuthContext';
-import { createRecipeApiCall } from '../api/recipeApi';
+import { createRecipeApiCall, uploadRecipeImageApiCall } from '../api/recipeApi';
 import ErrorBoundary from '../ErrorBoundary';
 import RecipeFormImage from '../components/RecipeFormImage';
 import RecipeFormBasicInfo from '../components/RecipeFormBasicInfo';
@@ -106,6 +106,9 @@ const RecipeCreate = () => {
                     return;
                 }
             });
+            if (recipe.primaryFamilyGroup === '') {
+                return setSubmitStatus('Please select primary family group');
+            }
 
             const reqBody = {
                 name: recipe.name,
@@ -118,20 +121,27 @@ const RecipeCreate = () => {
                 primaryFamilyGroup: recipe.primaryFamilyGroup,
                 familyGroupIds: recipe.primaryFamilyGroup, // TODO: Modify this on backend
             };
-            const reqBodyImageFile = new FormData();
-            reqBodyImageFile.append('recipeImage', recipeImageFile);
-            console.log('sending', recipeImageFile);
+            console.log(reqBody);
             if (isValidFields) {
-                const response = await createRecipeApiCall(reqBody, reqBodyImageFile);
+                const response = await createRecipeApiCall(reqBody);
                 if (!response.ok) {
                     throw new Error('Something went wrong');
                 }
+                const data = await response.json();
+                const newRecipeId = data._id;
+
+                if (recipeImageFile) {
+                    const reqBodyImageFile = new FormData();
+                    reqBodyImageFile.append('recipeImage', recipeImageFile);
+                    await uploadRecipeImageApiCall(newRecipeId, reqBodyImageFile);
+                }
+
                 setSubmitStatus('Recipe Created Successfully!');
-                // setTimeout(() => {
-                //     setSubmitStatus(null);
-                // }, 5000);
-                // TODO navigate user to edit page using _id
-                //console.log(response.json()._id);
+
+                setTimeout(() => {
+                    setSubmitStatus(null);
+                    navigate(`/recipes/${newRecipeId}`);
+                }, 2000);
             }
         } catch (error) {
             // setSubmissionStatus('fail');
