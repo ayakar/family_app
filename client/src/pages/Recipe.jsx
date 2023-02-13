@@ -56,7 +56,6 @@ const Recipe = () => {
             setRecipe(data);
         } catch (error) {
             navigate('/recipes');
-            console.log('Something went wrong');
         }
     };
 

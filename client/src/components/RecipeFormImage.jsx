@@ -34,15 +34,21 @@ const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler, 
         setRecipeImageFile('');
     }, [image]);
 
-    const dropZoneOnChange = (value) => {
-        // additionalOnChangeHandler for create recipe
+    useEffect(() => {
         if (additionalOnChangeHandler) {
-            additionalOnChangeHandler(value); // FIXME: this set state not working
-            setRecipeImageFile(value);
-        } else {
-            setRecipeImageFile(value);
+            additionalOnChangeHandler(recipeImageFile);
         }
-    };
+    }, [recipeImageFile]);
+
+    // const dropZoneOnChange = (file) => {
+    //     // additionalOnChangeHandler for create recipe
+    //     if (additionalOnChangeHandler) {
+    //         additionalOnChangeHandler(file);
+    //         setRecipeImageFile(file);
+    //     } else {
+    //         setRecipeImageFile(file);
+    //     }
+    // };
 
     return (
         <StyledRecipeFormImage>
@@ -55,7 +61,7 @@ const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler, 
                 ) : (
                     <DropZone
                         file={recipeImageFile}
-                        setFile={dropZoneOnChange}
+                        setFile={setRecipeImageFile}
                         maximumFileSize={1000000}
                         //setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
                     />

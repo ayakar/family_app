@@ -67,7 +67,6 @@ const RecipeCreate = () => {
         externalUrl: '',
         note: '',
         primaryFamilyGroup: '',
-        familyGroupIds: '',
     });
     const [recipeImageFile, setRecipeImageFile] = useState('');
     const [submitStatus, setSubmitStatus] = useState(null);
@@ -116,46 +115,29 @@ const RecipeCreate = () => {
                 ingredients: cleanedIngredients,
                 steps: recipe.steps,
                 note: recipe.note,
+                primaryFamilyGroup: recipe.primaryFamilyGroup,
+                familyGroupIds: recipe.primaryFamilyGroup, // TODO: Modify this on backend
             };
             const reqBodyImageFile = new FormData();
             reqBodyImageFile.append('recipeImage', recipeImageFile);
-
-            console.log(reqBody);
-            console.log(reqBodyImageFile);
+            console.log('sending', recipeImageFile);
             if (isValidFields) {
                 const response = await createRecipeApiCall(reqBody, reqBodyImageFile);
                 if (!response.ok) {
                     throw new Error('Something went wrong');
                 }
                 setSubmitStatus('Recipe Created Successfully!');
-                setTimeout(() => {
-                    setSubmitStatus(null);
-                }, 5000);
+                // setTimeout(() => {
+                //     setSubmitStatus(null);
+                // }, 5000);
                 // TODO navigate user to edit page using _id
+                //console.log(response.json()._id);
             }
         } catch (error) {
             // setSubmissionStatus('fail');
             setSubmitStatus('Recipe Create Fail');
             console.log(error);
         }
-    };
-    // Submit images update (image)
-    const imageUpdateHandler = async (recipeImageFile) => {
-        console.log(recipeImageFile);
-        // setErrorMessage('');
-        try {
-            if (recipeImageFile === '') {
-                return;
-                // setErrorMessage('Please choose an image');
-            }
-            const reqBody = new FormData();
-            reqBody.append('recipeImage', recipeImageFile);
-            // const response = await uploadRecipeImageApiCall(recipeId, reqBody);
-            // if (!response.ok) {
-            //     throw new Error('Recipe Image upload fail');
-            // }
-            // TODO navigate user to edit page using _id
-        } catch (error) {}
     };
 
     return (
@@ -166,8 +148,7 @@ const RecipeCreate = () => {
                     Back to Recipe
                 </StyledIconButton>
             </ErrorBoundary>
-            {JSON.stringify(recipe)}
-            {JSON.stringify(recipeImageFile)}
+
             <ErrorBoundary>
                 {
                     <StyledRecipeForm>
@@ -175,9 +156,7 @@ const RecipeCreate = () => {
                             <StyledContainer>
                                 <StyledH3Title color={theme.colors.orange}>Recipe Image</StyledH3Title>
                                 <StyledRowInnerWrap>
-                                    <RecipeFormImage
-                                        additionalOnChangeHandler={setRecipeImageFile} // TODO: function to get image file
-                                    />
+                                    <RecipeFormImage additionalOnChangeHandler={setRecipeImageFile} />
                                 </StyledRowInnerWrap>
                                 <StyledRowInnerWrap>
                                     <StyledH3Title color={theme.colors.orange}>Basic Info</StyledH3Title>
@@ -212,18 +191,17 @@ const RecipeCreate = () => {
                                         rows={5}
                                     />
                                 </StyledLabelInput>
-                                {/* {familyGroups && ( */}
+
                                 <StyledRowInnerWrap>
                                     <StyledH3Title color={theme.colors.orange}>Family Group</StyledH3Title>
                                     <Select
-                                        // onChange={setFamilyGroupSelectValue} //TODO
-                                        // value={familyGroupSelectValue} // TODO
+                                        onChange={(value) => setRecipe({ ...recipe, primaryFamilyGroup: value })}
+                                        value={recipe.primaryFamilyGroup}
                                         options={familyGroups}
                                         optionsProperties={{ value: '_id', label: 'name' }}
                                     />
                                 </StyledRowInnerWrap>
-                                {/* ) */}
-                                {/* } */}
+
                                 <Button
                                     color="lightGreen"
                                     variant="contain"
