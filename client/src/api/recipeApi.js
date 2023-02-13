@@ -1,5 +1,10 @@
 const headers = { 'Content-Type': 'application/json' };
 // CREATE RECIPE
+export const createRecipeApiCall = async (reqBody, recipeImageFile) => {
+    console.log(reqBody);
+    // uploadRecipeImageApiCall with returned recipe id
+};
+
 // READ FAMILY GROUP'S RECIPE --- currently not used
 // export const getFamilyGroupRecipesApiCall = async (familyGroupId) => {
 //     const token = localStorage.getItem('token');

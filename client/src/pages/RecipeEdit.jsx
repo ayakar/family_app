@@ -61,12 +61,6 @@ const StyledLabelInput = styled.div`
     }
 `;
 
-const StyledFirstRowInnerWrap = styled.div`
-    display: flex;
-    align-items: flex-end;
-    gap: ${({ theme }) => theme.spacing.m};
-`;
-
 const StyledSecondRowInnerWrap = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
@@ -220,13 +214,12 @@ const RecipeEdit = () => {
                         <StyledWrapper>
                             <StyledContainer>
                                 <StyledH3Title color={theme.colors.orange}>Recipe Image</StyledH3Title>
-                                <StyledFirstRowInnerWrap>
-                                    <RecipeFormImage
-                                        image={recipeImage}
-                                        imageSubmitHandler={imageUpdateHandler}
-                                        deleteImageSubmitHandler={imageDeleteHandler}
-                                    />
-                                </StyledFirstRowInnerWrap>
+
+                                <RecipeFormImage
+                                    image={recipeImage}
+                                    imageSubmitHandler={imageUpdateHandler}
+                                    deleteImageSubmitHandler={imageDeleteHandler}
+                                />
                             </StyledContainer>
                         </StyledWrapper>
                         <StyledWrapper>

@@ -3,6 +3,12 @@ import styled, { useTheme } from 'styled-components';
 import DropZone from '../UI/DropZone';
 import Button from '../UI/Button';
 
+const StyledRecipeFormImage = styled.div`
+    display: flex;
+    align-items: flex-end;
+    gap: ${({ theme }) => theme.spacing.m};
+`;
+
 const StyledImageWrapper = styled.div`
     width: ${({ theme }) => theme.recipeImageSize.m.width};
     height: ${({ theme }) => theme.recipeImageSize.m.height};
@@ -20,7 +26,7 @@ const StyledButtonWrapper = styled.div`
     gap: ${({ theme }) => theme.spacing.s};
 `;
 
-const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler }) => {
+const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler, additionalOnChangeHandler }) => {
     const [recipeImageFile, setRecipeImageFile] = useState('');
 
     useEffect(() => {
@@ -28,8 +34,18 @@ const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler }
         setRecipeImageFile('');
     }, [image]);
 
+    const dropZoneOnChange = (value) => {
+        // additionalOnChangeHandler for create recipe
+        if (additionalOnChangeHandler) {
+            additionalOnChangeHandler(value); // FIXME: this set state not working
+            setRecipeImageFile(value);
+        } else {
+            setRecipeImageFile(value);
+        }
+    };
+
     return (
-        <>
+        <StyledRecipeFormImage>
             <StyledImageWrapper>
                 {image ? (
                     <StyledImage
@@ -39,35 +55,33 @@ const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler }
                 ) : (
                     <DropZone
                         file={recipeImageFile}
-                        setFile={setRecipeImageFile}
+                        setFile={dropZoneOnChange}
                         maximumFileSize={1000000}
                         //setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
                     />
                 )}
             </StyledImageWrapper>
             <StyledButtonWrapper>
-                {!image && (
-                    <>
-                        <Button
-                            variant="contain"
-                            color="lightGreen"
-                            disabled={recipeImageFile ? false : true}
-                            onClick={() => {
-                                imageSubmitHandler(recipeImageFile);
-                            }}
-                        >
-                            Upload Image
-                        </Button>
-                        {recipeImageFile && (
-                            <Button
-                                variant="text"
-                                color="green"
-                                onClick={() => setRecipeImageFile('')}
-                            >
-                                Cancel
-                            </Button>
-                        )}
-                    </>
+                {!image && imageSubmitHandler && (
+                    <Button
+                        variant="contain"
+                        color="lightGreen"
+                        disabled={recipeImageFile ? false : true}
+                        onClick={() => {
+                            imageSubmitHandler(recipeImageFile);
+                        }}
+                    >
+                        Upload Image
+                    </Button>
+                )}
+                {!image && recipeImageFile && (
+                    <Button
+                        variant="text"
+                        color="green"
+                        onClick={() => setRecipeImageFile('')}
+                    >
+                        Cancel
+                    </Button>
                 )}
 
                 {image && (
@@ -80,7 +94,7 @@ const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler }
                     </Button>
                 )}
             </StyledButtonWrapper>
-        </>
+        </StyledRecipeFormImage>
     );
 };
 
