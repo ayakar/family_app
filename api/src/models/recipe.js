@@ -23,13 +23,11 @@ const recipeSchema = new mongoose.Schema(
                 // type: mongoose.Schema.Types.ObjectId,
                 name: {
                     type: String,
-                    required: true,
                     trim: true,
                     lowercase: true,
                 },
                 amount: {
                     type: String,
-                    required: true,
                     trim: true,
                     lowercase: true,
                 },
@@ -39,7 +37,6 @@ const recipeSchema = new mongoose.Schema(
             {
                 description: {
                     type: String,
-                    required: true,
                     trim: true,
                 },
                 image: {
@@ -55,7 +52,7 @@ const recipeSchema = new mongoose.Schema(
             trim: true,
             maxLength: 255,
             validate(externalUrlValue) {
-                if (!validator.isURL(externalUrlValue)) {
+                if (externalUrlValue !== '' && !validator.isURL(externalUrlValue)) {
                     throw new Error('Please enter URL');
                 }
             },
@@ -65,6 +62,7 @@ const recipeSchema = new mongoose.Schema(
         },
         owner: {
             type: mongoose.Schema.Types.ObjectId,
+            required: true,
             ref: 'User',
         },
         familyGroupIds: [
