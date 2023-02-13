@@ -75,8 +75,10 @@ const RecipeEdit = () => {
     const [recipeImage, setRecipeImage] = useState('');
     const [contentUpdateStatus, setContentUpdateStatus] = useState(null);
     const [contentUpdateErrorMessage, setContentUpdateErrorMessage] = useState(null);
+    // const [imageStatus, setImageStatus] = useState(''); // null, success, fail
     // const [imageErrorMessage, setImageErrorMessage] = useState('');
-    // const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
+    const [familyGroupStatus, setFamilyGroupStatus] = useState(null); // null, success, fail
+    const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
 
     useEffect(() => {
         getRecipe(recipeId);
@@ -216,8 +218,29 @@ const RecipeEdit = () => {
 
     // Submit Add Family Group (familyGroup)
     const familyGroupsUpdateHandler = async (reqBody) => {
-        await addFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
-        getRecipe(recipeId);
+        setFamilyGroupStatus(null);
+        setFamilyGroupsErrorMessage('');
+        try {
+            if (!reqBody) {
+                setFamilyGroupStatus('fail');
+                setFamilyGroupsErrorMessage('Please chose a family group');
+                return;
+            }
+            const response = await addFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
+            if (!response.ok) {
+                throw new Error();
+            }
+            setFamilyGroupStatus('success');
+            getRecipe(recipeId);
+        } catch (error) {
+            setFamilyGroupStatus('fail');
+            setFamilyGroupsErrorMessage('Something went wrong');
+        } finally {
+            setTimeout(() => {
+                setFamilyGroupStatus(null);
+                setFamilyGroupsErrorMessage('');
+            }, 2000);
+        }
     };
     const familyGroupsRemoveHandler = async (reqBody) => {
         await removeFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
@@ -303,6 +326,8 @@ const RecipeEdit = () => {
                                     familyGroups={familyGroups}
                                     removeFamilyGroupSubmitHandler={familyGroupsRemoveHandler}
                                     familyGroupSubmitHandler={familyGroupsUpdateHandler}
+                                    errorMessage={familyGroupStatus === 'fail' && familyGroupsErrorMessage}
+                                    successMessage={familyGroupStatus === 'success' && 'Family group added successfully!'}
                                 />
                             </StyledContainer>
                         </StyledWrapper>

@@ -5,6 +5,7 @@ import IconButton from '../UI/IconButton';
 import { DashCircle, PlusCircle, HouseFill } from 'react-bootstrap-icons';
 import Modal from '../UI/Modal';
 import Select from '../UI/Select';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
 const StyledFamilyGroupList = styled.div`
     display: flex;
@@ -12,7 +13,7 @@ const StyledFamilyGroupList = styled.div`
     margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const RecipeFormFamilyGroup = ({ recipe, removeFamilyGroupSubmitHandler, familyGroupSubmitHandler, familyGroups }) => {
+export const RecipeFormFamilyGroup = ({ recipe, removeFamilyGroupSubmitHandler, familyGroupSubmitHandler, familyGroups, errorMessage, successMessage }) => {
     const theme = useTheme();
     const [isAddFamilyModalOpen, setIsAddFamilyModalOpen] = useState(false);
     const [familyGroupSelectValue, setFamilyGroupSelectValue] = useState('');
@@ -51,13 +52,15 @@ export const RecipeFormFamilyGroup = ({ recipe, removeFamilyGroupSubmitHandler, 
                     options={familyGroups}
                     optionsProperties={{ value: '_id', label: 'name' }}
                 />
-                <Button
+                <ButtonWithMessage
                     onClick={() => familyGroupSubmitHandler(familyGroupSelectValue)}
                     variant="contain"
                     color="blue"
+                    errorMessage={errorMessage}
+                    successMessage={successMessage}
                 >
                     Add this family group
-                </Button>
+                </ButtonWithMessage>
             </Modal>
         </>
     );
