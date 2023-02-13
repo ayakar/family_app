@@ -6,6 +6,7 @@ import { updateUserProfileApiCall } from '../api/userApi';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import Label from '../UI/Label';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
 const StyledLabelInput = styled.div`
     display: flex;
@@ -132,16 +133,16 @@ const EditProfileForm = () => {
             <pre>{JSON.stringify(email)}</pre>
             <pre>{JSON.stringify(password)}</pre> */}
 
-            <Button
+            <ButtonWithMessage
                 onClick={submitHandler}
                 color="lightBlue"
                 variant="contain"
                 disabled={submissionStatus === 'loading'}
+                errorMessage={submissionStatus === 'fail' && errorMessage}
+                successMessage={submissionStatus === 'success' && 'Successfully Updated!'}
             >
                 {submissionStatus === 'loading' ? 'Saving...' : 'Save'}
-            </Button>
-            {submissionStatus === 'fail' && <StyledErrorMessage>{errorMessage}</StyledErrorMessage>}
-            {submissionStatus === 'success' && <StyledSuccessMessage>Successfully Updated!</StyledSuccessMessage>}
+            </ButtonWithMessage>
         </div>
     );
 };

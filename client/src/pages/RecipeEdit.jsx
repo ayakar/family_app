@@ -26,6 +26,7 @@ import Textarea from '../UI/Textarea';
 import H3Title from '../UI/H3Title';
 import Button from '../UI/Button';
 import Container from '../UI/Container';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
 const StyledIconButton = styled(IconButton)`
     margin-bottom: ${({ theme }) => theme.spacing.s};
@@ -73,6 +74,7 @@ const RecipeEdit = () => {
     const [recipe, setRecipe] = useState({});
     const [recipeImage, setRecipeImage] = useState('');
     const [contentUpdateStatus, setContentUpdateStatus] = useState(null);
+    const [contentUpdateErrorMessage, setContentUpdateErrorMessage] = useState(null);
     // const [imageErrorMessage, setImageErrorMessage] = useState('');
     // const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
 
@@ -107,6 +109,13 @@ const RecipeEdit = () => {
         try {
             let isValidFields = true;
             // TODO - make sure name is filled
+            console.log(recipe.name);
+            if (recipe.name === '') {
+                setContentUpdateStatus('fail');
+                setContentUpdateErrorMessage('Please fill recipe name');
+                return;
+            }
+
             const cleanedIngredients = recipe.ingredients.filter((ing) => {
                 if (ing.name !== '' && ing.amount !== '') {
                     delete ing.tempId;
@@ -116,18 +125,32 @@ const RecipeEdit = () => {
                     return;
                 }
                 if (ing.name === '') {
-                    setContentUpdateStatus('Please fill ingredient name');
+                    setContentUpdateStatus('fail');
+                    setContentUpdateErrorMessage('Please fill ingredient name');
                     setTimeout(() => {
                         setContentUpdateStatus(null);
+                        setContentUpdateErrorMessage('');
                     }, 7000);
                     isValidFields = false;
                     return;
                 } else if (ing.amount === '') {
-                    setContentUpdateStatus('Please fill ingredient amount');
+                    setContentUpdateStatus('fail');
+                    setContentUpdateErrorMessage('Please fill ingredient amount');
                     setTimeout(() => {
                         setContentUpdateStatus(null);
+                        setContentUpdateErrorMessage('');
                     }, 7000);
                     isValidFields = false;
+                    return;
+                }
+            });
+
+            const cleanedSteps = recipe.steps.filter((step) => {
+                if (step.description !== '') {
+                    delete step.tempId;
+                    return step;
+                }
+                if (step.description === '') {
                     return;
                 }
             });
@@ -138,7 +161,7 @@ const RecipeEdit = () => {
                 externalUrl: recipe.externalUrl,
                 portions: recipe.portions,
                 ingredients: cleanedIngredients,
-                steps: recipe.steps,
+                steps: cleanedSteps,
                 note: recipe.note,
             };
             console.log(cleanedIngredients);
@@ -147,7 +170,7 @@ const RecipeEdit = () => {
                 if (!response.ok) {
                     throw new Error('Something went wrong');
                 }
-                setContentUpdateStatus('Update Success');
+                setContentUpdateStatus('success');
                 setTimeout(() => {
                     setContentUpdateStatus(null);
                 }, 5000);
@@ -155,7 +178,8 @@ const RecipeEdit = () => {
             }
         } catch (error) {
             // setSubmissionStatus('fail');
-            setContentUpdateStatus('Update fail');
+            setContentUpdateStatus('fail');
+            setContentUpdateErrorMessage('Update Fail');
             console.log(error);
         }
     };
@@ -258,14 +282,15 @@ const RecipeEdit = () => {
                                         rows={5}
                                     />
                                 </StyledLabelInput>
-                                <Button
+                                <ButtonWithMessage
                                     color="lightGreen"
                                     variant="contain"
                                     onClick={contentUpdateHandler}
+                                    errorMessage={contentUpdateStatus === 'fail' && contentUpdateErrorMessage}
+                                    successMessage={contentUpdateStatus === 'success' && 'Updated Successfully'}
                                 >
                                     Save
-                                </Button>
-                                {contentUpdateStatus}
+                                </ButtonWithMessage>
                                 {/*  https://www.freecodecamp.org/news/build-dynamic-forms-in-react/ */}
                             </StyledContainer>
                         </StyledWrapper>

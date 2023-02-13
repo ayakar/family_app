@@ -83,17 +83,15 @@ const FamilyGroupLists = () => {
                 }}
             >
                 <StyledModalTitle>Create New Family Group</StyledModalTitle>
-                {submissionStatus === 'success' ? (
-                    <div>Family Group Successfully Created!</div>
-                ) : (
-                    <FamilyGroupForm
-                        familyName={familyName}
-                        setFamilyName={setFamilyName}
-                        buttonLabel="Create New Family Group"
-                        editHandler={submitHandler}
-                        errorMessage={errorMessage}
-                    />
-                )}
+
+                <FamilyGroupForm
+                    familyName={familyName}
+                    setFamilyName={setFamilyName}
+                    buttonLabel="Create New Family Group"
+                    editHandler={submitHandler}
+                    errorMessage={submissionStatus === 'fail' && errorMessage}
+                    successMessage={submissionStatus === 'success' && 'Family Group Successfully Created!'}
+                />
             </Modal>
         </>
     );

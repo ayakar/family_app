@@ -4,8 +4,9 @@ import { Trash } from 'react-bootstrap-icons';
 import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 import Input from '../UI/Input';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
-const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLabel, editHandler, errorMessage, deleteHandler = null }) => {
+const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLabel, editHandler, errorMessage, successMessage, deleteHandler = null }) => {
     const theme = useTheme();
     return (
         <>
@@ -15,14 +16,16 @@ const FamilyGroupForm = ({ isOwner = false, familyName, setFamilyName, buttonLab
                 onChange={(event) => setFamilyName(event.target.value)}
                 placeholder="Family Group Name"
             />
-            <Button
+            <ButtonWithMessage
                 color="lightBlue"
                 variant="contain"
                 onClick={editHandler}
+                errorMessage={errorMessage}
+                successMessage={successMessage}
             >
                 {buttonLabel}
-            </Button>
-            {errorMessage}
+            </ButtonWithMessage>
+
             {
                 // This is only for editing, not for creating family group
                 isOwner && (

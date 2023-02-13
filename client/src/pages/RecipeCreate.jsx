@@ -16,6 +16,7 @@ import H3Title from '../UI/H3Title';
 import Button from '../UI/Button';
 import Container from '../UI/Container';
 import Select from '../UI/Select';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
 const StyledIconButton = styled(IconButton)`
     margin-bottom: ${({ theme }) => theme.spacing.s};
@@ -70,6 +71,7 @@ const RecipeCreate = () => {
     });
     const [recipeImageFile, setRecipeImageFile] = useState('');
     const [submitStatus, setSubmitStatus] = useState(null);
+    const [submitErrorMessage, setSubmitErrorMessage] = useState(null);
 
     useEffect(() => {}, []);
 
@@ -80,7 +82,9 @@ const RecipeCreate = () => {
             let isValidFields = true;
             // TODO - make sure name is filled on EditRecipe page as well
             if (recipe.name === '') {
-                return setSubmitStatus('Please fill recipe name');
+                setSubmitStatus('fail');
+                setSubmitErrorMessage('Please fill recipe name');
+                return;
             }
             const cleanedIngredients = recipe.ingredients.filter((ing) => {
                 if (ing.name !== '' && ing.amount !== '') {
@@ -91,24 +95,39 @@ const RecipeCreate = () => {
                     return;
                 }
                 if (ing.name === '') {
-                    setSubmitStatus('Please fill ingredient name');
+                    setSubmitStatus('fail');
+                    setSubmitErrorMessage('Please fill ingredient name');
                     setTimeout(() => {
                         setSubmitStatus(null);
+                        setSubmitErrorMessage('');
                     }, 7000);
                     isValidFields = false;
                     return;
                 } else if (ing.amount === '') {
-                    setSubmitStatus('Please fill ingredient amount');
+                    setSubmitStatus('fail');
+                    setSubmitErrorMessage('Please fill ingredient amount');
                     setTimeout(() => {
                         setSubmitStatus(null);
+                        setSubmitErrorMessage('');
                     }, 7000);
                     isValidFields = false;
                     return;
                 }
             });
             if (recipe.primaryFamilyGroup === '') {
-                return setSubmitStatus('Please select primary family group');
+                setSubmitStatus('fail');
+                setSubmitErrorMessage('Please select primary family group');
+                return;
             }
+            const cleanedSteps = recipe.steps.filter((step) => {
+                if (step.description !== '') {
+                    delete step.tempId;
+                    return step;
+                }
+                if (step.description === '') {
+                    return;
+                }
+            });
 
             const reqBody = {
                 name: recipe.name,
@@ -116,7 +135,7 @@ const RecipeCreate = () => {
                 externalUrl: recipe.externalUrl,
                 portions: recipe.portions,
                 ingredients: cleanedIngredients,
-                steps: recipe.steps,
+                steps: cleanedSteps,
                 note: recipe.note,
                 primaryFamilyGroup: recipe.primaryFamilyGroup,
                 familyGroupIds: recipe.primaryFamilyGroup, // TODO: Modify this on backend
@@ -136,7 +155,7 @@ const RecipeCreate = () => {
                     await uploadRecipeImageApiCall(newRecipeId, reqBodyImageFile);
                 }
 
-                setSubmitStatus('Recipe Created Successfully!');
+                setSubmitStatus('success');
 
                 setTimeout(() => {
                     setSubmitStatus(null);
@@ -145,7 +164,8 @@ const RecipeCreate = () => {
             }
         } catch (error) {
             // setSubmissionStatus('fail');
-            setSubmitStatus('Recipe Create Fail');
+            setSubmitStatus('fail');
+            setSubmitErrorMessage('Recipe Create Fail');
             console.log(error);
         }
     };
@@ -212,14 +232,15 @@ const RecipeCreate = () => {
                                     />
                                 </StyledRowInnerWrap>
 
-                                <Button
+                                <ButtonWithMessage
                                     color="lightGreen"
                                     variant="contain"
                                     onClick={submitHandler}
+                                    errorMessage={submitStatus === 'fail' && submitErrorMessage}
+                                    successMessage={submitStatus === 'success' && 'Recipe Created Successfully'}
                                 >
                                     Save
-                                </Button>
-                                {submitStatus}
+                                </ButtonWithMessage>
                             </StyledContainer>
                         </StyledWrapper>
                     </StyledRecipeForm>

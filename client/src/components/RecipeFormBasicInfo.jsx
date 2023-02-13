@@ -18,14 +18,16 @@ const RecipeFormBasicInfo = ({ recipe, setRecipe }) => {
     return (
         <>
             <StyledLabelInput>
+                {/* {JSON.stringify(recipe)} */}
                 <Label
                     label="Recipe Name"
                     color={theme.colors.green}
                 />
                 <Input
                     onChange={(event) => setRecipe({ ...recipe, name: event.target.value })}
-                    defaultValue={recipe.name}
+                    value={recipe.name ?? ''}
                 />
+                {/* TODO: change defaultValue to value */}
             </StyledLabelInput>
             <StyledLabelInput>
                 <Label
@@ -34,7 +36,7 @@ const RecipeFormBasicInfo = ({ recipe, setRecipe }) => {
                 />
                 <Textarea
                     onChange={(event) => setRecipe({ ...recipe, recipeDescription: event.target.value })}
-                    defaultValue={recipe.recipeDescription}
+                    value={recipe.recipeDescription ?? ''}
                     rows={5}
                 />
             </StyledLabelInput>

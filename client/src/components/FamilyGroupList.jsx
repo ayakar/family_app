@@ -9,6 +9,7 @@ import IconButton from '../UI/IconButton';
 import Modal from '../UI/Modal';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
 const StyledFamilyGroupList = styled.div`
     border-bottom: ${({ theme }) => `${theme.colors.lightGray} 2px solid`};
@@ -147,14 +148,15 @@ const FamilyGroupList = ({ familyGroup }) => {
                                 value={memberEmail}
                                 onChange={(event) => setMemberEmail(event.target.value)}
                             />
-                            {addMemberErrorMessage}
-                            <Button
+
+                            <ButtonWithMessage
                                 color="blue"
                                 variant="contain"
                                 onClick={addMemberFamilyGroupHandler}
+                                errorMessage={addMemberErrorMessage}
                             >
                                 Add
-                            </Button>
+                            </ButtonWithMessage>
                             <Button
                                 color="blue"
                                 variant="outlined"
