@@ -75,8 +75,8 @@ const RecipeEdit = () => {
     const [recipeImage, setRecipeImage] = useState('');
     const [contentUpdateStatus, setContentUpdateStatus] = useState(null);
     const [contentUpdateErrorMessage, setContentUpdateErrorMessage] = useState(null);
-    // const [imageStatus, setImageStatus] = useState(''); // null, success, fail
-    // const [imageErrorMessage, setImageErrorMessage] = useState('');
+    const [imageStatus, setImageStatus] = useState(''); // null, success, fail
+    const [imageErrorMessage, setImageErrorMessage] = useState('');
     const [familyGroupStatus, setFamilyGroupStatus] = useState(null); // null, success, fail
     const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
 
@@ -188,20 +188,22 @@ const RecipeEdit = () => {
     // Submit images update (image)
     const imageUpdateHandler = async (recipeImageFile) => {
         console.log(recipeImageFile);
-        // setErrorMessage('');
+        setImageStatus(null);
+        setImageErrorMessage('');
         try {
-            if (recipeImageFile === '') {
-                return;
-                // setErrorMessage('Please choose an image');
-            }
             const reqBody = new FormData();
             reqBody.append('recipeImage', recipeImageFile);
             const response = await uploadRecipeImageApiCall(recipeId, reqBody);
             if (!response.ok) {
                 throw new Error('Recipe Image upload fail');
             }
+            setImageStatus('success');
             getRecipeImage(recipeId);
-        } catch (error) {}
+        } catch (error) {
+            setImageStatus('fail');
+            setImageErrorMessage('Something went wrong');
+        }
+        // TODO: finally{}
     };
 
     // Submit images delete (image)

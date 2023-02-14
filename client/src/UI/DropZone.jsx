@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CloudUpload } from 'react-bootstrap-icons';
 
@@ -13,6 +13,13 @@ const StyledIconWrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: ${({ theme }) => theme.spacing.xs};
+`;
+const StyledErrorMessage = styled.div`
+    padding: ${({ theme }) => theme.spacing.xs};
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    color: ${({ theme }) => theme.colors.red};
+    position: absolute;
+    bottom: ${({ theme }) => theme.spacing.s};
 `;
 
 const StyledPreviewImage = styled.img`
@@ -31,10 +38,12 @@ const StyledFileInput = styled.input`
     cursor: pointer;
 `;
 
-const DropZone = ({ file, setFile, maximumFileSize, setErrorMessage }) => {
+const DropZone = ({ file, setFile }) => {
+    const [errorMessage, setErrorMessage] = useState('');
     const onChangeFileHandler = (event) => {
-        if (event.target.files[0].size > maximumFileSize) {
-            return setErrorMessage();
+        setErrorMessage('');
+        if (event.target.files[0].size > 1000000) {
+            return setErrorMessage('Please upload less than 1 MB file');
         }
         if (event.target.files) {
             setFile(event.target.files[0]);
@@ -52,6 +61,7 @@ const DropZone = ({ file, setFile, maximumFileSize, setErrorMessage }) => {
                 <StyledIconWrapper>
                     <CloudUpload size="50" />
                     <div>Select or Drop Image</div>
+                    <StyledErrorMessage>{errorMessage}</StyledErrorMessage>
                     <StyledFileInput
                         type="file"
                         onChange={(event) => onChangeFileHandler(event)}

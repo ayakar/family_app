@@ -6,17 +6,19 @@ import Button from '../UI/Button';
 import DropZone from '../UI/DropZone';
 import { Trash } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
+import ButtonWithMessage from '../UI/ButtonWithMessage';
 
-// duplicated style
 const StyledAvatarWrapper = styled.div`
     width: ${({ theme }) => theme.avatarSize.l};
     height: ${({ theme }) => theme.avatarSize.l};
 `;
-// duplicated style
+
 const StyledAvatar = styled.img`
-    /* width: ${({ theme }) => theme.avatarSize.l};
-    height: ${({ theme }) => theme.avatarSize.l}; */
     border-radius: ${({ theme }) => theme.borderRadius.m};
+`;
+const StyledButtonWrap = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.s};
 `;
 
 const EditAvatarForm = () => {
@@ -28,10 +30,6 @@ const EditAvatarForm = () => {
     const uploadAvatarHandler = async () => {
         setErrorMessage('');
         try {
-            if (avatarFile === '') {
-                setErrorMessage('Please choose an image');
-                return;
-            }
             const reqBody = new FormData();
             reqBody.append('avatar', avatarFile);
             const response = await uploadUserAvatarApiCall(reqBody);
@@ -69,12 +67,10 @@ const EditAvatarForm = () => {
                     <DropZone
                         file={avatarFile}
                         setFile={setAvatarFile}
-                        maximumFileSize={1000000}
-                        setErrorMessage={() => setErrorMessage('Please upload less than 1 MB file')}
                     />
                 )}
             </StyledAvatarWrapper>
-            <div>
+            <StyledButtonWrap>
                 {currentUserAvatar ? (
                     <IconButton onClick={deleteAvatarHandler}>
                         <Trash
@@ -83,13 +79,15 @@ const EditAvatarForm = () => {
                         />
                     </IconButton>
                 ) : (
-                    <Button
+                    <ButtonWithMessage
                         color="lightBlue"
                         variant="contain"
                         onClick={uploadAvatarHandler}
+                        errorMessage={errorMessage}
+                        disabled={avatarFile ? false : true}
                     >
                         Upload image
-                    </Button>
+                    </ButtonWithMessage>
                 )}
                 {!currentUserAvatar && avatarFile && (
                     <Button
@@ -100,8 +98,7 @@ const EditAvatarForm = () => {
                         Cancel
                     </Button>
                 )}
-            </div>
-            <div>{errorMessage}</div>
+            </StyledButtonWrap>
         </>
     );
 };

@@ -93,7 +93,7 @@ const RecipeFormImage = ({ image, imageSubmitHandler, deleteImageSubmitHandler, 
                 {image && (
                     <Button
                         variant="contain"
-                        color="lightGreen"
+                        color="lightRed"
                         onClick={deleteImageSubmitHandler}
                     >
                         Delete this image

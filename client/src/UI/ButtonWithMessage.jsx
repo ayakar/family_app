@@ -9,7 +9,8 @@ const StyledButtonWithMessage = styled.span`
 `;
 const baseMessage = styled.div`
     position: absolute;
-    left: ${({ theme }) => theme.spacing.s};
+    left: 0;
+    margin-top: 2px;
     white-space: nowrap;
     font-size: ${({ theme }) => theme.fontSize.xs};
     font-weight: ${({ theme }) => theme.fontWeight.l};
