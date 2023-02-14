@@ -75,8 +75,6 @@ const RecipeEdit = () => {
     const [recipeImage, setRecipeImage] = useState('');
     const [contentUpdateStatus, setContentUpdateStatus] = useState(null);
     const [contentUpdateErrorMessage, setContentUpdateErrorMessage] = useState(null);
-    const [imageStatus, setImageStatus] = useState(''); // null, success, fail
-    const [imageErrorMessage, setImageErrorMessage] = useState('');
     const [familyGroupStatus, setFamilyGroupStatus] = useState(null); // null, success, fail
     const [familyGroupsErrorMessage, setFamilyGroupsErrorMessage] = useState('');
 
@@ -188,8 +186,7 @@ const RecipeEdit = () => {
     // Submit images update (image)
     const imageUpdateHandler = async (recipeImageFile) => {
         console.log(recipeImageFile);
-        setImageStatus(null);
-        setImageErrorMessage('');
+
         try {
             const reqBody = new FormData();
             reqBody.append('recipeImage', recipeImageFile);
@@ -197,11 +194,10 @@ const RecipeEdit = () => {
             if (!response.ok) {
                 throw new Error('Recipe Image upload fail');
             }
-            setImageStatus('success');
+
             getRecipeImage(recipeId);
         } catch (error) {
-            setImageStatus('fail');
-            setImageErrorMessage('Something went wrong');
+            console.log('Error', error);
         }
         // TODO: finally{}
     };
