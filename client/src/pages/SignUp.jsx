@@ -8,13 +8,13 @@ const SignUp = () => {
     const navigate = useNavigate();
     const { signUp } = useAuth();
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState('Test User'); // TODO: remove this
+    const [email, setEmail] = useState('test2@test.ca'); // TODO: remove this
+    const [password, setPassword] = useState('Testtest123!!'); // TODO: remove this
     const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const submitHandler = async () => {
+    const submitHandler = async (reCaptchaToken) => {
         setSubmissionStatus(null); // Initialize submission status
         setErrorMessage('Sign up fail'); // Set error message for generic
         setSubmissionStatus('loading');
@@ -42,7 +42,7 @@ const SignUp = () => {
                 setSubmissionStatus('fail');
                 return;
             }
-            await signUp(name, email, password);
+            await signUp(name, email, password, reCaptchaToken);
             navigate('/');
         } catch (error) {
             if (error.message === 'Email duplicated') {

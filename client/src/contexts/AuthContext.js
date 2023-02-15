@@ -78,8 +78,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     // API call to sign in
-    const signIn = async (email, password) => {
-        const response = await signInApiCall(email, password);
+    const signIn = async (email, password, reCaptchaToken) => {
+        const response = await signInApiCall(email, password, reCaptchaToken);
 
         if (!response.ok) {
             setIsLoading(false);
@@ -95,8 +95,8 @@ export const AuthProvider = ({ children }) => {
     };
 
     // API call to sign up
-    const signUp = async (name, email, password) => {
-        const response = await signUpApiCall(name, email, password);
+    const signUp = async (name, email, password, reCaptchaToken) => {
+        const response = await signUpApiCall(name, email, password, reCaptchaToken);
         const data = await response.json();
 
         if (data.error === 'Email duplicated') {

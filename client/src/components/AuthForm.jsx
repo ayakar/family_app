@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { HouseHeart } from 'react-bootstrap-icons';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
+import ErrorBoundary from '../ErrorBoundary';
 
 const StyledSignIn = styled.div`
     height: 100vh;
@@ -21,6 +23,15 @@ const StyledSignInForm = styled.div`
     gap: ${({ theme }) => theme.spacing.s};
     text-align: center;
 `;
+
+const StyledReCaptchaText = styled.div`
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: ${({ theme }) => theme.fontSize.xs};
+    color: ${({ theme }) => theme.colors.gray};
+`;
+
 const StyledSmallText = styled.div`
     font-size: ${({ theme }) => theme.fontSize.s};
 `;
@@ -51,6 +62,13 @@ const AuthForm = ({
     errorMessage,
 }) => {
     const theme = useTheme();
+    const reCaptchaRef = useRef();
+
+    const submitWithReCaptcha = async () => {
+        const reCaptchaToken = await reCaptchaRef.current.executeAsync(); // Pulling token value from <ReCAPTCHA/> component
+        reCaptchaRef.current.reset(); // Reset the token value
+        submitHandler(reCaptchaToken);
+    };
 
     return (
         <StyledSignIn>
@@ -85,7 +103,7 @@ const AuthForm = ({
                 />
                 {submissionStatus === 'fail' && <StyledErrorMessage>{errorMessage}</StyledErrorMessage>}
                 <Button
-                    onClick={submitHandler}
+                    onClick={submitWithReCaptcha}
                     color="blue"
                     variant="contain"
                     disabled={submissionStatus === 'loading'}
@@ -93,11 +111,24 @@ const AuthForm = ({
                     {submissionStatus === 'loading' ? 'Logging in...' : submitLabel}
                 </Button>
 
+                <StyledReCaptchaText>
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                </StyledReCaptchaText>
+
                 <StyledSmallText>
                     {smallText}
                     <Link to={link}>Here</Link>
                 </StyledSmallText>
             </StyledSignInForm>
+            <ErrorBoundary>
+                <ReCAPTCHA
+                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                    size="invisible"
+                    ref={reCaptchaRef}
+                />
+            </ErrorBoundary>
         </StyledSignIn>
     );
 };

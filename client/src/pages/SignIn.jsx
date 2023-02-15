@@ -11,7 +11,8 @@ const SignIn = () => {
     const [password, setPassword] = useState('Testtest123!!'); // TODO: remove this
     const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
     const [errorMessage, setErrorMessage] = useState(null);
-    const submitHandler = async () => {
+
+    const submitHandler = async (reCaptchaToken) => {
         setSubmissionStatus(null);
         setErrorMessage('Sign in fail'); // Set error message for generic
         setSubmissionStatus('loading');
@@ -22,7 +23,7 @@ const SignIn = () => {
                 setSubmissionStatus('fail');
                 return;
             }
-            await signIn(email, password);
+            await signIn(email, password, reCaptchaToken);
             navigate('/');
         } catch (error) {
             setSubmissionStatus('fail');

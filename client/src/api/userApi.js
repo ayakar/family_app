@@ -1,20 +1,20 @@
 const headers = { 'Content-Type': 'application/json' };
 
 // USER AUTH
-export const signInApiCall = async (email, password) => {
+export const signInApiCall = async (email, password, reCaptchaToken) => {
     const response = await fetch('/users/login', {
         method: 'POST',
         headers: { ...headers },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, reCaptchaToken }),
     });
 
-    return await response;
+    return response;
 };
-export const signUpApiCall = async (name, email, password) => {
+export const signUpApiCall = async (name, email, password, reCaptchaToken) => {
     const response = await fetch('/users', {
         method: 'POST',
         headers: { ...headers },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, reCaptchaToken }),
     });
 
     return await response;

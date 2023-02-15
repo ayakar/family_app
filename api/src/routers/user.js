@@ -1,4 +1,5 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const router = new express.Router();
 const sharp = require('sharp');
 const { upload } = require('../config/multerConfig');
@@ -7,6 +8,19 @@ const auth = require('../middleware/auth');
 
 router.post('/users', async (req, res) => {
     try {
+        // ReCaptcha
+        const response = await fetch(
+            `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${req.body.reCaptchaToken}`,
+            {
+                method: 'POST',
+            }
+        );
+        const isHuman = await response.json();
+
+        if (!isHuman.success) {
+            return res.status(503).send({ error: 'Bot detected' });
+        }
+
         const existingUser = await User.findOne({ email: req.body.email });
         if (existingUser) {
             // CAUTION!! THIS ERROR MESSAGE IS PARSED IN FRONTEND!!!
@@ -23,6 +37,19 @@ router.post('/users', async (req, res) => {
 
 router.post('/users/login', async (req, res) => {
     try {
+        // ReCaptcha
+        const response = await fetch(
+            `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${req.body.reCaptchaToken}`,
+            {
+                method: 'POST',
+            }
+        );
+        const isHuman = await response.json();
+
+        if (!isHuman.success) {
+            return res.status(503).send({ error: 'Bot detected' });
+        }
+
         const user = await User.findByCredentials(req.body.email, req.body.password);
         const token = await user.generateAuthToken();
         res.send({ user, token });

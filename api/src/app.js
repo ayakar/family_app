@@ -5,9 +5,9 @@ const dotenv = require('dotenv');
 
 // Loading .env file
 if (process.env.NODE_ENV === 'test') {
-    dotenv.config({ path: path.join(__dirname, '/./../../.env.test.local') });
+    dotenv.config({ path: path.join(__dirname, '/./../.env.test.local') });
 } else if (process.env.NODE_ENV !== 'production') {
-    dotenv.config({ path: path.join(__dirname, '/./../../.env.development.local') });
+    dotenv.config({ path: path.join(__dirname, '/./../.env.development.local') });
 }
 // Connecting DB
 require('./db/mongoose');
