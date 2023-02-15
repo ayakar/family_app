@@ -9,8 +9,9 @@ import { getUserAvatarApiCall } from '../api/userApi';
 import H3Title from '../UI/H3Title';
 
 const StyledRecipeList = styled(Link)`
-    /* display: block;
-    padding: ${({ theme }) => theme.spacing.l}; */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     text-decoration: none;
 `;
 const StyledImageWrapper = styled.div`
@@ -34,13 +35,21 @@ const StyledIconWrapper = styled.div`
     align-items: center;
 `;
 const StyledContentWrapper = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: ${({ theme }) => theme.spacing.m};
 `;
 const StyledRecipeName = styled(H3Title)`
     color: ${({ theme }) => theme.colors.darkGray}; ;
 `;
 
+const StyledExcerpt = styled.div`
+    margin-bottom: ${({ theme }) => theme.spacing.m};
+`;
+
 const StyledAvatar = styled.img`
+    margin-top: auto;
     width: ${({ theme }) => theme.avatarSize.xs};
     height: ${({ theme }) => theme.avatarSize.xs};
     border-radius: 50%;
@@ -93,7 +102,7 @@ const RecipeList = ({ recipe }) => {
             </StyledImageWrapper>
             <StyledContentWrapper>
                 <StyledRecipeName>{recipe.name}</StyledRecipeName>
-                <div>{trimDescription(recipe.recipeDescription, 150)}</div>
+                <StyledExcerpt>{trimDescription(recipe.recipeDescription, 150)}</StyledExcerpt>
                 <StyledAvatar
                     src={ownerAvatar}
                     alt=""
