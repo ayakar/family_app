@@ -27,7 +27,6 @@ const RecipeFormBasicInfo = ({ recipe, setRecipe }) => {
                     onChange={(event) => setRecipe({ ...recipe, name: event.target.value })}
                     value={recipe.name ?? ''}
                 />
-                {/* TODO: change defaultValue to value */}
             </StyledLabelInput>
             <StyledLabelInput>
                 <Label
@@ -47,7 +46,7 @@ const RecipeFormBasicInfo = ({ recipe, setRecipe }) => {
                 />
                 <Input
                     onChange={(event) => setRecipe({ ...recipe, externalUrl: event.target.value })}
-                    defaultValue={recipe.externalUrl}
+                    value={recipe.externalUrl ?? ''}
                 />
             </StyledLabelInput>
         </>

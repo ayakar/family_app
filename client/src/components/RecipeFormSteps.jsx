@@ -63,7 +63,7 @@ const RecipeFormSteps = ({ recipe, setRecipe }) => {
                                 <StyledStepNumber>{index + 1}</StyledStepNumber>
                                 <Textarea
                                     onChange={(event) => onChangeStepsHandler(id, event.target.value)}
-                                    defaultValue={step.description}
+                                    value={step.description ?? ''}
                                     rows={5}
                                 />
                                 <IconButton onClick={() => removeSteps(id)}>

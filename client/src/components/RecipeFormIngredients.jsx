@@ -60,7 +60,7 @@ const RecipeFormIngredients = ({ recipe, setRecipe }) => {
                 />
                 <Input
                     onChange={(event) => setRecipe({ ...recipe, portions: event.target.value })}
-                    defaultValue={recipe.portions}
+                    value={recipe.portions ?? ''}
                 />
             </StyledLabelInput>
             <Label
@@ -76,11 +76,11 @@ const RecipeFormIngredients = ({ recipe, setRecipe }) => {
                             <StyledIngredientList key={id}>
                                 <Input
                                     onChange={(event) => onChangeIngredientsHandler(id, 'name', event.target.value)}
-                                    defaultValue={recipe.ingredients[index].name}
+                                    value={recipe.ingredients[index].name ?? ''}
                                 />
                                 <Input
                                     onChange={(event) => onChangeIngredientsHandler(id, 'amount', event.target.value)}
-                                    defaultValue={recipe.ingredients[index].amount}
+                                    value={recipe.ingredients[index].amount ?? ''}
                                 />
 
                                 <IconButton onClick={() => removeIngredientField(id)}>

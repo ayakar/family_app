@@ -217,7 +217,7 @@ const RecipeCreate = () => {
                                     />
                                     <Textarea
                                         onChange={(event) => setRecipe({ ...recipe, note: event.target.value })}
-                                        defaultValue={recipe.note}
+                                        value={recipe.note}
                                         rows={5}
                                     />
                                 </StyledLabelInput>
