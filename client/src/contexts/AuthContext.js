@@ -118,8 +118,7 @@ export const AuthProvider = ({ children }) => {
     const signOut = async () => {
         try {
             const response = await signOutApiCall();
-            const data = await response.json();
-            console.log(data);
+            await response.json();
             // Set as current user
             setCurrentUser(null);
             setIsLoading(false);

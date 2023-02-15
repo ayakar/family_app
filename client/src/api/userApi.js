@@ -17,7 +17,7 @@ export const signUpApiCall = async (name, email, password, reCaptchaToken) => {
         body: JSON.stringify({ name, email, password, reCaptchaToken }),
     });
 
-    return await response;
+    return response;
 };
 export const signOutApiCall = async () => {
     const token = localStorage.getItem('token');
@@ -26,7 +26,7 @@ export const signOutApiCall = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 export const signOutAllApiCall = async () => {
     const token = localStorage.getItem('token');
@@ -35,7 +35,7 @@ export const signOutAllApiCall = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 
 // USER PROFILE
@@ -46,7 +46,7 @@ export const getUserProfileApiCall = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 
 export const updateUserProfileApiCall = async (body) => {
@@ -57,7 +57,7 @@ export const updateUserProfileApiCall = async (body) => {
         body: JSON.stringify(body),
     });
 
-    return await response;
+    return response;
 };
 
 // USER AVATAR
@@ -69,7 +69,7 @@ export const uploadUserAvatarApiCall = async (body) => {
         body: body,
     });
 
-    return await response;
+    return response;
 };
 
 export const getUserAvatarApiCall = async (userId) => {
@@ -79,7 +79,7 @@ export const getUserAvatarApiCall = async (userId) => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 
 export const deleteUserAvatarApiCall = async () => {
@@ -89,7 +89,7 @@ export const deleteUserAvatarApiCall = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
 
 // USER FAMILY GROUP // TODO: move this under familyGroupApi.js
@@ -100,5 +100,5 @@ export const getUserFamilyGroupsApiCall = async () => {
         headers: { ...headers, Authorization: token },
     });
 
-    return await response;
+    return response;
 };
