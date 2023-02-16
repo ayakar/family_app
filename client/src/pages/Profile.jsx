@@ -12,6 +12,7 @@ import Container from '../UI/Container';
 import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 import Modal from '../UI/Modal';
+import { useConfirmation } from '../contexts/ConfirmationContext';
 
 const StyledProfile = styled.div`
     display: flex;
@@ -94,23 +95,31 @@ const StyledModalInnerWrapper = styled.div`
 
 const Profile = (props) => {
     const { currentUser, currentUserAvatar, getUserProfile } = useAuth();
+    const { confirmation } = useConfirmation();
     const navigate = useNavigate();
     const theme = useTheme();
 
     const [isEditingModalOpen, setIsEditingModalOpen] = useState(false);
-    const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false);
     const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
     const signOutAllHandler = async () => {
         try {
+            const isConfirmed = await confirmation({
+                text: 'Are you sure logging out from all devices?',
+                buttonLabel: 'Yes. I want to log out from all devices',
+            });
+            console.log(isConfirmed);
+            if (!isConfirmed) {
+                return;
+            }
             const response = await signOutAllApiCall();
             if (!response.ok) {
                 throw new Error();
             }
+            navigate('/signIn');
         } catch (error) {
             console.log('Something went wrong');
         }
-        navigate('/signIn');
     };
 
     return (
@@ -167,11 +176,11 @@ const Profile = (props) => {
                             </StyledIconButton>
 
                             <div style={{ marginTop: 'auto', alignSelf: 'flex-end', fontSize: theme.fontSize.xs }}>
-                                {currentUser.numOfLogin} devices are logged in as this user.
+                                <span>{currentUser.numOfLogin} devices are logged in as this user. </span>
                                 <Button
                                     color="blue"
                                     variant="text"
-                                    onClick={() => setIsSignOutModalOpen(true)}
+                                    onClick={signOutAllHandler}
                                 >
                                     Logout from All Devices
                                 </Button>
@@ -192,29 +201,7 @@ const Profile = (props) => {
             >
                 <EditProfileForm />
             </Modal>
-            <Modal
-                isOpen={isSignOutModalOpen}
-                closeHandler={() => setIsSignOutModalOpen(false)}
-                title="Are you sure logging out from all devices?"
-            >
-                {/* TODO: change this with confirmation modal */}
-                {/* <StyledButtonWrapper> */}
-                <Button
-                    color="lightBlue"
-                    variant="contain"
-                    onClick={signOutAllHandler}
-                >
-                    Yes
-                </Button>
-                <Button
-                    color="blue"
-                    variant="text"
-                    onClick={() => setIsSignOutModalOpen(false)}
-                >
-                    No, back to profile page
-                </Button>
-                {/* </StyledButtonWrapper> */}
-            </Modal>
+
             <Modal
                 isOpen={isAvatarModalOpen}
                 closeHandler={() => setIsAvatarModalOpen(false)}

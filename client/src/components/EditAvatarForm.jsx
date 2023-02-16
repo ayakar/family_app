@@ -7,6 +7,7 @@ import DropZone from '../UI/DropZone';
 import { Trash } from 'react-bootstrap-icons';
 import IconButton from '../UI/IconButton';
 import ButtonWithMessage from '../UI/ButtonWithMessage';
+import { useConfirmation } from '../contexts/ConfirmationContext';
 
 const StyledAvatarWrapper = styled.div`
     width: ${({ theme }) => theme.avatarSize.l};
@@ -24,6 +25,7 @@ const StyledButtonWrap = styled.div`
 const EditAvatarForm = () => {
     const theme = useTheme();
     const { currentUserAvatar, getUserProfile } = useAuth();
+    const { confirmation } = useConfirmation();
     const [avatarFile, setAvatarFile] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -45,6 +47,13 @@ const EditAvatarForm = () => {
 
     const deleteAvatarHandler = async () => {
         try {
+            const isConfirmed = await confirmation({
+                text: `Are you sure you want to delete this image?`,
+                buttonLabel: 'Yes. I want to delete this image',
+            });
+            if (!isConfirmed) {
+                return;
+            }
             const response = await deleteUserAvatarApiCall();
             if (!response.ok) {
                 throw new Error('Avatar deletion fail');

@@ -31,7 +31,7 @@ export const RecipeFormFamilyGroup = ({ recipe, removeFamilyGroupSubmitHandler, 
                         <HouseFill color={theme.colors.gray} />
                         {familyId.name}
                         {familyId._id !== recipe.primaryFamilyGroup && (
-                            <IconButton onClick={() => removeFamilyGroupSubmitHandler(familyId._id)}>
+                            <IconButton onClick={() => removeFamilyGroupSubmitHandler(familyId._id, familyId.name)}>
                                 <DashCircle color={theme.colors.pink} />
                             </IconButton>
                         )}

@@ -3,7 +3,7 @@ import styled, { useTheme } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
 import { useConfirmation } from '../contexts/ConfirmationContext';
 import { getFamilyGroupDetailsApi, addMemberFamilyGroupApi, updateFamilyGroupApi, deleteFamilyGroupApi } from '../api/familyGroupApi';
-import { Pencil, PlusCircle } from 'react-bootstrap-icons';
+import { Pencil, PlusCircle, Trash } from 'react-bootstrap-icons';
 import FamilyMemberList from './FamilyMemberList';
 import FamilyGroupForm from './FamilyGroupForm';
 import IconButton from '../UI/IconButton';
@@ -23,6 +23,10 @@ const StyledHeader = styled.div`
 `;
 const StyledTitle = styled.div`
     font-weight: ${({ theme }) => theme.fontWeight.l};
+`;
+const StyledButtonsWrap = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 const StyledContent = styled.div`
@@ -87,10 +91,10 @@ const FamilyGroupList = ({ familyGroup }) => {
         }
     };
 
-    const deleteFamilyGroupHandler = async () => {
+    const deleteFamilyGroupHandler = async (familyGroupName) => {
         try {
             const isConfirmed = await confirmation({
-                text: 'Are you sure you want to delete this family group?',
+                text: `Are you sure you want to delete: ${familyGroupName}?`,
                 buttonLabel: 'Yes. I want to delete this family group',
             });
             if (!isConfirmed) {
@@ -132,12 +136,20 @@ const FamilyGroupList = ({ familyGroup }) => {
                 <StyledHeader>
                     <StyledTitle>{familyGroup.name}</StyledTitle>
                     {familyGroup.owner === currentUser._id && (
-                        <IconButton onClick={() => setIsEditModalOpen(true)}>
-                            <Pencil
-                                color={theme.colors.gray}
-                                size="20"
-                            />
-                        </IconButton>
+                        <StyledButtonsWrap>
+                            <IconButton onClick={() => setIsEditModalOpen(true)}>
+                                <Pencil
+                                    color={theme.colors.gray}
+                                    size="20"
+                                />
+                            </IconButton>
+                            <IconButton onClick={() => deleteFamilyGroupHandler(familyGroup.name)}>
+                                <Trash
+                                    size={'20'}
+                                    color={theme.colors.gray}
+                                />
+                            </IconButton>
+                        </StyledButtonsWrap>
                     )}
                 </StyledHeader>
                 <StyledContent>
@@ -159,7 +171,7 @@ const FamilyGroupList = ({ familyGroup }) => {
                             />
 
                             <ButtonWithMessage
-                                color="blue"
+                                color="lightBlue"
                                 variant="contain"
                                 onClick={addMemberFamilyGroupHandler}
                                 errorMessage={addMemberErrorMessage}
@@ -168,7 +180,7 @@ const FamilyGroupList = ({ familyGroup }) => {
                             </ButtonWithMessage>
                             <Button
                                 color="blue"
-                                variant="outlined"
+                                variant="text"
                                 onClick={() => {
                                     setIsAddMemberFormShown(false);
                                     setMemberEmail('');
@@ -190,15 +202,13 @@ const FamilyGroupList = ({ familyGroup }) => {
                 closeHandler={() => setIsEditModalOpen(false)}
                 title="Edit Family Name"
             >
-                {/* TODO: style this. add remove member? */}
+                {/* TODO: add remove member? */}
                 <FamilyGroupForm
-                    isOwner={familyGroup.owner === currentUser._id}
                     familyName={familyName}
                     setFamilyName={setFamilyName}
                     buttonLabel="Save"
                     editHandler={editFamilyGroupHandler}
                     errorMessage={editFamilyGroupErrorMessage}
-                    deleteHandler={deleteFamilyGroupHandler}
                 />
             </Modal>
         </>

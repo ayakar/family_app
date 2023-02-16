@@ -27,6 +27,7 @@ import H3Title from '../UI/H3Title';
 import Button from '../UI/Button';
 import Container from '../UI/Container';
 import ButtonWithMessage from '../UI/ButtonWithMessage';
+import { useConfirmation } from '../contexts/ConfirmationContext';
 
 const StyledIconButton = styled(IconButton)`
     margin-bottom: ${({ theme }) => theme.spacing.s};
@@ -69,6 +70,7 @@ const StyledSecondRowInnerWrap = styled.div`
 const RecipeEdit = () => {
     const theme = useTheme();
     const { familyGroups } = useAuth();
+    const { confirmation } = useConfirmation();
     const { recipeId } = useParams();
     const navigate = useNavigate();
     const [recipe, setRecipe] = useState({});
@@ -205,6 +207,13 @@ const RecipeEdit = () => {
     // Submit images delete (image)
     const imageDeleteHandler = async () => {
         // setErrorMessage('');
+        const isConfirm = await confirmation({
+            text: `Are you sure you want to delete this image?`,
+            buttonLabel: 'Yes. I want to delete this image',
+        });
+        if (!isConfirm) {
+            return;
+        }
         try {
             const response = await deleteRecipeImageApiCall(recipeId);
             if (!response.ok) {
@@ -240,7 +249,14 @@ const RecipeEdit = () => {
             }, 2000);
         }
     };
-    const familyGroupsRemoveHandler = async (reqBody) => {
+    const familyGroupsRemoveHandler = async (reqBody, familyName) => {
+        const isConfirm = await confirmation({
+            text: `Are you sure you want to remove ${familyName} from recipe sharing?`,
+            buttonLabel: 'Yes. I want to remove this family group',
+        });
+        if (!isConfirm) {
+            return;
+        }
         await removeFamilyGroupToRecipeApiCall(recipeId, { familyGroup: reqBody });
         getRecipe(recipeId);
     };
