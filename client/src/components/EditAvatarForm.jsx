@@ -48,7 +48,7 @@ const EditAvatarForm = () => {
     const deleteAvatarHandler = async () => {
         try {
             const isConfirmed = await confirmation({
-                text: `Are you sure you want to delete this image?`,
+                text: `Delete this image?`,
                 buttonLabel: 'Yes. I want to delete this image',
             });
             if (!isConfirmed) {

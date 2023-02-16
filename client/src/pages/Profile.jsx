@@ -105,7 +105,7 @@ const Profile = (props) => {
     const signOutAllHandler = async () => {
         try {
             const isConfirmed = await confirmation({
-                text: 'Are you sure logging out from all devices?',
+                text: 'Logging out from all devices?',
                 buttonLabel: 'Yes. I want to log out from all devices',
             });
             console.log(isConfirmed);

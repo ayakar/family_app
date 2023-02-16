@@ -208,7 +208,7 @@ const RecipeEdit = () => {
     const imageDeleteHandler = async () => {
         // setErrorMessage('');
         const isConfirm = await confirmation({
-            text: `Are you sure you want to delete this image?`,
+            text: `Delete this image?`,
             buttonLabel: 'Yes. I want to delete this image',
         });
         if (!isConfirm) {
@@ -251,7 +251,7 @@ const RecipeEdit = () => {
     };
     const familyGroupsRemoveHandler = async (reqBody, familyName) => {
         const isConfirm = await confirmation({
-            text: `Are you sure you want to remove ${familyName} from recipe sharing?`,
+            text: `Remove ${familyName} from recipe sharing?`,
             buttonLabel: 'Yes. I want to remove this family group',
         });
         if (!isConfirm) {

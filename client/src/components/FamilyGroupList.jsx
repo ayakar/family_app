@@ -101,7 +101,7 @@ const FamilyGroupList = ({ familyGroup }) => {
     const deleteFamilyGroupHandler = async (familyGroupName) => {
         try {
             const isConfirmed = await confirmation({
-                text: `Are you sure you want to delete: ${familyGroupName}?`,
+                text: `Delete: ${familyGroupName}?`,
                 buttonLabel: 'Yes. I want to delete this family group',
             });
             if (!isConfirmed) {

@@ -74,7 +74,7 @@ const Recipe = () => {
     const deleteSubmitHandler = async () => {
         try {
             const isConfirmed = await confirmation({
-                text: 'Are you sure you want to delete this recipe?',
+                text: 'Delete this recipe?',
                 buttonLabel: 'Yes. I want to delete this recipe',
             });
             console.log(isConfirmed);
