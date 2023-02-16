@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import { CupHot } from 'react-bootstrap-icons';
+import { CupHot, PersonCircle } from 'react-bootstrap-icons';
 import H3Title from '../UI/H3Title';
 
 const StyledRecipeSingleSecondRow = styled.div`
@@ -104,13 +104,21 @@ const RecipeSingleSecondRow = ({ recipeImage, recipeDescription, ownerAvatar, ex
                         </div>
                     )}
 
-                    <StyledAvatar
-                        src={ownerAvatar}
-                        alt=""
-                    />
+                    {ownerAvatar ? (
+                        <StyledAvatar
+                            src={ownerAvatar}
+                            alt=""
+                        />
+                    ) : (
+                        <PersonCircle
+                            color={theme.colors.lightOrange}
+                            size={theme.avatarSize.xs}
+                            style={{ marginLeft: 'auto' }}
+                        />
+                    )}
                 </StyledUrlAvatarWrapper>
 
-                <H3Title color={theme.colors.orange}>Ingredients (for {portions})</H3Title>
+                <H3Title color={theme.colors.orange}>Ingredients ( {portions} )</H3Title>
                 {ingredients && (
                     <StyledIngredientLists>
                         {ingredients.map((ingredient) => (

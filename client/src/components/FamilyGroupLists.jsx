@@ -60,21 +60,27 @@ const FamilyGroupLists = () => {
                     />
                 </IconButton>
             </StyledTitle>
-            {familyGroups &&
-                familyGroups.map((familyGroup) => (
-                    <FamilyGroupList
-                        key={familyGroup._id}
-                        familyGroup={familyGroup}
-                    />
-                ))}
+            {familyGroups?.length === 0 ? (
+                <div>You haven't join any family groups...</div>
+            ) : (
+                <>
+                    {familyGroups &&
+                        familyGroups.map((familyGroup) => (
+                            <FamilyGroupList
+                                key={familyGroup._id}
+                                familyGroup={familyGroup}
+                            />
+                        ))}
+                    <div style={{ fontSize: `${theme.fontSize.xs}` }}>
+                        <StarFill
+                            color={theme.colors.orange}
+                            size={10}
+                        />
+                        = Family Group Owner
+                    </div>
+                </>
+            )}
 
-            <div style={{ fontSize: `${theme.fontSize.xs}` }}>
-                <StarFill
-                    color={theme.colors.orange}
-                    size={10}
-                />
-                = Family Group Owner
-            </div>
             <Modal
                 isOpen={isCreateModalOpen}
                 closeHandler={() => {

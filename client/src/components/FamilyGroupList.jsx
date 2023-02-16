@@ -51,6 +51,7 @@ const FamilyGroupList = ({ familyGroup }) => {
 
     // For edit family group
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editFamilyGroupStatus, setEditFamilyGroupStatus] = useState(null);
     const [editFamilyGroupErrorMessage, setEditFamilyGroupErrorMessage] = useState('');
     const [familyName, setFamilyName] = useState(familyGroup.name);
 
@@ -70,24 +71,30 @@ const FamilyGroupList = ({ familyGroup }) => {
     };
 
     const editFamilyGroupHandler = async () => {
+        setEditFamilyGroupStatus(null);
+        setEditFamilyGroupErrorMessage('');
         try {
             if (!familyName) {
+                setEditFamilyGroupStatus('fail');
                 setEditFamilyGroupErrorMessage('Please fill family name');
-                return;
-            }
-            if (familyName === familyGroup.name) {
-                setEditFamilyGroupErrorMessage('No filed is modified');
                 return;
             }
 
             const response = await updateFamilyGroupApi(familyGroup._id, { name: familyName });
             if (!response.ok) {
-                setEditFamilyGroupErrorMessage('Editing fail');
                 throw new Error();
             }
+            setEditFamilyGroupStatus('success');
             getUserFamilyGroups();
         } catch (error) {
+            editFamilyGroupStatus('fail');
+            setEditFamilyGroupErrorMessage('Editing fail');
             console.log('Something went wrong');
+        } finally {
+            setTimeout(() => {
+                setEditFamilyGroupStatus(null);
+                setEditFamilyGroupErrorMessage('');
+            }, 2000);
         }
     };
 
@@ -208,7 +215,8 @@ const FamilyGroupList = ({ familyGroup }) => {
                     setFamilyName={setFamilyName}
                     buttonLabel="Save"
                     editHandler={editFamilyGroupHandler}
-                    errorMessage={editFamilyGroupErrorMessage}
+                    errorMessage={editFamilyGroupStatus === 'fail' && editFamilyGroupErrorMessage}
+                    successMessage={editFamilyGroupStatus === 'success' && 'Family Name is updated'}
                 />
             </Modal>
         </>

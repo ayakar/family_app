@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { getRecipeImageApiCall } from '../api/recipeApi';
-import { CupHot } from 'react-bootstrap-icons';
+import { CupHot, PersonCircle } from 'react-bootstrap-icons';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 import { getUserAvatarApiCall } from '../api/userApi';
 import H3Title from '../UI/H3Title';
@@ -103,10 +103,18 @@ const RecipeList = ({ recipe }) => {
             <StyledContentWrapper>
                 <StyledRecipeName>{recipe.name}</StyledRecipeName>
                 <StyledExcerpt>{trimDescription(recipe.recipeDescription, 150)}</StyledExcerpt>
-                <StyledAvatar
-                    src={ownerAvatar}
-                    alt=""
-                />
+                {ownerAvatar ? (
+                    <StyledAvatar
+                        src={ownerAvatar}
+                        alt=""
+                    />
+                ) : (
+                    <PersonCircle
+                        color={theme.colors.lightOrange}
+                        size={theme.avatarSize.xs}
+                        style={{ marginTop: 'auto' }}
+                    />
+                )}
             </StyledContentWrapper>
         </StyledRecipeList>
     );
