@@ -160,14 +160,19 @@ const FamilyGroupList = ({ familyGroup }) => {
                     )}
                 </StyledHeader>
                 <StyledContent>
-                    {familyGroupDetails &&
-                        familyGroupDetails.members.map((member) => (
-                            <FamilyMemberList
-                                key={member.member._id}
-                                member={member}
-                                familyGroup={familyGroup}
-                            />
-                        ))}
+                    {/* TODO: remove optional chaining once backend has user delete cascading */}
+                    {/* <pre>{JSON.stringify(familyGroupDetails, null, 2)}</pre> */}
+                    {familyGroupDetails?.members?.map((member) => {
+                        return (
+                            member.member && (
+                                <FamilyMemberList
+                                    key={member.member._id}
+                                    member={member}
+                                    familyGroup={familyGroup}
+                                />
+                            )
+                        );
+                    })}
 
                     {isAddMemberFormShown ? (
                         <StyledAddMemberForm>

@@ -60,6 +60,15 @@ export const updateUserProfileApiCall = async (body) => {
     return response;
 };
 
+export const deleteUserProfileApiCall = async () => {
+    // const token = localStorage.getItem('token');
+    // const response = await fetch(`/users`, {
+    //     method: 'DELETE',
+    //     headers: { ...headers, Authorization: token },
+    // });
+    // return response;
+};
+
 // USER AVATAR
 export const uploadUserAvatarApiCall = async (body) => {
     const token = localStorage.getItem('token');

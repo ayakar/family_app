@@ -9,6 +9,7 @@ import {
     getUserProfileApiCall,
     getUserAvatarApiCall,
     getUserFamilyGroupsApiCall,
+    deleteUserProfileApiCall,
 } from '../api/userApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 
@@ -147,8 +148,32 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem('token');
         } catch (error) {}
     };
+    const deleteUserProfile = async () => {
+        try {
+            const response = await deleteUserProfileApiCall();
+            await response.json();
+            // Set as current user
+            setCurrentUser(null);
+            setFamilyGroups(null);
+            setIsLoading(false);
+            // Set token
+            localStorage.removeItem('token');
+        } catch (error) {}
+    };
 
-    const value = { currentUser, setCurrentUser, currentUserAvatar, getUserProfile, familyGroups, getUserFamilyGroups, signIn, signUp, signOut, signOutAll };
+    const value = {
+        currentUser,
+        setCurrentUser,
+        currentUserAvatar,
+        getUserProfile,
+        familyGroups,
+        getUserFamilyGroups,
+        signIn,
+        signUp,
+        signOut,
+        signOutAll,
+        deleteUserProfile,
+    };
 
     return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };

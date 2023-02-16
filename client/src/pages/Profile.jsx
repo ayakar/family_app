@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
-import { Pencil, PersonFill } from 'react-bootstrap-icons';
+import { Pencil, PersonFill, Trash } from 'react-bootstrap-icons';
 import { removeTime } from '../util/formatTimestamp';
 import EditProfileForm from '../components/EditProfileForm';
 import EditAvatarForm from '../components/EditAvatarForm';
@@ -12,6 +12,7 @@ import Button from '../UI/Button';
 import IconButton from '../UI/IconButton';
 import Modal from '../UI/Modal';
 import { useConfirmation } from '../contexts/ConfirmationContext';
+import ErrorBoundary from '../ErrorBoundary';
 
 const StyledProfile = styled.div`
     display: flex;
@@ -93,7 +94,7 @@ const StyledModalInnerWrapper = styled.div`
 `;
 
 const Profile = (props) => {
-    const { currentUser, currentUserAvatar, getUserProfile, signOutAll } = useAuth();
+    const { currentUser, currentUserAvatar, getUserProfile, signOutAll, deleteUserProfile } = useAuth();
     const { confirmation } = useConfirmation();
     const navigate = useNavigate();
     const theme = useTheme();
@@ -117,77 +118,106 @@ const Profile = (props) => {
         }
     };
 
+    const deleteUserSubmitHandler = async () => {
+        try {
+            const isConfirmed = await confirmation({
+                text: 'Delete Your Account?',
+                buttonLabel: 'Yes. I want to delete my account and data',
+            });
+            if (!isConfirmed) {
+                return;
+            }
+            deleteUserProfile();
+            navigate('/signIn');
+        } catch (error) {}
+    };
+
     return (
         <>
             <StyledProfile>
                 <StyledWrapper>
                     <StyledContainerTop>
-                        <StyledImageWrapper onClick={() => setIsAvatarModalOpen(true)}>
-                            {currentUserAvatar ? (
-                                <StyledAvatar
-                                    src={currentUserAvatar}
-                                    alt=""
-                                />
-                            ) : (
-                                <StyledIconWrapper>
-                                    <PersonFill
-                                        size="250"
-                                        color={theme.colors.gray}
+                        <ErrorBoundary>
+                            <StyledImageWrapper onClick={() => setIsAvatarModalOpen(true)}>
+                                {currentUserAvatar ? (
+                                    <StyledAvatar
+                                        src={currentUserAvatar}
+                                        alt=""
                                     />
-                                </StyledIconWrapper>
-                            )}
-                            <StyledPencil
-                                size="20"
-                                color={theme.colors.gray}
-                            />
-                        </StyledImageWrapper>
-
-                        <StyledRight>
-                            <StyledTable>
-                                <tbody>
-                                    <tr>
-                                        <StyledTableTitle>Name:</StyledTableTitle>
-                                        <StyledTableContent> {currentUser.name}</StyledTableContent>
-                                    </tr>
-                                    <tr>
-                                        <StyledTableTitle>Email : </StyledTableTitle>
-                                        <StyledTableContent>{currentUser.email}</StyledTableContent>
-                                    </tr>
-                                    <tr>
-                                        <StyledTableTitle>Password : </StyledTableTitle>
-                                        <StyledTableContent>**************</StyledTableContent>
-                                    </tr>
-                                    <tr>
-                                        <StyledTableTitle>Join at: </StyledTableTitle>
-                                        <StyledTableContent>{removeTime(currentUser.createdAt)}</StyledTableContent>
-                                    </tr>
-                                </tbody>
-                            </StyledTable>
-                            <StyledIconButton onClick={() => setIsEditingModalOpen(true)}>
-                                <Pencil
-                                    color={theme.colors.gray}
+                                ) : (
+                                    <StyledIconWrapper>
+                                        <PersonFill
+                                            size="250"
+                                            color={theme.colors.gray}
+                                        />
+                                    </StyledIconWrapper>
+                                )}
+                                <StyledPencil
                                     size="20"
+                                    color={theme.colors.gray}
                                 />
-                            </StyledIconButton>
+                            </StyledImageWrapper>
+                        </ErrorBoundary>
 
-                            <div style={{ marginTop: 'auto', alignSelf: 'flex-end', fontSize: theme.fontSize.xs }}>
-                                <span>{currentUser.numOfLogin} devices are logged in as this user. </span>
-                                <Button
-                                    color="blue"
-                                    variant="text"
-                                    onClick={signOutAllHandler}
-                                >
-                                    Logout from All Devices
-                                </Button>
-                            </div>
-                        </StyledRight>
+                        <ErrorBoundary>
+                            <StyledRight>
+                                <StyledTable>
+                                    <tbody>
+                                        <tr>
+                                            <StyledTableTitle>Name:</StyledTableTitle>
+                                            <StyledTableContent> {currentUser.name}</StyledTableContent>
+                                        </tr>
+                                        <tr>
+                                            <StyledTableTitle>Email : </StyledTableTitle>
+                                            <StyledTableContent>{currentUser.email}</StyledTableContent>
+                                        </tr>
+                                        <tr>
+                                            <StyledTableTitle>Password : </StyledTableTitle>
+                                            <StyledTableContent>**************</StyledTableContent>
+                                        </tr>
+                                        <tr>
+                                            <StyledTableTitle>Join at: </StyledTableTitle>
+                                            <StyledTableContent>{removeTime(currentUser.createdAt)}</StyledTableContent>
+                                        </tr>
+                                    </tbody>
+                                </StyledTable>
+                                <StyledIconButton onClick={() => setIsEditingModalOpen(true)}>
+                                    <Pencil
+                                        color={theme.colors.gray}
+                                        size="20"
+                                    />
+                                </StyledIconButton>
+
+                                <div style={{ marginTop: 'auto', alignSelf: 'flex-end', fontSize: theme.fontSize.xs }}>
+                                    <span>{currentUser.numOfLogin} devices are logged in as this user. </span>
+                                    <Button
+                                        color="blue"
+                                        variant="text"
+                                        onClick={signOutAllHandler}
+                                    >
+                                        Logout from All Devices
+                                    </Button>
+                                </div>
+                            </StyledRight>
+                        </ErrorBoundary>
                     </StyledContainerTop>
                 </StyledWrapper>
                 <StyledWrapper>
                     <Container>
-                        <FamilyGroupLists />
+                        <ErrorBoundary>
+                            <FamilyGroupLists />
+                        </ErrorBoundary>
                     </Container>
                 </StyledWrapper>
+                {/* TODO: Comment in once cascading is applied */}
+                {/* <StyledWrapper>
+                    <Container>
+                        <IconButton onClick={deleteUserSubmitHandler}>
+                            <Trash />
+                            Delete My Account
+                        </IconButton>
+                    </Container>
+                </StyledWrapper> */}
             </StyledProfile>
             <Modal
                 isOpen={isEditingModalOpen}
@@ -210,7 +240,7 @@ const Profile = (props) => {
     );
 };
 
-// TODO: Implement Delete User. Add logic for family group and recipe
+// TODO:  Add logic for family group and recipe
 // TODO: Add backend logic for relationship between family group and recipe when family group deleted
 
 Profile.propTypes = {};
