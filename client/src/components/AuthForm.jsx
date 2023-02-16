@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { HouseHeart } from 'react-bootstrap-icons';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
@@ -62,12 +61,26 @@ const AuthForm = ({
     errorMessage,
 }) => {
     const theme = useTheme();
-    const reCaptchaRef = useRef();
+    useEffect(() => {
+        // Loading reCaptcha script
+        const script = document.createElement('script');
+        script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`;
+        document.body.appendChild(script);
+
+        return () => {
+            // Removing reCaptcha script
+            script.remove();
+            // Removing reCaptcha badges including parent <div>
+            const reCaptchaBadges = document.querySelectorAll('.grecaptcha-badge');
+            if (reCaptchaBadges) {
+                reCaptchaBadges.forEach((node) => node.parentNode.remove());
+            }
+        };
+    }, []);
 
     const submitWithReCaptcha = async () => {
-        const reCaptchaToken = await reCaptchaRef.current.executeAsync(); // Pulling token value from <ReCAPTCHA/> component
-        reCaptchaRef.current.reset(); // Reset the token value
-        submitHandler(reCaptchaToken);
+        const executeReCaptcha = await window.grecaptcha.execute(`${process.env.REACT_APP_RECAPTCHA_SITE_KEY}`);
+        await submitHandler(executeReCaptcha);
     };
 
     return (
@@ -122,13 +135,6 @@ const AuthForm = ({
                     <Link to={link}>Here</Link>
                 </StyledSmallText>
             </StyledSignInForm>
-            <ErrorBoundary>
-                <ReCAPTCHA
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                    size="invisible"
-                    ref={reCaptchaRef}
-                />
-            </ErrorBoundary>
         </StyledSignIn>
     );
 };
