@@ -1,7 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { signInApiCall, signUpApiCall, signOutApiCall, getUserProfileApiCall, getUserAvatarApiCall, getUserFamilyGroupsApiCall } from '../api/userApi';
+import {
+    signInApiCall,
+    signUpApiCall,
+    signOutApiCall,
+    signOutAllApiCall,
+    getUserProfileApiCall,
+    getUserAvatarApiCall,
+    getUserFamilyGroupsApiCall,
+} from '../api/userApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
 
 const AuthContext = createContext();
@@ -121,13 +129,26 @@ export const AuthProvider = ({ children }) => {
             await response.json();
             // Set as current user
             setCurrentUser(null);
+            setFamilyGroups(null);
+            setIsLoading(false);
+            // Set token
+            localStorage.removeItem('token');
+        } catch (error) {}
+    };
+    const signOutAll = async () => {
+        try {
+            const response = await signOutAllApiCall();
+            await response.json();
+            // Set as current user
+            setCurrentUser(null);
+            setFamilyGroups(null);
             setIsLoading(false);
             // Set token
             localStorage.removeItem('token');
         } catch (error) {}
     };
 
-    const value = { currentUser, setCurrentUser, currentUserAvatar, getUserProfile, familyGroups, getUserFamilyGroups, signIn, signUp, signOut };
+    const value = { currentUser, setCurrentUser, currentUserAvatar, getUserProfile, familyGroups, getUserFamilyGroups, signIn, signUp, signOut, signOutAll };
 
     return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };

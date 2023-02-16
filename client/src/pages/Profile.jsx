@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { useTheme } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
-import { signOutAllApiCall } from '../api/userApi';
 import { Pencil, PersonFill } from 'react-bootstrap-icons';
 import { removeTime } from '../util/formatTimestamp';
 import EditProfileForm from '../components/EditProfileForm';
@@ -94,7 +93,7 @@ const StyledModalInnerWrapper = styled.div`
 `;
 
 const Profile = (props) => {
-    const { currentUser, currentUserAvatar, getUserProfile } = useAuth();
+    const { currentUser, currentUserAvatar, getUserProfile, signOutAll } = useAuth();
     const { confirmation } = useConfirmation();
     const navigate = useNavigate();
     const theme = useTheme();
@@ -108,17 +107,13 @@ const Profile = (props) => {
                 text: 'Logging out from all devices?',
                 buttonLabel: 'Yes. I want to log out from all devices',
             });
-            console.log(isConfirmed);
             if (!isConfirmed) {
                 return;
             }
-            const response = await signOutAllApiCall();
-            if (!response.ok) {
-                throw new Error();
-            }
+            signOutAll();
             navigate('/signIn');
         } catch (error) {
-            console.log('Something went wrong');
+            console.log('Something went wrong', error);
         }
     };
 
