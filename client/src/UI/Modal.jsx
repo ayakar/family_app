@@ -10,11 +10,16 @@ const StyledModalContent = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 600px;
-    min-height: 400px;
+    min-height: 200px;
     border-radius: ${({ theme }) => theme.borderRadius.m};
     background-color: ${({ theme }) => `${theme.colors.white}`};
     padding: ${({ theme }) => theme.spacing.m};
 `;
+const StyledTitle = styled.h3`
+    text-align: center;
+    margin-bottom: ${({ theme }) => theme.spacing.l};
+`;
+
 const StyledClosingLayer = styled.div`
     position: fixed;
     top: 0;
@@ -24,7 +29,7 @@ const StyledClosingLayer = styled.div`
     background-color: ${({ theme }) => `${theme.colors.darkGray}cc`};
 `;
 
-const Modal = ({ isOpen, closeHandler, children }) => {
+const Modal = ({ isOpen, closeHandler, children, title }) => {
     useEffect(() => {
         if (!isOpen) {
             document.body.style.overflow = 'unset';
@@ -43,6 +48,7 @@ const Modal = ({ isOpen, closeHandler, children }) => {
                 <IconButton onClick={closeHandler}>
                     <X size={30} />
                 </IconButton>
+                <StyledTitle>{title}</StyledTitle>
                 <div>{children}</div>
             </StyledModalContent>
         </>,

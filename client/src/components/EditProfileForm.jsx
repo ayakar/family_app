@@ -4,7 +4,6 @@ import { isEmail, isStrongPassword } from 'validator';
 import { useAuth } from '../contexts/AuthContext';
 import { updateUserProfileApiCall } from '../api/userApi';
 import Input from '../UI/Input';
-import Button from '../UI/Button';
 import Label from '../UI/Label';
 import ButtonWithMessage from '../UI/ButtonWithMessage';
 
@@ -15,19 +14,6 @@ const StyledLabelInput = styled.div`
     & > label {
         padding-left: ${({ theme }) => theme.spacing.xs};
     }
-`;
-const StyledTitle = styled.div`
-    color: ${({ theme }) => theme.colors.darkGray};
-    font-size: ${({ theme }) => theme.fontSize.l};
-    font-weight: ${({ theme }) => theme.fontWeight.xl};
-`;
-const StyledSuccessMessage = styled.div`
-    color: ${({ theme }) => theme.colors.green};
-    font-size: ${({ theme }) => theme.fontSize.s};
-`;
-const StyledErrorMessage = styled.div`
-    color: ${({ theme }) => theme.colors.red};
-    font-size: ${({ theme }) => theme.fontSize.s};
 `;
 
 const EditProfileForm = () => {
@@ -100,7 +86,6 @@ const EditProfileForm = () => {
 
     return (
         <div>
-            <StyledTitle>Edit Profile</StyledTitle>
             <StyledLabelInput>
                 <Label label="Name" />
                 <Input

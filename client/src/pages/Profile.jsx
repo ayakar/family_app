@@ -91,9 +91,6 @@ const StyledModalInnerWrapper = styled.div`
     align-items: center;
     gap: ${({ theme }) => theme.spacing.m};
 `;
-const StyledModalTitle = styled.h4`
-    font-size: ${({ theme }) => theme.fontSize.l};
-`;
 
 const Profile = (props) => {
     const { currentUser, currentUserAvatar, getUserProfile } = useAuth();
@@ -191,14 +188,17 @@ const Profile = (props) => {
             <Modal
                 isOpen={isEditingModalOpen}
                 closeHandler={() => setIsEditingModalOpen(false)}
+                title="Edit Profile"
             >
                 <EditProfileForm />
             </Modal>
             <Modal
                 isOpen={isSignOutModalOpen}
                 closeHandler={() => setIsSignOutModalOpen(false)}
+                title="Are you sure logging out from all devices?"
             >
-                Are you sure logging out from all devices?
+                {/* TODO: change this with confirmation modal */}
+                {/* <StyledButtonWrapper> */}
                 <Button
                     color="lightBlue"
                     variant="contain"
@@ -213,13 +213,14 @@ const Profile = (props) => {
                 >
                     No, back to profile page
                 </Button>
+                {/* </StyledButtonWrapper> */}
             </Modal>
             <Modal
                 isOpen={isAvatarModalOpen}
                 closeHandler={() => setIsAvatarModalOpen(false)}
+                title="Set Profile Image"
             >
                 <StyledModalInnerWrapper>
-                    <StyledModalTitle StyledModalTitle>Set Profile Image</StyledModalTitle>
                     <EditAvatarForm />
                 </StyledModalInnerWrapper>
             </Modal>

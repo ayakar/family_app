@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { useAuth } from '../contexts/AuthContext';
+import { useConfirmation } from '../contexts/ConfirmationContext';
 import { getFamilyGroupDetailsApi, addMemberFamilyGroupApi, updateFamilyGroupApi, deleteFamilyGroupApi } from '../api/familyGroupApi';
 import { Pencil, PlusCircle } from 'react-bootstrap-icons';
 import FamilyMemberList from './FamilyMemberList';
@@ -40,6 +41,7 @@ const StyledAddMemberForm = styled.div`
 
 const FamilyGroupList = ({ familyGroup }) => {
     const { currentUser, getUserFamilyGroups } = useAuth();
+    const { confirmation } = useConfirmation();
     const theme = useTheme();
     const [familyGroupDetails, setFamilyGroupDetails] = useState('');
 
@@ -87,6 +89,13 @@ const FamilyGroupList = ({ familyGroup }) => {
 
     const deleteFamilyGroupHandler = async () => {
         try {
+            const isConfirmed = await confirmation({
+                text: 'Are you sure you want to delete this family group?',
+                buttonLabel: 'Yes. I want to delete this family group',
+            });
+            if (!isConfirmed) {
+                return;
+            }
             const response = await deleteFamilyGroupApi(familyGroup._id);
             if (!response.ok) {
                 throw new Error();
@@ -179,7 +188,9 @@ const FamilyGroupList = ({ familyGroup }) => {
             <Modal
                 isOpen={isEditModalOpen}
                 closeHandler={() => setIsEditModalOpen(false)}
+                title="Edit Family Name"
             >
+                {/* TODO: style this. add remove member? */}
                 <FamilyGroupForm
                     isOwner={familyGroup.owner === currentUser._id}
                     familyName={familyName}

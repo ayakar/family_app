@@ -81,9 +81,9 @@ const FamilyGroupLists = () => {
                     setIsCreateModalOpen(false);
                     setSubmissionStatus(null);
                 }}
+                title="Create New Family Group"
             >
-                <StyledModalTitle>Create New Family Group</StyledModalTitle>
-
+                {/* TODO: Style this */}
                 <FamilyGroupForm
                     familyName={familyName}
                     setFamilyName={setFamilyName}

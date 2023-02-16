@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import Button from './Button';
 import Modal from './Modal';
 
-const StyledTitle = styled.h3`
-    text-align: center;
-    margin-bottom: ${({ theme }) => theme.spacing.l}; ;
-`;
 const StyledButtonWrap = styled.div`
     justify-content: center;
     display: flex;
@@ -18,8 +14,8 @@ const ConfirmationModal = ({ isOpen, closeHandler, text, buttonLabel, clickHandl
         <Modal
             isOpen={isOpen}
             closeHandler={closeHandler}
+            title={text}
         >
-            <StyledTitle>{text}</StyledTitle>
             <StyledButtonWrap>
                 <Button
                     variant="contain"

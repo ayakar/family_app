@@ -12,6 +12,11 @@ const StyledFamilyGroupList = styled.div`
     gap: ${({ theme }) => theme.spacing.xs};
     margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
+const FormWrap = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: ${({ theme }) => theme.spacing.s};
+`;
 
 export const RecipeFormFamilyGroup = ({ recipe, removeFamilyGroupSubmitHandler, familyGroupSubmitHandler, familyGroups, errorMessage, successMessage }) => {
     const theme = useTheme();
@@ -44,23 +49,27 @@ export const RecipeFormFamilyGroup = ({ recipe, removeFamilyGroupSubmitHandler, 
             <Modal
                 isOpen={isAddFamilyModalOpen}
                 closeHandler={() => setIsAddFamilyModalOpen(false)}
+                title="Add Family Group to This Recipe"
             >
                 {/* TODO: filter options to removed groups already joined */}
-                <Select
-                    onChange={setFamilyGroupSelectValue}
-                    value={familyGroupSelectValue}
-                    options={familyGroups}
-                    optionsProperties={{ value: '_id', label: 'name' }}
-                />
-                <ButtonWithMessage
-                    onClick={() => familyGroupSubmitHandler(familyGroupSelectValue)}
-                    variant="contain"
-                    color="blue"
-                    errorMessage={errorMessage}
-                    successMessage={successMessage}
-                >
-                    Add this family group
-                </ButtonWithMessage>
+                {/* TODO: Styled this */}
+                <FormWrap>
+                    <Select
+                        onChange={setFamilyGroupSelectValue}
+                        value={familyGroupSelectValue}
+                        options={familyGroups}
+                        optionsProperties={{ value: '_id', label: 'name' }}
+                    />
+                    <ButtonWithMessage
+                        onClick={() => familyGroupSubmitHandler(familyGroupSelectValue)}
+                        variant="contain"
+                        color="lightBlue"
+                        errorMessage={errorMessage}
+                        successMessage={successMessage}
+                    >
+                        Add this family group
+                    </ButtonWithMessage>
+                </FormWrap>
             </Modal>
         </>
     );
