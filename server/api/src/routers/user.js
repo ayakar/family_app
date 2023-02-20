@@ -29,6 +29,7 @@ router.post('/users', async (req, res) => {
         const user = new User(req.body);
         await user.save();
         const token = await user.generateAuthToken(); // .generateAuthToken() is custom function using jwt and it's defined in model. Token will be stored to the user
+        res.header('Access-Control-Allow-Origin', 'https://family-app.ayakarogoza.com');
         res.status(201).send({ user, token });
     } catch (error) {
         res.status(400).send({ error });
