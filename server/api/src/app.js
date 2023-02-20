@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const path = require('path');
 const dotenv = require('dotenv');
@@ -9,6 +10,9 @@ if (process.env.NODE_ENV === 'test') {
 } else if (process.env.NODE_ENV !== 'production') {
     dotenv.config({ path: path.join(__dirname, '/./../.env.development.local') });
 }
+
+app.use(cors({ origin: `${process.env.FRONTEND_URL}` }));
+
 // Connecting DB
 require('./db/mongoose');
 // Loading Routers

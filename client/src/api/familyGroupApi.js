@@ -4,7 +4,7 @@ const headers = { 'Content-Type': 'application/json' };
 export const createFamilyGroupApi = async (body) => {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`familyGroups`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/familyGroups`, {
         method: 'POST',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(body),
@@ -16,7 +16,7 @@ export const createFamilyGroupApi = async (body) => {
 export const getFamilyGroupDetailsApi = async (familyGroupId) => {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`familyGroups/${familyGroupId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/familyGroups/${familyGroupId}`, {
         method: 'GET',
         headers: { ...headers, Authorization: token },
     });
@@ -27,7 +27,7 @@ export const getFamilyGroupDetailsApi = async (familyGroupId) => {
 export const updateFamilyGroupApi = async (familyGroupId, body) => {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`familyGroups/${familyGroupId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/familyGroups/${familyGroupId}`, {
         method: 'PATCH',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(body),
@@ -38,7 +38,7 @@ export const updateFamilyGroupApi = async (familyGroupId, body) => {
 export const addMemberFamilyGroupApi = async (familyGroupId, body) => {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`familyGroups/${familyGroupId}/members`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/familyGroups/${familyGroupId}/members`, {
         method: 'PATCH',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(body),
@@ -49,7 +49,7 @@ export const addMemberFamilyGroupApi = async (familyGroupId, body) => {
 export const deleteFamilyGroupApi = async (familyGroupId) => {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`familyGroups/${familyGroupId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/familyGroups/${familyGroupId}`, {
         method: 'DELETE',
         headers: { ...headers, Authorization: token },
     });

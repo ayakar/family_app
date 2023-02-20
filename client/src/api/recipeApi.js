@@ -2,7 +2,7 @@ const headers = { 'Content-Type': 'application/json' };
 // CREATE RECIPE
 export const createRecipeApiCall = async (reqBody) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes`, {
         method: 'POST',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(reqBody),
@@ -25,7 +25,7 @@ export const createRecipeApiCall = async (reqBody) => {
 // READ ALL RECIPES FOR THE USER
 export const getUserRecipesApiCall = async () => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes`, {
         method: 'GET',
         headers: { ...headers, Authorization: token },
     });
@@ -35,7 +35,7 @@ export const getUserRecipesApiCall = async () => {
 // READ RECIPE
 export const getRecipeApiCall = async (recipeId) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`, {
         method: 'GET',
         headers: { ...headers, Authorization: token },
     });
@@ -46,7 +46,7 @@ export const getRecipeApiCall = async (recipeId) => {
 // UPDATE RECIPE
 export const updateRecipeApiCall = async (recipeId, body) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`, {
         method: 'PATCH',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(body),
@@ -57,7 +57,7 @@ export const updateRecipeApiCall = async (recipeId, body) => {
 // ADD FAMILY GROUP TO A RECIPE
 export const addFamilyGroupToRecipeApiCall = async (recipeId, body) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}/familyGroup`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}/familyGroup`, {
         method: 'PATCH',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(body),
@@ -69,7 +69,7 @@ export const addFamilyGroupToRecipeApiCall = async (recipeId, body) => {
 // REMOVE FAMILY GROUP TO A RECIPE
 export const removeFamilyGroupToRecipeApiCall = async (recipeId, body) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}/familyGroup`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}/familyGroup`, {
         method: 'DELETE',
         headers: { ...headers, Authorization: token },
         body: JSON.stringify(body),
@@ -81,7 +81,7 @@ export const removeFamilyGroupToRecipeApiCall = async (recipeId, body) => {
 // DELETE RECIPE
 export const deleteRecipeApiCall = async (recipeId) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`, {
         method: 'DELETE',
         headers: { ...headers, Authorization: token },
     });
@@ -92,7 +92,7 @@ export const deleteRecipeApiCall = async (recipeId) => {
 // GET RECIPE IMAGE
 export const getRecipeImageApiCall = async (recipeId) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}/image`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}/image`, {
         method: 'GET',
         headers: { ...headers, Authorization: token },
     });
@@ -103,7 +103,7 @@ export const getRecipeImageApiCall = async (recipeId) => {
 // UPLOAD RECIPE IMAGE
 export const uploadRecipeImageApiCall = async (recipeId, body) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}/image`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}/image`, {
         method: 'POST',
         headers: { Authorization: token },
         body: body,
@@ -115,7 +115,7 @@ export const uploadRecipeImageApiCall = async (recipeId, body) => {
 // DELETE RECIPE IMAGE
 export const deleteRecipeImageApiCall = async (recipeId) => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`/recipes/${recipeId}/image`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}/image`, {
         method: 'DELETE',
         headers: { Authorization: token },
     });
