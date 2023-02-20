@@ -77,7 +77,7 @@ const Recipe = () => {
                 text: 'Delete this recipe?',
                 buttonLabel: 'Yes. I want to delete this recipe',
             });
-            console.log(isConfirmed);
+
             if (isConfirmed) {
                 const response = await deleteRecipeApiCall(recipeId);
                 if (!response.ok) {

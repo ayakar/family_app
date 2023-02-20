@@ -140,7 +140,7 @@ const RecipeCreate = () => {
                 primaryFamilyGroup: recipe.primaryFamilyGroup,
                 familyGroupIds: recipe.primaryFamilyGroup, // TODO: Modify this on backend
             };
-            console.log(reqBody);
+
             if (isValidFields) {
                 const response = await createRecipeApiCall(reqBody);
                 if (!response.ok) {

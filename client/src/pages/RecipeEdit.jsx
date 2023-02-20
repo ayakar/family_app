@@ -110,8 +110,7 @@ const RecipeEdit = () => {
         setContentUpdateStatus(null);
         try {
             let isValidFields = true;
-            // TODO - make sure name is filled
-            console.log(recipe.name);
+            // Make sure name is filled
             if (recipe.name === '') {
                 setContentUpdateStatus('fail');
                 setContentUpdateErrorMessage('Please fill recipe name');
@@ -166,7 +165,7 @@ const RecipeEdit = () => {
                 steps: cleanedSteps,
                 note: recipe.note,
             };
-            console.log(cleanedIngredients);
+
             if (isValidFields) {
                 const response = await updateRecipeApiCall(recipeId, reqBody);
                 if (!response.ok) {
@@ -187,8 +186,6 @@ const RecipeEdit = () => {
     };
     // Submit images update (image)
     const imageUpdateHandler = async (recipeImageFile) => {
-        console.log(recipeImageFile);
-
         try {
             const reqBody = new FormData();
             reqBody.append('recipeImage', recipeImageFile);

@@ -47,7 +47,7 @@ const RecipeFormIngredients = ({ recipe, setRecipe }) => {
     // Remove Ingredients field
     const removeIngredientField = (id) => {
         const newIngArr = recipe.ingredients.filter((ing) => ing._id !== id && ing.tempId !== id);
-        console.log(newIngArr);
+
         setRecipe({ ...recipe, ingredients: newIngArr });
     };
 
