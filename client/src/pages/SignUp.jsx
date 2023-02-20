@@ -8,9 +8,9 @@ const SignUp = () => {
     const navigate = useNavigate();
     const { signUp } = useAuth();
 
-    const [name, setName] = useState('Test User'); // TODO: remove this
-    const [email, setEmail] = useState('test2@test.ca'); // TODO: remove this
-    const [password, setPassword] = useState('Testtest123!!'); // TODO: remove this
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
     const [errorMessage, setErrorMessage] = useState(null);
 

@@ -11,7 +11,7 @@ export const signInApiCall = async (email, password, reCaptchaToken) => {
     return response;
 };
 export const signUpApiCall = async (name, email, password, reCaptchaToken) => {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+    const response = await fetch('', {
         method: 'POST',
         headers: { ...headers },
         body: JSON.stringify({ name, email, password, reCaptchaToken }),

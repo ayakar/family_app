@@ -130,10 +130,12 @@ const AuthForm = ({
                     <a href="https://policies.google.com/terms">Terms of Service</a> apply.
                 </StyledReCaptchaText>
 
-                <StyledSmallText>
-                    {smallText}
-                    <Link to={link}>Here</Link>
-                </StyledSmallText>
+                {smallText && (
+                    <StyledSmallText>
+                        {smallText}
+                        <Link to={link}>Here</Link>
+                    </StyledSmallText>
+                )}
             </StyledSignInForm>
         </StyledSignIn>
     );

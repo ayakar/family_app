@@ -21,10 +21,10 @@ function App() {
                             path="/signIn"
                             element={<SignIn />}
                         />
-                        <Route
+                        {/* <Route
                             path="/signUp"
                             element={<SignUp />}
-                        />
+                        /> */}
 
                         <Route
                             path="/"

@@ -7,8 +7,8 @@ const SignIn = () => {
     const navigate = useNavigate();
     const { signIn } = useAuth();
 
-    const [email, setEmail] = useState('test@test.ca'); // TODO: remove this
-    const [password, setPassword] = useState('Testtest123!!'); // TODO: remove this
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [submissionStatus, setSubmissionStatus] = useState(null); // loading, fail
     const [errorMessage, setErrorMessage] = useState(null);
 
@@ -34,8 +34,8 @@ const SignIn = () => {
     return (
         <AuthForm
             title="Login into your account"
-            smallText="Don't have an account? Please create one from "
-            link="/signUp"
+            // smallText={"Don't have an account? Please create one from "}
+            // link="/signUp"
             submitLabel="Login"
             submitHandler={submitHandler}
             email={email}
