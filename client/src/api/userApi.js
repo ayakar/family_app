@@ -2,7 +2,7 @@ const headers = { 'Content-Type': 'application/json' };
 
 // USER AUTH
 export const signInApiCall = async (email, password, reCaptchaToken) => {
-    const response = await fetch('/users/login', {
+    const response = await fetch('https://family-app-api.ayakarogoza.com/users/login', {
         method: 'POST',
         headers: { ...headers },
         body: JSON.stringify({ email, password, reCaptchaToken }),
