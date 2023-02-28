@@ -52,7 +52,7 @@ const FamilyGroupLists = () => {
     return (
         <>
             <StyledTitle>
-                Family Group Lists
+                Family Groups
                 <IconButton onClick={() => setIsCreateModalOpen(true)}>
                     <PlusCircle
                         color={theme.colors.gray}

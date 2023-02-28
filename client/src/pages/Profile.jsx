@@ -176,7 +176,7 @@ const Profile = (props) => {
                                             <StyledTableContent>**************</StyledTableContent>
                                         </tr>
                                         <tr>
-                                            <StyledTableTitle>Join at: </StyledTableTitle>
+                                            <StyledTableTitle>Joined at: </StyledTableTitle>
                                             <StyledTableContent>{removeTime(currentUser.createdAt)}</StyledTableContent>
                                         </tr>
                                     </tbody>

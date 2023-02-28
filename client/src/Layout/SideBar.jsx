@@ -118,7 +118,7 @@ const SideBar = () => {
                         isCurrent={currentPath === '/message'}
                         highlightColor={theme.colors.lightPurple}
                     >
-                        Message
+                        Messages
                     </StyledText>
                 </StyledLink>
                 <StyledLink to="/profile">

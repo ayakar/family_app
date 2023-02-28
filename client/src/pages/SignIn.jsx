@@ -33,7 +33,7 @@ const SignIn = () => {
 
     return (
         <AuthForm
-            title="Login into your account"
+            title="Login to your account"
             // smallText={"Don't have an account? Please create one from "}
             // link="/signUp"
             submitLabel="Login"

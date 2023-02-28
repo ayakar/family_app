@@ -4,7 +4,6 @@ import styled, { useTheme } from 'styled-components';
 import { HouseHeart } from 'react-bootstrap-icons';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
-import ErrorBoundary from '../ErrorBoundary';
 
 const StyledSignIn = styled.div`
     height: 100vh;
@@ -115,6 +114,10 @@ const AuthForm = ({
                     placeholder="Password"
                 />
                 {submissionStatus === 'fail' && <StyledErrorMessage>{errorMessage}</StyledErrorMessage>}
+                <StyledErrorMessage>
+                    This is a demo application. Your initial login may fail due to server cold-start, so please wait about 10 seconds and try again if this
+                    happens.
+                </StyledErrorMessage>
                 <Button
                     onClick={submitWithReCaptcha}
                     color="blue"
