@@ -4,12 +4,13 @@ import SideBar from './SideBar';
 
 const StyledLayout = styled.div`
     display: flex;
-    padding: ${({ theme }) => theme.spacing.m};
+    padding: 0 ${({ theme }) => theme.spacing.m};
     gap: ${({ theme }) => theme.spacing.m};
 `;
 
 const StyledMain = styled.main`
     flex: 1;
+    padding: ${({ theme }) => theme.spacing.m} 0;
 `;
 
 const Layout = ({ children }) => {

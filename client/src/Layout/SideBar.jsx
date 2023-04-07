@@ -8,7 +8,8 @@ import Logo from '../UI/Logo';
 const StyledSideBar = styled.aside`
     position: sticky;
     top: 0;
-    height: ${({ theme }) => ` calc(100vh - (${theme.spacing.m}*2))`};
+    height: 100vh;
+    padding: ${({ theme }) => theme.spacing.m} 0;
     width: 250px;
 `;
 
@@ -79,7 +80,7 @@ const SideBar = () => {
                         Recipes
                     </StyledText>
                 </StyledLink>
-                <StyledLink to="/taskManager">
+                {/* <StyledLink to="/taskManager">
                     <StyledIconWrapper>
                         <Check2Circle
                             color={theme.colors.green}
@@ -120,7 +121,7 @@ const SideBar = () => {
                     >
                         Messages
                     </StyledText>
-                </StyledLink>
+                </StyledLink> */}
                 <StyledLink to="/profile">
                     <StyledIconWrapper>
                         <Person
