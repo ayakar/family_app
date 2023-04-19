@@ -12,6 +12,7 @@ import {
     deleteUserProfileApiCall,
 } from '../api/userApi';
 import { generateObjectUrl } from '../util/generateObjectUrl';
+import useFetch from '../hooks/useFetch';
 
 const AuthContext = createContext();
 
@@ -23,6 +24,7 @@ export const useAuth = () => {
 // Provider with Auth info
 export const AuthProvider = ({ children }) => {
     const location = useLocation();
+    const { data, errorMessage, isLoading: isLoadingFetch, isSuccess, fetchData } = useFetch();
     const [currentUser, setCurrentUser] = useState(null);
     const [currentUserAvatar, setCurrentUserAvatar] = useState(null);
     const [familyGroups, setFamilyGroups] = useState(null);
@@ -33,6 +35,7 @@ export const AuthProvider = ({ children }) => {
             return setIsLoading(false);
         }
         getUserProfile();
+        //fetchData(`${process.env.REACT_APP_BACKEND_URL}/users`);
     }, []);
 
     // Getting User Avatar once currentUser is set
